@@ -1,0 +1,92 @@
+Shopify merchants planning a significant change to their store usually face a fork. One path is to customize a theme: start from Shopify's Online Store 2.0 theme architecture and adapt it. The other is to build a custom storefront, often called headless commerce, where Shopify handles products, inventory, and checkout while a separate application, such as Shopify Hydrogen or Next.js, renders the store.
+
+Both are legitimate. The mistake is choosing based on what sounds more advanced. This guide explains what each option involves, when each is justified, and the questions that usually settle the decision.
+
+## What theme customization involves
+
+A Shopify theme controls how the storefront looks and behaves. Modern themes are built from **sections and blocks** that merchants can add, remove, and reorder in the theme editor. Developers extend them with Liquid templates, JavaScript, and CSS, and connect structured data through **metafields and metaobjects**.
+
+A customized theme can deliver much more than many merchants assume:
+
+- Custom product page layouts with specifications, size guides, and delivery information
+- Filtering based on product metafields
+- Bundles, subscriptions, and reviews through apps
+- Custom landing pages assembled by the marketing team in the theme editor
+- Multiple markets, languages, and currencies through Shopify Markets
+
+**Main advantages**
+
+- Merchants can edit content and layouts without a developer.
+- Shopify hosts the storefront, so there's no separate hosting to manage.
+- Most Shopify apps are designed to work with themes.
+- Lower build cost and lower ongoing maintenance.
+
+**Main constraints**
+
+- You work within Shopify's templating system and theme structure.
+- Very complex interactions or content models can become awkward.
+- Each installed app can add scripts that affect performance, so app discipline matters.
+
+## What a custom (headless) storefront involves
+
+In a headless setup, your developers build a separate front-end application. It requests product and cart data through Shopify's **Storefront API** and sends customers to Shopify's checkout. Shopify's own framework for this is Hydrogen, hosted on Oxygen. Other frameworks such as Next.js can also be used.
+
+**Main advantages**
+
+- Complete control over the user experience and front-end architecture
+- Easier to combine commerce with complex content from a separate CMS
+- Easier to share one front end across several data sources or systems
+- Fine-grained performance control, in the hands of a capable team
+
+**Main constraints**
+
+- Higher initial build cost: features a theme gives you, such as search, filtering, and account pages, must be built or integrated.
+- Many apps that inject features into themes won't work automatically.
+- Content editing usually depends on a separate CMS that must be set up and maintained.
+- You need ongoing developer capacity for hosting, upgrades, and bug fixes.
+
+## A decision framework
+
+Ask these questions in order. If you answer "no" to all of them, a customized theme is probably the better choice.
+
+### 1. Is the content experience fundamentally different from a store?
+
+If your site is mainly editorial, such as a publisher that sells products alongside articles, or brings together content from several systems, a headless setup can be easier to manage. If your content is mostly product pages, collections, and some landing pages, a theme handles it well.
+
+### 2. Do you need integrations that must shape the storefront itself?
+
+Many integrations, such as ERP, 3PL, or CRM, happen behind the scenes through APIs and don't affect the choice. Headless becomes relevant when the storefront must display data from other systems in real time, such as complex B2B pricing from an external engine, beyond what Shopify features and apps can handle.
+
+### 3. Have you hit a real limit of the theme, not an implementation problem?
+
+Many "limits" turn out to be a poorly maintained theme, too many apps, or old customizations. Before replatforming the front end, an audit can separate true constraints from fixable problems. A rebuilt, well-structured theme often solves the original complaint.
+
+### 4. Do you have, or will you fund, ongoing development capacity?
+
+A headless storefront is a software product. It needs monitoring, dependency updates, and developers available when something breaks during a promotion. If that capacity isn't budgeted, the advantages fade.
+
+### 5. Is the expected benefit larger than the added cost?
+
+Write down what the custom storefront will enable that a theme won't, and estimate its value. Compare that with the extra build and annual running costs. If you can't describe a specific benefit, the theme is likely the safer investment.
+
+## Examples
+
+**A homeware brand with a large catalog** wants better filters, richer product information, and clearer delivery details. All of this is achievable with a customized Online Store 2.0 theme and metafields. Headless would add cost without solving a theme limitation. Our [Hearthline concept](/work/hearthline-homeware/) explores this approach.
+
+**A brand that publishes extensive editorial content** in a separate CMS and wants product content mixed into long-form stories, with custom interactions, may benefit from a headless storefront. In that case the content experience is the product.
+
+**A B2B distributor** with customer-specific pricing and catalogs should first evaluate Shopify's native B2B features (available on Shopify Plus at the time of writing). These may make a custom front end unnecessary.
+
+## A middle path
+
+The choice isn't always binary. Options include:
+
+- Rebuilding the theme cleanly, then reassessing after six months of data
+- Using theme app extensions or custom apps for specific features
+- Adding a headless experience for one part of the site, such as an interactive configurator, while keeping the main store on a theme
+
+## Limitations
+
+Shopify's platform changes frequently. Features, plan requirements, and API capabilities mentioned here reflect our understanding at the time of writing and may change. Confirm current details in Shopify's documentation before making decisions. This article is general guidance, not a recommendation for any specific store.
+
+If you're weighing this decision, our [Shopify development service](/services/shopify-development/) starts with an audit that distinguishes theme problems from platform limits.

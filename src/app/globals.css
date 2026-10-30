@@ -1,26 +1,497 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Growbytes design tokens.
+ * Contrast (WCAG): ink/paper 16.4:1 · muted/paper 5.7:1
+ * accent #F66135: brand orange for display text, icons, illustrations, and dark surfaces (5.6:1 on ink).
+ *   On light backgrounds it is 2.9:1, so never use it for small text there.
+ * accent-button #D2461F: button background, white text 4.5:1.
+ * accent-strong #C2401B: small orange text/links on light (4.8:1 on paper), button hover.
+ */
+@theme {
+  --color-ink: #171918;
+  --color-ink-soft: #2a2d2b;
+  --color-white: #ffffff;
+  --color-paper: #f7f7f2;
+  --color-surface: #eff1ee;
+  --color-line: #dde2dc;
+  --color-field: #747c76;
+  --color-muted: #5d645f;
+  --color-muted-on-dark: #a3aba5;
+  --color-accent: #F66135;
+  --color-accent-button: #d2461f;
+  --color-accent-strong: #C2401B;
+  --color-accent-tint: #fde9e3;
+  --color-success: #2f6b4f;
+  --color-danger: #a8321c;
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  /* Fluid type scale */
+  --text-display: clamp(2.5rem, 1.75rem + 2.9vw, 4.25rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(2.25rem, 1.6rem + 2.6vw, 4rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(1.875rem, 1.45rem + 1.7vw, 3rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.015em;
+  --text-lead: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
+  --text-lead--line-height: 1.55;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.7;
+  --text-eyebrow: 0.875rem;
+  --text-eyebrow--letter-spacing: 0.16em;
+
+  /* Spacing tokens (section rhythm) */
+  --spacing-section: clamp(4rem, 2.5rem + 6vw, 8.5rem);
+  --spacing-section-sm: clamp(3rem, 2rem + 4vw, 5.5rem);
+  --spacing-gutter: clamp(1.25rem, 0.75rem + 2vw, 2.5rem);
+  --container-site: 95rem; /* 1520px */
+  --container-prose: 42rem;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  --shadow-card: 0 1px 2px rgb(23 25 24 / 0.04), 0 8px 24px -12px rgb(23 25 24 / 0.12);
+  --shadow-float: 0 2px 4px rgb(23 25 24 / 0.05), 0 24px 48px -20px rgb(23 25 24 / 0.22);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 240ms;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.7;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--color-accent-tint);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent-strong);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--color-accent);
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
+
+/* Long-form content (MDX articles and project write-ups) */
+@layer components {
+  .prose-gb {
+    max-width: var(--container-prose);
+    color: var(--color-ink);
+  }
+  .prose-gb > * + * { margin-top: 1.25em; }
+  .prose-gb h2 {
+    font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    margin-top: 2.4em;
+  }
+  .prose-gb h3 {
+    font-size: 1.25rem;
+    line-height: 1.3;
+    font-weight: 700;
+    margin-top: 1.9em;
+  }
+  .prose-gb p, .prose-gb li { font-size: 1.125rem; line-height: 1.75; }
+  .prose-gb ul, .prose-gb ol { padding-left: 1.25em; }
+  .prose-gb ul { list-style: disc; }
+  .prose-gb ol { list-style: decimal; }
+  .prose-gb li + li { margin-top: 0.5em; }
+  .prose-gb li::marker { color: var(--color-accent-strong); }
+  .prose-gb a {
+    color: var(--color-accent-strong);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  .prose-gb a:hover { text-decoration-thickness: 2px; }
+  .prose-gb strong { font-weight: 700; }
+  .prose-gb blockquote {
+    border-left: 3px solid var(--color-accent);
+    padding-left: 1.25rem;
+    color: var(--color-muted);
+  }
+  .prose-gb table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.975rem;
+    display: block;
+    overflow-x: auto;
+  }
+  .prose-gb th, .prose-gb td {
+    text-align: left;
+    padding: 0.75rem 0.875rem;
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .prose-gb th { font-weight: 700; background: var(--color-surface); }
+  .prose-gb .contains-task-list { list-style: none; padding-left: 0; }
+  .prose-gb .task-list-item input { margin-right: 0.6em; accent-color: var(--color-accent-strong); }
+  .prose-gb hr { border-color: var(--color-line); margin: 2.5em 0; }
+}
+
+/* Services index: hovering or focusing a service highlights its part of the group illustration. */
+@layer components {
+  .svc-group [data-hl] {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: opacity 220ms var(--ease-out-soft), transform 300ms var(--ease-out-soft), filter 300ms var(--ease-out-soft);
+  }
+  .svc-group:has(a[data-svc]:is(:hover, :focus-visible)) [data-hl] {
+    opacity: 0.32;
+  }
+  /* Email takes the landing page's spot: hide the landing page while Email is active. */
+  .svc-group:has(a[data-svc="email-marketing"]:is(:hover, :focus-visible)) [data-hl="conversion-optimization"] {
+    opacity: 0;
+    transform: none;
+  }
+  /* Parts marked data-reveal stay hidden unless their own service is active. */
+  .svc-group [data-reveal],
+  .svc-group:has(a[data-svc]:is(:hover, :focus-visible)) [data-reveal] {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .svc-group:has(a[data-svc="web-design-development"]:is(:hover, :focus-visible)) [data-hl~="web-design-development"],
+  .svc-group:has(a[data-svc="shopify-development"]:is(:hover, :focus-visible)) [data-hl~="shopify-development"],
+  .svc-group:has(a[data-svc="custom-software-development"]:is(:hover, :focus-visible)) [data-hl~="custom-software-development"],
+  .svc-group:has(a[data-svc="seo"]:is(:hover, :focus-visible)) [data-hl~="seo"],
+  .svc-group:has(a[data-svc="paid-advertising"]:is(:hover, :focus-visible)) [data-hl~="paid-advertising"],
+  .svc-group:has(a[data-svc="branding"]:is(:hover, :focus-visible)) [data-hl~="branding"],
+  .svc-group:has(a[data-svc="ai-automation"]:is(:hover, :focus-visible)) [data-hl~="ai-automation"],
+  .svc-group:has(a[data-svc="crm-integrations"]:is(:hover, :focus-visible)) [data-hl~="crm-integrations"],
+  .svc-group:has(a[data-svc="conversion-optimization"]:is(:hover, :focus-visible)) [data-hl~="conversion-optimization"],
+  .svc-group:has(a[data-svc="ui-ux-design"]:is(:hover, :focus-visible)) [data-hl~="ui-ux-design"],
+  .svc-group:has(a[data-svc="mobile-app-development"]:is(:hover, :focus-visible)) [data-hl~="mobile-app-development"],
+  .svc-group:has(a[data-svc="email-marketing"]:is(:hover, :focus-visible)) [data-hl~="email-marketing"] {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.035);
+    filter: drop-shadow(0 8px 10px rgb(23 25 24 / 0.28));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .svc-group [data-hl] { transform: none !important; }
+}
+
+/* Global reach map: dashes travel along the arcs; pins breathe. */
+.reach-flow { animation: reach-flow 1.6s linear infinite; }
+.reach-pulse { transform-box: fill-box; transform-origin: center; animation: reach-pulse 2.4s ease-out infinite; }
+@keyframes reach-flow { to { stroke-dashoffset: -1.2; } }
+@keyframes reach-pulse { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(2.2); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .reach-flow, .reach-pulse { animation: none; } }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+
+
+/* Hero pain-point artwork (HeroPainPoints). Base styles are the solved state, shown under reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .pp-pain { animation: pp-pain 8s var(--d, 0s) infinite both; }
+  .pp-fix { animation: pp-fix 8s var(--d, 0s) infinite both; }
+  .pp-bar { animation: pp-bar 8s calc(var(--d, 0s) + 3.2s) infinite both; }
+  .pp-msg { animation: pp-msg 6.6s var(--d, 0s) infinite both; }
+  .pp-ring { animation: pp-ring 1.6s ease-out infinite; }
+  .pp-dot { animation: reach-pulse-dot 1.2s ease-in-out infinite; }
+  .pp-float { animation: pp-float 7s calc(var(--d, 0s) * -1) ease-in-out infinite; }
+  .pp-gauge { stroke-dasharray: 1; animation: pp-gauge 8s 0.6s infinite both; }
+  .pp-tick { animation: pp-tick 8s var(--d, 0s) infinite both; }
+}
+@keyframes pp-float { 50% { transform: translateY(-6px); } }
+@keyframes pp-gauge { 0% { stroke-dashoffset: 0.75; stroke: #f26b3a; } 25%, 85% { stroke-dashoffset: 0.08; stroke: #1f8a4c; } 100% { stroke-dashoffset: 0.75; stroke: #f26b3a; } }
+@keyframes pp-tick { 0% { opacity: 0; transform: translateX(-6px); } 6%, 80% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; } }
+@keyframes pp-pain { 0%, 18% { opacity: 1; transform: none; } 26%, 86% { opacity: 0; transform: translateY(-100%); } 94%, 100% { opacity: 1; transform: none; } }
+@keyframes pp-fix { 0%, 20% { opacity: 0; transform: translateY(100%); } 28%, 86% { opacity: 1; transform: none; } 94%, 100% { opacity: 0; transform: translateY(100%); } }
+@keyframes pp-bar { 0% { transform: scaleY(0.25); } 18%, 70% { transform: scaleY(1); } 85%, 100% { transform: scaleY(0.25); } }
+@keyframes pp-msg { 0% { opacity: 0; transform: translateY(-16px) scale(0.96); } 4%, 30% { opacity: 1; transform: none; } 35%, 100% { opacity: 0; transform: translateY(10px) scale(0.98); } }
+@keyframes pp-ring { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(1.7); opacity: 0; } }
+@keyframes reach-pulse-dot { 50% { opacity: 0.3; } }
+
+/* FAQ accordion: animate the answer open and closed where the browser supports it */
+.faq { interpolate-size: allow-keywords; }
+.faq::details-content {
+  block-size: 0;
+  overflow: clip;
+  opacity: 0;
+  transition: block-size 350ms var(--ease-out-soft, ease), opacity 250ms ease, content-visibility 350ms allow-discrete;
+}
+.faq[open]::details-content { block-size: auto; opacity: 1; }
+
+/* GrowGrid: lines draw in from the centre, glow sweeps, cells blink */
+.gg-cell { opacity: 0.12; }
+.pp-gauge { stroke-dasharray: 1; stroke-dashoffset: 0.08; }
+.pp-pain { opacity: 0; }
+.pp-msg:not(:first-child) { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .gg-line { stroke-dasharray: 1; animation: gg-draw 1.6s var(--d, 0s) var(--ease-out-soft, ease-out) both; }
+  .gg-sweep { animation: gg-sweep 7s 1.8s linear infinite; }
+  .gg-cell { animation: gg-cell 5.4s var(--d, 0s) ease-in-out infinite both; }
+}
+@keyframes gg-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes gg-sweep { from { transform: translateX(0); } to { transform: translateX(2240px); } }
+@keyframes gg-cell { 0%, 100% { opacity: 0; } 20%, 45% { opacity: 0.22; } 70% { opacity: 0; } }
+
+/* Hero slider progress and AI slide artwork */
+.ai-spin { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .ai-float { animation: pp-float 7s calc(var(--d, 0s) * -1) ease-in-out infinite; }
+  .ai-spin { animation: ai-spin-show 6s var(--d, 0s) infinite both, ai-rotate 0.8s linear infinite; }
+  .ai-check { animation: ai-check 6s var(--d, 0s) infinite both; }
+  .ai-approve { animation: ai-approve 6s 4.4s infinite both; }
+  .ai-step { animation: ai-step 6s var(--d, 0s) infinite both; }
+  .ai-caret { animation: reach-pulse-dot 0.9s steps(1) infinite; }
+}
+@keyframes ai-rotate { to { transform: rotate(360deg); } }
+@keyframes ai-spin-show { 0%, 14% { opacity: 1; } 16%, 100% { opacity: 0; } }
+@keyframes ai-check { 0%, 14% { opacity: 0; transform: scale(0.5); } 18%, 92% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes ai-step { 0% { opacity: 0.5; } 6%, 92% { opacity: 1; } 100% { opacity: 0.5; } }
+@keyframes ai-approve { 0%, 100% { box-shadow: 0 0 0 0 rgb(242 107 58 / 0); } 8% { box-shadow: 0 0 0 6px rgb(242 107 58 / 0.35); } 20% { box-shadow: 0 0 0 0 rgb(242 107 58 / 0); } }
+
+
+/* Hero slide change: outgoing slide drops away fast; incoming text rises line by line, then the artwork slides in */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-slide .hs-grid > :first-child > * {
+    transition: opacity 0.6s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hero-slide .hs-grid > :last-child {
+    transition: opacity 0.8s ease 0.2s, transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+  }
+  .hero-slide:not([data-active]) .hs-grid > :first-child > * {
+    opacity: 0;
+    transform: translateY(28px);
+    transition-duration: 0.3s;
+    transition-delay: 0s;
+  }
+  .hero-slide:not([data-active]) .hs-grid > :last-child {
+    opacity: 0;
+    transform: translateX(48px) scale(0.96);
+    transition-duration: 0.3s;
+    transition-delay: 0s;
+  }
+  .hero-slide[data-active] .hs-grid > :first-child > :nth-child(2) { transition-delay: 0.1s; }
+  .hero-slide[data-active] .hs-grid > :first-child > :nth-child(3) { transition-delay: 0.2s; }
+  .hero-slide[data-active] .hs-grid > :first-child > :nth-child(4) { transition-delay: 0.3s; }
+}
+
+/* Connected-tool tiles light up in turn */
+@media (prefers-reduced-motion: no-preference) {
+  .ai-tool { animation: ai-tool 2.25s var(--d, 0s) ease-in-out infinite; }
+}
+@keyframes ai-tool { 0%, 30%, 100% { transform: none; box-shadow: none; } 12% { transform: translateY(-2px); box-shadow: 0 0 0 2px rgb(242 107 58 / 0.35); } }
+
+/* Chatbot widget in the AI hero: question, typing, answer, on a loop. Static shows the answer. */
+.bot-typing { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .bot-msg { animation: bot-msg 6s var(--d, 0s) infinite both; }
+  .bot-typing { display: flex; animation: bot-typing 6s var(--d, 0s) infinite both; }
+  .bot-dot { animation: chat-dot 0.9s var(--d, 0s) ease-in-out infinite; }
+}
+@keyframes bot-msg { 0% { opacity: 0; transform: translateY(6px); } 5%, 80% { opacity: 1; transform: none; } 88%, 100% { opacity: 0; } }
+@keyframes bot-typing { 0% { opacity: 0; } 3%, 14% { opacity: 1; } 16%, 100% { opacity: 0; height: 0; padding-block: 0; margin-top: -0.375rem; } }
+@keyframes chat-dot { 0%, 100% { opacity: 0.4; transform: none; } 50% { opacity: 1; transform: translateY(-2px); } }
+
+/* AI hero: alternating lead notifications and a revenue line that draws in */
+.alt-msg:not(:first-child) { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .alt-msg { animation: alt-msg 6s var(--d, 0s) infinite both; }
+  .rev-line { stroke-dasharray: 1; animation: rev-line 6s 0.4s ease-out infinite both; }
+  .rev-area { animation: rev-area 6s 0.4s ease-out infinite both; }
+  .rev-dot { animation: rev-dot 6s 0.4s infinite both; }
+}
+@keyframes alt-msg { 0% { opacity: 0; transform: translateY(-10px) scale(0.97); } 5%, 45% { opacity: 1; transform: none; } 50%, 100% { opacity: 0; transform: translateY(8px) scale(0.98); } }
+@keyframes rev-line { 0% { stroke-dashoffset: 1; } 40%, 88% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 1; } }
+@keyframes rev-area { 0%, 20% { opacity: 0; } 45%, 88% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes rev-dot { 0%, 36% { opacity: 0; transform: scale(0); transform-origin: 118px 5px; } 42%, 88% { opacity: 1; transform: scale(1); transform-origin: 118px 5px; } 100% { opacity: 0; } }
+
+/* Design & development hero: page blocks and code lines build in on a loop */
+@media (prefers-reduced-motion: no-preference) {
+  .build-block { animation: build-block 7s var(--d, 0s) infinite both; }
+  .build-code { animation: build-code 7s var(--d, 0s) infinite both; }
+}
+@keyframes build-block { 0% { opacity: 0; transform: translateY(10px); filter: grayscale(1); } 6% { opacity: 1; transform: none; filter: grayscale(1); } 16%, 88% { opacity: 1; filter: none; } 96%, 100% { opacity: 0; } }
+@keyframes build-code { 0% { opacity: 0; clip-path: inset(0 100% 0 0); } 6%, 88% { opacity: 1; clip-path: inset(0); } 96%, 100% { opacity: 0; } }
+
+/* Contact header artwork: typing, send, then each response pops in. Static shows everything. */
+@media (prefers-reduced-motion: no-preference) {
+  .ct-type { transform-origin: left; animation: ct-type 7s var(--d, 0s) infinite both; }
+  .ct-send { animation: ct-send 7s 3.4s infinite both; }
+  .ct-pop { animation: ct-pop 7s var(--d, 0s) infinite both; }
+}
+@keyframes ct-type { 0% { transform: scaleX(0); } 8%, 90% { transform: scaleX(1); } 97%, 100% { transform: scaleX(0); } }
+@keyframes ct-send { 0%, 100% { box-shadow: 0 0 0 0 rgb(242 107 58 / 0); transform: none; } 3% { transform: scale(0.94); } 8% { box-shadow: 0 0 0 7px rgb(242 107 58 / 0.3); transform: none; } 16% { box-shadow: 0 0 0 0 rgb(242 107 58 / 0); } }
+@keyframes ct-pop { 0% { opacity: 0; transform: translateY(10px) scale(0.96); } 5%, 80% { opacity: 1; transform: none; } 88%, 100% { opacity: 0; transform: translateY(6px); } }
+
+/* Contact artwork: lines of text type out left to right */
+@media (prefers-reduced-motion: no-preference) {
+  .ct-text { animation: ct-text 7s var(--d, 0s) infinite both; }
+}
+@keyframes ct-text { 0% { clip-path: inset(0 100% 0 0); } 13%, 90% { clip-path: inset(0 0 0 0); } 97%, 100% { clip-path: inset(0 100% 0 0); } }
+
+/* About hero: flow along the connecting lines, rings breathing around the centre */
+@media (prefers-reduced-motion: no-preference) {
+  .about-flow { animation: about-flow 1.6s var(--d, 0s) linear infinite; }
+  .about-ring { transform-box: fill-box; transform-origin: center; animation: about-ring 4s var(--d, 0s) ease-in-out infinite; }
+}
+@keyframes about-flow { to { stroke-dashoffset: -8; } }
+@keyframes about-ring { 50% { transform: scale(1.08); opacity: 0.5; } }
+
+/* About manifesto: words light up as the heading scrolls through the viewport (where supported) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .mf-word { animation: mf-lit linear both; animation-timeline: view(); animation-range: entry 10% cover 40%; }
+  }
+}
+@keyframes mf-lit { from { opacity: 0.15; } to { opacity: 1; } }
+
+
+/* Insights header artwork: highlighter sweep and checklist ticks */
+@media (prefers-reduced-motion: no-preference) {
+  .ins-mark { animation: ins-mark 6s 0.4s infinite both; }
+  .ins-check { animation: ins-check 6s var(--d, 0s) infinite both; }
+}
+@keyframes ins-mark { 0% { transform: scaleX(0); } 12%, 88% { transform: scaleX(1); } 96%, 100% { transform: scaleX(0); } }
+@keyframes ins-check { 0% { opacity: 0; transform: scale(0.5); } 5%, 85% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; } }
+
+/* Article page: reading progress bar and richer long-form styling */
+.read-progress { transform: scaleX(0); }
+@supports (animation-timeline: scroll()) {
+  .read-progress { animation: read-progress linear both; animation-timeline: scroll(root); }
+}
+@supports not (animation-timeline: scroll()) {
+  .read-progress { display: none; }
+}
+@keyframes read-progress { to { transform: scaleX(1); } }
+
+.article-body h2 {
+  scroll-margin-top: 7rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-line);
+  position: relative;
+}
+.article-body h2::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-accent);
+}
+.article-body h3 { scroll-margin-top: 7rem; }
+.article-body > p:first-of-type { font-size: 1.3125rem; line-height: 1.65; color: var(--color-ink); }
+.article-body blockquote {
+  border-left: 0;
+  padding: 1.5rem 1.75rem;
+  border-radius: 1.25rem;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.article-body ul { list-style: none; padding-left: 0; }
+.article-body ul > li { position: relative; padding-left: 1.75rem; }
+.article-body ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  top: 0.7em;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+}
+
+/* Service toolkit orbit: the ring turns slowly, icons counter-rotate to stay upright */
+@media (prefers-reduced-motion: no-preference) {
+  .orbit { animation: orbit 40s linear infinite; }
+  .orbit-item { animation: orbit-counter 40s linear infinite; }
+}
+@keyframes orbit { to { transform: rotate(360deg); } }
+@keyframes orbit-counter { to { transform: rotate(-360deg); } }
+
+.article-body { max-width: 54rem; }
+
+/* Service page: engagement card art and price dials */
+@media (prefers-reduced-motion: no-preference) {
+  .eng-spin { animation: orbit 6s linear infinite; }
+  .eng-cell { animation: eng-cell 2.4s ease-in-out infinite both; }
+  .dial { animation: dial 5s ease-in-out infinite; }
+}
+@keyframes eng-cell { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@keyframes dial { 0%, 100% { translate: 0 0; } 50% { translate: 10px 0; } }
+
+/* Logo mark: shapes drop in, then a domino: dot rolls into the middle bar, which tips onto the tall bar */
+.logo-ball, .logo-mid, .logo-tall { transform-box: view-box; }
+.logo-mid { transform-origin: 16px 22px; }
+.logo-tall { transform-origin: 25.5px 22px; }
+@media (prefers-reduced-motion: no-preference) {
+  .logo-ball { animation: logo-drop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both, logo-roll 1.5s 950ms ease-in-out both; }
+  .logo-mid { animation: logo-drop 600ms 120ms cubic-bezier(0.34, 1.56, 0.64, 1) both, logo-tip 1.5s 950ms ease-in-out both; }
+  .logo-tall { animation: logo-drop 600ms 240ms cubic-bezier(0.34, 1.56, 0.64, 1) both, logo-nudge 1.5s 950ms ease-in-out both; }
+  .logo-link:hover .logo-ball { animation: logo-roll-h 1.5s ease-in-out both; }
+  .logo-link:hover .logo-mid { animation: logo-tip-h 1.5s ease-in-out both; }
+  .logo-link:hover .logo-tall { animation: logo-nudge-h 1.5s ease-in-out both; }
+}
+@keyframes logo-drop { from { transform: translateY(-14px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes logo-roll { 0% { translate: 0 0; } 22%, 48% { translate: 2.5px 0; } 85%, 100% { translate: 0 0; } }
+@keyframes logo-tip { 0%, 20% { rotate: 0deg; } 42%, 58% { rotate: 14.5deg; } 88%, 100% { rotate: 0deg; } }
+@keyframes logo-nudge { 0%, 40% { rotate: 0deg; } 50% { rotate: 3deg; } 72%, 100% { rotate: 0deg; } }
+@keyframes logo-roll-h { 0% { translate: 0 0; } 22%, 48% { translate: 2.5px 0; } 85%, 100% { translate: 0 0; } }
+@keyframes logo-tip-h { 0%, 20% { rotate: 0deg; } 42%, 58% { rotate: 14.5deg; } 88%, 100% { rotate: 0deg; } }
+@keyframes logo-nudge-h { 0%, 40% { rotate: 0deg; } 50% { rotate: 3deg; } 72%, 100% { rotate: 0deg; } }
+
+/* Industry hero mock site: the call-to-action button pulses */
+@media (prefers-reduced-motion: no-preference) {
+  .ind-cta { animation: ai-approve-pulse 2.4s ease-in-out infinite; }
+}
+@keyframes ai-approve-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgb(242 107 58 / 0); } 30% { box-shadow: 0 0 0 6px rgb(242 107 58 / 0.3); } 60% { box-shadow: 0 0 0 0 rgb(242 107 58 / 0); } }
+
+/* Thank-you success mark: tick draws, badge pops, ring pulses */
+.ty-tick { stroke-dasharray: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .ty-pop { animation: ty-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  .ty-tick { animation: ty-tick 450ms 350ms ease-out both; }
+  .ty-ring { animation: pp-ring 1.8s 700ms ease-out infinite; }
+}
+@keyframes ty-pop { from { transform: scale(0.4); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes ty-tick { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }

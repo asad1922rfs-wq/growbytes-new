@@ -1,0 +1,97 @@
+Most businesses have more automation ideas than capacity. Someone suggests automating invoicing, someone else wants an AI assistant for customer emails, and a manager wants weekly reports to build themselves. Choosing well matters: the right first automation builds confidence and frees real time. The wrong one becomes a fragile system nobody trusts.
+
+This guide offers a simple method for assessing workflows, explains when AI is useful and when simple rules are better, and lists warning signs that a process should stay manual for now.
+
+## Start by describing the workflow, not the tool
+
+Before discussing software, write the workflow down as steps. For each step, note:
+
+- **Trigger:** what starts it (an email arrives, a form is submitted, a date passes)
+- **Input:** what information is needed, and where it comes from
+- **Decision:** what rules or judgment are applied
+- **Action:** what is created, updated, or sent
+- **Owner:** who does it today
+
+For example, a service company's inquiry handling might look like this:
+
+1. An inquiry arrives through the website form.
+2. Someone reads it and decides which service it relates to.
+3. They check whether the location is within the service area.
+4. They create a contact and deal in the CRM.
+5. They send an acknowledgement email.
+6. They assign it to a team member.
+
+Writing it down often reveals that the "problem" is one or two steps, not the whole process. Here, steps 4 to 6 are repetitive and rule-based. Step 2 needs reading and judgment.
+
+## Score each candidate
+
+Rate each workflow from 1 (low) to 3 (high) on five factors:
+
+| Factor | Question | Higher score means |
+| --- | --- | --- |
+| Volume | How often does it happen? | Many times per day or week |
+| Time | How long does each instance take? | Several minutes or more |
+| Rules | How clear are the decisions? | Mostly clear, documented rules |
+| Data | Are inputs digital and consistent? | Structured data from known systems |
+| Low risk | What happens if it goes wrong? | Errors are easy to spot and fix |
+
+Add up the scores. Workflows scoring 12 or more out of 15 are usually strong starting points. Scores below 9 suggest the process needs to be clarified or its data cleaned up before automation will help.
+
+This scoring is a conversation tool, not a formula. A low-volume task can still be worth automating if errors are expensive, for example a compliance step that's easy to forget.
+
+## Where AI fits, and where it doesn't
+
+Many useful automations need no AI at all. Moving form data into a CRM, sending a confirmation email, or creating a task when a deal changes stage are rules-based and predictable. Use simple automation for these.
+
+AI, specifically large language models, becomes useful when an input is **unstructured**: free-text emails, documents in varied formats, or notes that need summarizing. Typical good uses include:
+
+- **Classification:** sorting inquiries by service, urgency, or language
+- **Extraction:** pulling invoice numbers, dates, or addresses from documents
+- **Summarization:** condensing long email threads before a handover
+- **Drafting:** preparing a reply for a person to review and send
+
+AI output is probabilistic. It can be confidently wrong. Design for that:
+
+- **Add a human review step** wherever an error would reach a customer, affect money, or be hard to reverse.
+- **Use confidence thresholds:** send uncertain cases to a person automatically.
+- **Evaluate before launch:** test on a set of real, historical examples and measure how often the output is right.
+- **Log decisions** so you can audit what happened and improve prompts or rules.
+
+## Plan for failure from the start
+
+Every automation will eventually fail: an API changes, a token expires, or an input arrives in an unexpected format. Before building, decide:
+
+- Who is alerted when a step fails, and how?
+- Is it safe to retry automatically, or could that create duplicates?
+- What is the manual fallback, and does the team know it?
+- How will anyone know the automation is still running correctly next month?
+
+An automation without an owner and monitoring is a liability, however well it works on day one.
+
+## Handle data deliberately
+
+Automations move data between systems, sometimes including personal information. For each workflow, document what data is used, which services process it, where they process it, and how long it's retained. Avoid sending unnecessary personal data to third-party AI services. Check whether contracts, privacy notices, or regional regulations, such as GDPR in the UK and EU or data protection laws in the Gulf states, impose requirements. This article isn't legal advice. Involve qualified advisers where needed.
+
+## Warning signs: leave it manual for now
+
+- **The process changes every week.** Automate after it stabilizes.
+- **Nobody agrees on the rules.** Automation will encode the disagreement.
+- **The data is unreliable.** Clean the source first, or the automation will spread errors faster.
+- **The judgment is the value.** Customers may expect a person, for example in sensitive complaints.
+- **It happens rarely and quickly.** A five-minute monthly task rarely justifies building and maintaining an integration.
+
+## A worked example
+
+Applying the scoring to the inquiry workflow above:
+
+- Steps 4 to 6 (CRM, acknowledgement, assignment): high volume, clear rules, structured data, low risk. **Strong candidate for rules-based automation.**
+- Step 2 (deciding which service it relates to): moderate volume, judgment on free text. **Reasonable candidate for AI classification, with uncertain cases routed to a person.**
+- Step 3 (service area check): clear rules if postcodes are captured in the form. **Better solved by improving the form** than by adding AI.
+
+The result is a phased plan. Automate the clear steps first, pilot the AI step with review, and improve the form so less judgment is needed.
+
+## Limitations
+
+This method suits operational workflows in small and midsize businesses. Regulated processes, high-risk decisions, and safety-critical systems need formal risk assessment beyond this guide. The scoring is a heuristic for prioritization, not a guarantee of results.
+
+If you'd like a structured assessment of your workflows, our [AI automation service](/services/ai-automation/) begins with exactly this exercise. Where a workflow needs its own interface or data model, our [custom software service](/services/custom-software-development/) picks up from there.

@@ -1,0 +1,41 @@
+## The design problem
+
+Relay Freight is a fictional freight forwarding company. In this concept, its operations team tracks shipments in shared spreadsheets, coordinates through email, and re-keys details from delivery documents into its accounting system.
+
+That approach creates predictable problems:
+
+- **No single view of status.** Managers ask colleagues for updates because the spreadsheet is rarely current.
+- **Exceptions surface late.** A missing customs document or a delayed handover is noticed only when a customer asks.
+- **Manual data entry.** Details from delivery notes and invoices are typed in by hand, which is slow and error-prone.
+
+## Proposed solution
+
+The concept is a focused internal web application, not a full transport management system. It covers the steps that cause the most friction and connects to the tools the business already uses.
+
+### Shipment pipeline
+
+Shipments are shown by status: booked, in transit, exception, and delivered. They can be filtered by lane, customer, and owner. Each shipment has a detail view with its timeline, documents, and notes, replacing scattered email threads.
+
+### Exception queue
+
+Rules flag shipments that need attention, such as missing documents before a cutoff or no status update within an expected window. Each exception has an owner and a resolution note, so nothing depends on memory.
+
+### AI-assisted document intake, with human review
+
+When a delivery note or invoice is uploaded, an AI step extracts key fields such as the consignee, weights, and reference numbers. The extracted values are **shown for review, not saved automatically**. A team member confirms or corrects them, and low-confidence fields are highlighted. Corrections are logged so extraction quality can be evaluated over time.
+
+### Integrations
+
+Approved records sync to the accounting system. Carrier status updates arrive through APIs or webhooks where carriers provide them. Every sync is logged, and failures alert the shipment owner.
+
+## Features demonstrated
+
+- Role-based internal application with an auditable timeline
+- Rules-based exception detection and ownership
+- AI extraction with confidence thresholds and mandatory review
+- Integration design with retries, logging, and alerts
+- Dashboard visuals that use clearly labeled **sample data**
+
+## Notes on the sample data
+
+All figures, shipment IDs, and routes in the illustrations are fictional sample data. They do not describe a real company or real performance.
