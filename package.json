@@ -13,7 +13,8 @@
     "gsc": "node --env-file-if-exists=.env.local scripts/gsc.mjs",
     "ga4": "node --env-file-if-exists=.env.local scripts/ga4.mjs",
     "pagespeed": "node --env-file-if-exists=.env.local scripts/pagespeed.mjs",
-    "seo:audit": "node --env-file-if-exists=.env.local scripts/seo-audit.mjs"
+    "seo:audit": "node --env-file-if-exists=.env.local scripts/seo-audit.mjs",
+    "linkedin": "node --env-file-if-exists=.env.local scripts/linkedin.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
