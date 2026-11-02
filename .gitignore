@@ -43,3 +43,8 @@ next-env.d.ts
 # local QA artifacts
 .playwright-mcp/
 !.env.example
+
+# Google service account keys (never commit)
+*service-account*.json
+gsc-key*.json
+/secrets/

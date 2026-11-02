@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "test:smoke": "node scripts/smoke.mjs"
+    "test:smoke": "node scripts/smoke.mjs",
+    "gsc": "node --env-file-if-exists=.env.local scripts/gsc.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
