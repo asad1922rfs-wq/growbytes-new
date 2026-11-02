@@ -23,7 +23,7 @@ import { serviceGroups, services } from "@/content/services";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "About Us | One Team for Web Design, Software & Marketing",
+  title: "About Growbytes: One Team for Web & Growth",
   description:
     "Growbytes is one team for web design, Shopify, custom software, SEO, paid ads, and AI automation. Learn how we work and what we believe.",
   path: "/about/",

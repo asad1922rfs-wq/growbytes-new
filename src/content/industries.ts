@@ -26,7 +26,7 @@ export const industries: Industry[] = [
     name: "Retail & Ecommerce",
     blurb: "Online stores that sell, and the systems behind them.",
     icon: "M3 5h14l-1.5 8.5h-11ZM6 5 5 2.5H2.5M7 17a1 1 0 1 0 0-.01M14 17a1 1 0 1 0 0-.01",
-    metaTitle: "Ecommerce Website & Marketing Services for Retail Brands",
+    metaTitle: "Ecommerce Websites & Marketing for Retail",
     metaDescription:
       "Shopify stores, product pages, email flows, and ads for retail and ecommerce brands. One team for design, development, and growth.",
     h1: "Online stores that turn browsers into buyers",
@@ -57,7 +57,7 @@ export const industries: Industry[] = [
     name: "Healthcare & Clinics",
     blurb: "Clear sites and easy booking for clinics and practices.",
     icon: "M8 3h4v5h5v4h-5v5H8v-5H3V8h5Z",
-    metaTitle: "Websites & Booking Systems for Clinics and Healthcare",
+    metaTitle: "Clinic Websites & Online Booking Systems",
     metaDescription:
       "Clinic websites, online booking, patient reminders, and local SEO for healthcare providers. Clear, accessible, and easy to manage.",
     h1: "Clinic websites patients trust, and booking that just works",
@@ -87,7 +87,7 @@ export const industries: Industry[] = [
     name: "Real Estate & Property",
     blurb: "Listings, lead capture, and follow-up for agents and property firms.",
     icon: "M3 9.5 10 3l7 6.5V17H3ZM8 17v-4.5h4V17",
-    metaTitle: "Real Estate Websites, Lead Generation & CRM Setup",
+    metaTitle: "Real Estate Websites & Lead Generation",
     metaDescription:
       "Property listing websites, lead capture, CRM follow-up, and local ads for real estate agents and property companies.",
     h1: "Property websites that capture leads and follow up fast",
@@ -117,7 +117,7 @@ export const industries: Industry[] = [
     name: "Professional Services",
     blurb: "Websites and internal tools for firms that sell expertise.",
     icon: "M3 7h14v9H3ZM7.5 7V4.5h5V7M3 11h14",
-    metaTitle: "Websites & Software for Professional Services Firms",
+    metaTitle: "Websites & Software for Professional Firms",
     metaDescription:
       "Websites, client portals, HR and workflow software, and lead generation for consultancies, agencies, and professional firms.",
     h1: "Win better clients, and spend less time on admin",
@@ -178,7 +178,7 @@ export const industries: Industry[] = [
     name: "Education & Training",
     blurb: "Course sites, enrolment, and learning tools.",
     icon: "M2 7.5 10 4l8 3.5L10 11ZM5 9v4.5c0 1 2.2 2.5 5 2.5s5-1.5 5-2.5V9",
-    metaTitle: "Websites & Enrolment Systems for Education and Training",
+    metaTitle: "Education Websites & Online Enrolment",
     metaDescription:
       "Course websites, online enrolment, student portals, and marketing for schools, academies, and training providers.",
     h1: "Fill your courses with less paperwork",
@@ -208,7 +208,7 @@ export const industries: Industry[] = [
     name: "Manufacturing & Distribution",
     blurb: "B2B sites, quoting tools, and connected operations.",
     icon: "M2.5 17V9l5 3V9l5 3V5h5v12Z",
-    metaTitle: "B2B Websites & Software for Manufacturers and Distributors",
+    metaTitle: "B2B Websites & Software for Manufacturers",
     metaDescription:
       "B2B websites, product catalogues, quote requests, dealer portals, and workflow automation for manufacturers and distributors.",
     h1: "B2B websites and tools that make ordering easy",
@@ -238,7 +238,7 @@ export const industries: Industry[] = [
     name: "Media & Publishing",
     blurb: "Digital editions, subscriptions, and audience growth.",
     icon: "M4 3.5h10v13H4ZM14 7h2.5v8a1.5 1.5 0 0 1-3 0M7 7h4M7 10h4M7 13h2",
-    metaTitle: "Digital Publishing Platforms & Subscription Websites",
+    metaTitle: "E-paper & Digital Publishing Platforms",
     metaDescription:
       "E-paper platforms, subscription and paywall systems, newsletters, and audience growth for publishers and media companies.",
     h1: "Publish digitally, and grow paying readers",
@@ -269,7 +269,7 @@ export const industries: Industry[] = [
     name: "Automotive",
     blurb: "Dealers, garages, and parts sellers that need more bookings.",
     icon: "M3.5 12.5 5 8h10l1.5 4.5M3 12.5h14v3H3ZM5.5 15.5v1.5M14.5 15.5v1.5M6 13.8h.01M14 13.8h.01",
-    metaTitle: "Websites & Marketing for Car Dealers, Garages and Parts Sellers",
+    metaTitle: "Websites & Marketing for Car Dealers",
     metaDescription:
       "Vehicle listing sites, service booking, parts stores, and local ads for car dealerships, garages, and automotive businesses.",
     h1: "More test drives, service bookings, and parts sales",
@@ -299,7 +299,7 @@ export const industries: Industry[] = [
     name: "Financial Services",
     blurb: "Trustworthy sites and secure tools for advisers and firms.",
     icon: "M3 8 10 4l7 4M4.5 8v7M8 8v7M12 8v7M15.5 8v7M3 16.5h14",
-    metaTitle: "Websites & Software for Financial Advisers and Firms",
+    metaTitle: "Websites & Software for Financial Firms",
     metaDescription:
       "Clear, trustworthy websites, client portals, onboarding tools, and lead generation for financial advisers, accountants, and finance firms.",
     h1: "Build trust online, and onboard clients faster",
@@ -329,7 +329,7 @@ export const industries: Industry[] = [
     name: "Construction & Trades",
     blurb: "Quotes, project galleries, and job management for builders.",
     icon: "M3 16.5h14M5 16.5V9l5-4 5 4v7.5M8.5 16.5v-4h3v4",
-    metaTitle: "Websites & Lead Generation for Construction and Trades",
+    metaTitle: "Websites & Leads for Construction & Trades",
     metaDescription:
       "Project galleries, quote request flows, job management tools, and local SEO for builders, contractors, and trade businesses.",
     h1: "Win more jobs, and spend less time chasing quotes",
@@ -359,7 +359,7 @@ export const industries: Industry[] = [
     name: "Nonprofits & Charities",
     blurb: "Donations, volunteers, and stories that inspire support.",
     icon: "M10 16.5S3 12.5 3 7.8A3.3 3.3 0 0 1 10 6a3.3 3.3 0 0 1 7 1.8c0 4.7-7 8.7-7 8.7Z",
-    metaTitle: "Websites & Donation Platforms for Nonprofits and Charities",
+    metaTitle: "Charity Websites & Donation Platforms",
     metaDescription:
       "Charity websites, online donations, volunteer sign-up, and supporter email for nonprofits, NGOs, and community organisations.",
     h1: "Tell your story, and turn visitors into supporters",

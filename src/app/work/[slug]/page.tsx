@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
-  return pageMetadata({ title: `${project.title} (Concept)`, description: project.metaDescription, path: `/work/${slug}/` });
+  return pageMetadata({ title: project.seoTitle ?? `${project.title} (Concept)`, description: project.metaDescription, path: `/work/${slug}/` });
 }
 
 export default async function ProjectPage({ params }: Props) {

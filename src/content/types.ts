@@ -69,6 +69,8 @@ export type Service = {
 export type Project = {
   slug: string;
   title: string;
+  /** Shorter <title> for search results. */
+  seoTitle?: string;
   client: string;
   sector: string;
   services: ServiceSlug[];
@@ -84,6 +86,8 @@ export type Project = {
 export type Article = {
   slug: string;
   title: string;
+  /** Shorter <title> for search results; the full title stays as the H1. */
+  seoTitle?: string;
   description: string;
   category: string;
   published: string;

@@ -446,7 +446,7 @@ export const services: Service[] = [
     group: "marketing",
     menuBlurb: "Technical SEO and content that support discoverability.",
     summary: "Technical foundations, intent-led content, and site structure that help the right buyers find you.",
-    metaTitle: "SEO Services: Technical, Content, and Site Structure",
+    metaTitle: "SEO Services: Technical, Content & Structure",
     metaDescription:
       "SEO for businesses: technical audits, search intent research, content planning, internal linking, and measurement focused on qualified traffic.",
     h1: "SEO that makes your expertise easy for search engines and buyers to understand",
@@ -1135,7 +1135,7 @@ export const services: Service[] = [
     summary: "Research-led improvements to pages, forms, and checkout so more of your existing visitors take the next step.",
     metaTitle: "Conversion Rate Optimisation (CRO)",
     metaDescription:
-      "Conversion rate optimisation for websites and Shopify stores: analytics review, user research, prioritised fixes, A/B testing where traffic allows, and honest reporting.",
+      "Conversion rate optimisation for websites and Shopify stores: analytics review, user research, prioritised fixes, A/B testing, and honest reporting.",
     h1: "More inquiries and orders from the visitors you already have",
     intro:
       "Before spending more on traffic, it is usually worth fixing what stops current visitors from acting. We study how people use your site, find the points where they hesitate or leave, and improve those pages, forms, and checkout steps in a measured order.",

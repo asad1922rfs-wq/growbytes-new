@@ -7,9 +7,9 @@ import { getService } from "@/content/services";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Services: Web, Shopify, Software, SEO, Ads, Branding, Automation",
+  title: "Services: Web Design, Software, SEO & AI",
   description:
-    "Explore Growbytes services: web design and development, Shopify, custom software, SEO, paid advertising, branding, and AI automation, with deliverables and process for each.",
+    "Growbytes services: web design and development, Shopify, custom software, SEO, paid ads, branding, and AI automation, with what each includes.",
   path: "/services/",
 });
 

@@ -15,7 +15,7 @@ import { faqSchema, JsonLd } from "@/lib/structured-data";
 export const metadata = pageMetadata({
   title: "Contact Us | Website, SEO & AI Projects",
   description:
-    "Contact Growbytes about a new website, Shopify store, SEO, Google Ads, custom software, or AI automation. Share a few details and a person will reply with next steps.",
+    "Contact Growbytes about a website, Shopify store, SEO, Google Ads, custom software, or AI automation. Share a few details and a person will reply.",
   path: "/contact/",
 });
 

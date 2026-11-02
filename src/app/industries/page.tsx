@@ -8,7 +8,7 @@ import { industries } from "@/content/industries";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Industries | Websites, Software & Marketing by Sector",
+  title: "Industries We Serve: Web, Software & Marketing",
   description:
     "Growbytes builds websites, software, and marketing for retail, healthcare, real estate, professional services, hospitality, education, manufacturing, and media.",
   path: "/industries/",

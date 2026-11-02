@@ -6,9 +6,9 @@ import { pageMetadata } from "@/lib/seo";
 import { breadcrumbSchema, faqSchema, JsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "Business Formation: Start Your LLC and Launch Online",
+  title: "Business Formation: Start Your LLC the Right Way",
   description:
-    "Start your business the right way: choose a structure, form your LLC, get an EIN and registered agent, then launch with a brand, website, and marketing from Growbytes.",
+    "How to start a business: choose a structure, form your LLC, get an EIN and registered agent, then launch with a brand, website, and marketing.",
   path: "/business-formation/",
 });
 

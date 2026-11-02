@@ -3,8 +3,8 @@ import { LegalPage } from "@/components/legal/LegalPage";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Terms of Use",
-  description: "The terms that apply when you use the Growbytes website.",
+  title: "Website Terms of Use",
+  description: "The terms that apply when you use the Growbytes website, including acceptable use, our content, and how project work is agreed.",
   path: "/terms/",
 });
 

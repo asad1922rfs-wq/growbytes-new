@@ -48,6 +48,12 @@ export default function PrivacyPage() {
                   kept by our hosting provider for security and to keep the site running.
                 </li>
               </ul>
+              {process.env.NEXT_PUBLIC_GA_ID && (
+                <p>
+                  <strong>Analytics:</strong> we use Google Analytics to see which pages are visited and how people find us.
+                  IP addresses are anonymised. See our <a href="/cookies/">cookie policy</a>.
+                </p>
+              )}
               <p>We do not use advertising trackers or sell personal information.</p>
             </>
           ),

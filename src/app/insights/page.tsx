@@ -10,7 +10,7 @@ import { articles, formatDate, getArticle } from "@/content/insights";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Insights | Website, SEO, Shopify & Automation Guides",
+  title: "Insights: Website, SEO & Automation Guides",
   description:
     "Plain-English guides from Growbytes on website redesigns, Shopify storefronts, SEO vs paid ads, project briefs, and which workflows to automate.",
   path: "/insights/",

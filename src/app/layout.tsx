@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
+import { Analytics } from "@/components/layout/Analytics";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { Header } from "@/components/layout/Header";
 import { siteConfig } from "@/config/site";
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Footer />
         <BackToTop />
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
+        <Analytics />
       </body>
     </html>
   );

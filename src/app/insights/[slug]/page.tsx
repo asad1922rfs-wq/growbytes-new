@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const a = getArticle(slug);
   if (!a) return {};
   return pageMetadata({
-    title: a.title,
+    title: a.seoTitle ?? a.title,
     description: a.description,
     path: `/insights/${slug}/`,
     type: "article",

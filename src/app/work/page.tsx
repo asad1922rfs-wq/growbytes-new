@@ -9,7 +9,7 @@ import { projects } from "@/content/work";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Our Work | Websites, Shopify Stores & Custom Software",
+  title: "Our Work: Websites, Shopify & Software",
   description:
     "Live client projects from Growbytes: a Shopify store, an e-paper publishing platform, and a complete HR management system, plus concept studies.",
   path: "/work/",

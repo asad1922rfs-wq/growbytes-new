@@ -6,6 +6,7 @@ export const ARTICLE_AUTHOR = "Growbytes editorial team";
 export const articles: Article[] = [
   {
     slug: "prepare-before-redesigning-your-business-website",
+    seoTitle: "Website Redesign Checklist: What to Prepare",
     title: "What to prepare before redesigning your business website",
     description:
       "A practical checklist for goals, content, analytics, URLs, and decisions to make before a website redesign, so the project starts with fewer surprises.",
@@ -17,6 +18,7 @@ export const articles: Article[] = [
   },
   {
     slug: "shopify-theme-customization-or-custom-storefront",
+    seoTitle: "Shopify Theme or Custom Storefront?",
     title: "Shopify theme customization or a custom storefront: how to decide",
     description:
       "When a customized Online Store 2.0 theme is enough, when a headless Shopify storefront is justified, and the costs each choice carries after launch.",
@@ -28,6 +30,7 @@ export const articles: Article[] = [
   },
   {
     slug: "how-to-identify-a-business-workflow-worth-automating",
+    seoTitle: "Which Business Workflows Should You Automate?",
     title: "How to identify a business workflow worth automating",
     description:
       "A simple scoring method for choosing which processes to automate first, where AI helps, where rules are enough, and when to leave work manual.",
@@ -39,6 +42,7 @@ export const articles: Article[] = [
   },
   {
     slug: "how-to-write-a-project-brief-for-an-agency",
+    seoTitle: "How to Write a Project Brief for an Agency",
     title: "How to write a project brief an agency can quote accurately",
     description:
       "What to include in a website, software, or marketing brief, what you can leave out, and how to compare the proposals you receive.",
@@ -50,6 +54,7 @@ export const articles: Article[] = [
   },
   {
     slug: "seo-or-paid-ads-where-to-start",
+    seoTitle: "SEO or Paid Ads: Where to Start",
     title: "SEO or paid ads: where to start with a limited budget",
     description:
       "How search engine optimization and paid advertising differ, when each tends to fit, and the foundations to fix before spending on either.",

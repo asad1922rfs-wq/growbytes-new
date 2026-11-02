@@ -5,6 +5,7 @@ export const CONCEPT_LABEL = "Concept project — illustrative work, not a clien
 export const projects: Project[] = [
   {
     slug: "hearthline-homeware",
+    seoTitle: "Shopify Storefront Concept for Homeware",
     title: "A calmer Shopify storefront for a homeware brand",
     client: "Hearthline (fictional homeware brand)",
     sector: "Ecommerce · Homeware",
@@ -36,6 +37,7 @@ export const projects: Project[] = [
   },
   {
     slug: "northgate-property-care",
+    seoTitle: "Lead-Gen Website Concept for Property Care",
     title: "A lead-generation website for a property services company",
     client: "Northgate Property Care (fictional business)",
     sector: "Service business · Property maintenance",
@@ -67,6 +69,7 @@ export const projects: Project[] = [
   },
   {
     slug: "relay-freight-operations",
+    seoTitle: "Logistics Operations Dashboard Concept",
     title: "An operations dashboard for a logistics business",
     client: "Relay Freight (fictional logistics company)",
     sector: "Logistics · Internal software",

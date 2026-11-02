@@ -10,7 +10,10 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "test:smoke": "node scripts/smoke.mjs",
-    "gsc": "node --env-file-if-exists=.env.local scripts/gsc.mjs"
+    "gsc": "node --env-file-if-exists=.env.local scripts/gsc.mjs",
+    "ga4": "node --env-file-if-exists=.env.local scripts/ga4.mjs",
+    "pagespeed": "node --env-file-if-exists=.env.local scripts/pagespeed.mjs",
+    "seo:audit": "node --env-file-if-exists=.env.local scripts/seo-audit.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
