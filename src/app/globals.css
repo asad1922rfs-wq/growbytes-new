@@ -484,3 +484,7 @@
 }
 @keyframes ty-pop { from { transform: scale(0.4); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes ty-tick { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* Performance: hidden hero slides stop animating */
+.hero-slide:not([data-active]),
+.hero-slide:not([data-active]) * { animation-play-state: paused !important; }

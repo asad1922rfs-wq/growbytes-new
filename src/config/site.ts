@@ -14,6 +14,8 @@ const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || (isVercelProduction ? PRO
 
 export const siteConfig = {
   name: "Growbytes",
+  /** Other spellings people search for (from Search Console), used in Organization and WebSite schema. */
+  alternateNames: ["Growbyte", "Growbyte Global", "Growbytes Global", "growbytes.co"],
   statement:
     "Growbytes builds websites, software, and marketing systems that help businesses move forward.",
   description:

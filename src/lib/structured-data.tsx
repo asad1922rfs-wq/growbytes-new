@@ -29,6 +29,7 @@ export function organizationSchema(): Json {
     "@type": "Organization",
     "@id": absoluteUrl("/#organization"),
     name: siteConfig.name,
+    alternateName: siteConfig.alternateNames,
     url: absoluteUrl("/"),
     logo: absoluteUrl("/icon.svg"),
     description: siteConfig.statement,
@@ -46,6 +47,7 @@ export function websiteSchema(): Json {
     "@type": "WebSite",
     "@id": absoluteUrl("/#website"),
     name: siteConfig.name,
+    alternateName: siteConfig.alternateNames,
     url: absoluteUrl("/"),
     publisher: { "@id": absoluteUrl("/#organization") },
   };
