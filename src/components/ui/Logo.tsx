@@ -2,15 +2,11 @@ import Link from "next/link";
 import { useId } from "react";
 import { cn } from "./primitives";
 
-/**
- * Growth mark: four warm blocks rising in a zigzag, with a diamond "byte" spark
- * lifting off the tallest one. Blocks grow up in turn, then the spark twinkles in
- * (on load and on hover).
- */
+/** Growth mark: four warm blocks rising in a zigzag. They grow up in turn on load and on hover. */
 export function LogoMark({ className }: { className?: string; dark?: boolean }) {
   const id = useId().replace(/:/g, "");
   return (
-    <svg aria-hidden="true" viewBox="0 0 19 15" className={cn("h-7 w-auto", className)}>
+    <svg aria-hidden="true" viewBox="0 0 16 12" className={cn("h-6 w-auto", className)}>
       <defs>
         <linearGradient id={`${id}-0`} x1="0" x2="0" y1="0" y2="1">
           <stop offset="0" stopColor="#FFC15A" />
@@ -29,20 +25,10 @@ export function LogoMark({ className }: { className?: string; dark?: boolean }) 
           <stop offset="1" stopColor="#F57A35" />
         </linearGradient>
       </defs>
-      <rect className="logo-block" style={{ animationDelay: "0ms" }} x="0" y="10.5" width="4" height="4.5" rx="0.7" fill={`url(#${id}-0)`} />
-      <rect className="logo-block" style={{ animationDelay: "90ms" }} x="4" y="4.25" width="4" height="6.25" rx="0.7" fill={`url(#${id}-1)`} />
-      <rect className="logo-block" style={{ animationDelay: "180ms" }} x="8" y="10.5" width="4" height="4.5" rx="0.7" fill={`url(#${id}-2)`} />
-      <rect className="logo-block" style={{ animationDelay: "270ms" }} x="12" y="3" width="4" height="7.5" rx="0.7" fill={`url(#${id}-3)`} />
-      <rect
-        className="logo-spark"
-        x="16.5"
-        y="0.2999999999999998"
-        width="2.2"
-        height="2.2"
-        rx="0.4"
-        transform="rotate(45 17.6 1.4)"
-        fill="#FF7A45"
-      />
+      <rect className="logo-block" style={{ animationDelay: "0ms" }} x="0" y="7.5" width="4" height="4.5" fill={`url(#${id}-0)`} />
+      <rect className="logo-block" style={{ animationDelay: "90ms" }} x="4" y="1.25" width="4" height="6.25" fill={`url(#${id}-1)`} />
+      <rect className="logo-block" style={{ animationDelay: "180ms" }} x="8" y="7.5" width="4" height="4.5" fill={`url(#${id}-2)`} />
+      <rect className="logo-block" style={{ animationDelay: "270ms" }} x="12" y="0" width="4" height="7.5" fill={`url(#${id}-3)`} />
     </svg>
   );
 }
