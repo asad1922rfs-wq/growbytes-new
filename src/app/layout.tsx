@@ -24,6 +24,10 @@ export const metadata: Metadata = {
   applicationName: siteConfig.name,
   robots: robotsFor(),
   openGraph: { siteName: siteConfig.name, type: "website", locale: "en_US" },
+  // Google Search Console HTML-tag verification (only needed for URL-prefix properties)
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+    : {}),
 };
 
 export const viewport: Viewport = {
