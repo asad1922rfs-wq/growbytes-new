@@ -13,8 +13,8 @@ export function LogoMark({ className }: { className?: string; dark?: boolean }) 
           <stop offset="1" stopColor="#F66135" />
         </linearGradient>
         <linearGradient id={`${id}-1`} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="#F66135" />
-          <stop offset="1" stopColor="#D9481F" />
+          <stop offset="0" stopColor="#FF9466" />
+          <stop offset="1" stopColor="#F66135" />
         </linearGradient>
         <linearGradient id={`${id}-2`} x1="0" x2="0" y1="0" y2="1">
           <stop offset="0" stopColor="#FF8152" />
