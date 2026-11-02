@@ -6,7 +6,11 @@
  * docs/LAUNCH_CHECKLIST.md.
  */
 
-const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+/** The live domain. Vercel production builds use it even when NEXT_PUBLIC_SITE_URL isn't set. */
+const PRODUCTION_URL = "https://www.growbytes.co";
+const isVercelProduction = process.env.VERCEL_ENV === "production";
+
+const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || (isVercelProduction ? PRODUCTION_URL : "http://localhost:3000");
 
 export const siteConfig = {
   name: "Growbytes",
@@ -19,10 +23,12 @@ export const siteConfig = {
   url: rawSiteUrl.replace(/\/$/, ""),
 
   /**
-   * Indexing is opt-in. Only a production deployment with
-   * NEXT_PUBLIC_ALLOW_INDEXING=true is indexable.
+   * Indexing is on for the Vercel production deployment, or anywhere
+   * NEXT_PUBLIC_ALLOW_INDEXING=true. Previews and local builds stay noindex.
+   * NEXT_PUBLIC_ALLOW_INDEXING=false always switches it off.
    */
-  allowIndexing: process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true",
+  allowIndexing:
+    process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true" || (isVercelProduction && process.env.NEXT_PUBLIC_ALLOW_INDEXING !== "false"),
 
   /** Markets we write for. These are NOT offices or registered locations. */
   focusMarkets: ["United States", "United Kingdom", "United Arab Emirates", "Saudi Arabia"],
