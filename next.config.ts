@@ -16,8 +16,7 @@ const nextConfig: NextConfig = {
     },
   },
   async redirects() {
-    // Posts from the previous growbytes.co site. Temporary until the three posts with
-    // partner links are rebuilt; then point those slugs at their new pages.
+    // Posts from the previous growbytes.co site; their topics now live under Insights.
     const oldPosts = [
       "complete-llc-formation-checklist",
       "how-to-choose-a-business-structure",
@@ -33,7 +32,7 @@ const nextConfig: NextConfig = {
     ];
     // Common alternate paths visitors (or old links) may use.
     return [
-      ...oldPosts.map((slug) => ({ source: `/blog/${slug}/`, destination: "/insights/", permanent: false })),
+      ...oldPosts.map((slug) => ({ source: `/blog/${slug}/`, destination: "/insights/", permanent: true })),
       { source: "/ai-workflow-automation/", destination: "/services/ai-automation/", permanent: true },
       { source: "/blog/", destination: "/insights/", permanent: true },
       { source: "/blog/:slug/", destination: "/insights/:slug/", permanent: true },
