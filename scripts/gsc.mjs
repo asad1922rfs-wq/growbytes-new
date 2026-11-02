@@ -108,7 +108,8 @@ switch (cmd) {
       errors: s.errors ?? 0,
       warnings: s.warnings ?? 0,
     }));
-    rows.length ? console.table(rows) : console.log("No sitemaps submitted yet. Run: npm run gsc -- submit");
+    if (rows.length) console.table(rows);
+    else console.log("No sitemaps submitted yet. Run: npm run gsc -- submit");
     break;
   }
   case "submit": {
@@ -135,7 +136,8 @@ switch (cmd) {
     });
     const rows = (data.rows || []).map((row) => ({ [cmd === "queries" ? "query" : "page"]: row.keys[0], ...fmt(row) }));
     console.log(`\nTop ${cmd}  ${r.startDate} → ${r.endDate}`);
-    rows.length ? console.table(rows) : console.log("No data for this period.");
+    if (rows.length) console.table(rows);
+    else console.log("No data for this period.");
     break;
   }
   case "inspect": {
