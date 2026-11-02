@@ -460,25 +460,14 @@
 @keyframes eng-cell { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 @keyframes dial { 0%, 100% { translate: 0 0; } 50% { translate: 10px 0; } }
 
-/* Logo mark: shapes drop in, then a domino: dot rolls into the middle bar, which tips onto the tall bar */
-.logo-ball, .logo-mid, .logo-tall { transform-box: view-box; }
-.logo-mid { transform-origin: 16px 22px; }
-.logo-tall { transform-origin: 25.5px 22px; }
+/* Logo mark: blocks grow up from the baseline in turn, on load and again on hover */
+.logo-block { transform-box: fill-box; transform-origin: bottom; }
 @media (prefers-reduced-motion: no-preference) {
-  .logo-ball { animation: logo-drop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both, logo-roll 1.5s 950ms ease-in-out both; }
-  .logo-mid { animation: logo-drop 600ms 120ms cubic-bezier(0.34, 1.56, 0.64, 1) both, logo-tip 1.5s 950ms ease-in-out both; }
-  .logo-tall { animation: logo-drop 600ms 240ms cubic-bezier(0.34, 1.56, 0.64, 1) both, logo-nudge 1.5s 950ms ease-in-out both; }
-  .logo-link:hover .logo-ball { animation: logo-roll-h 1.5s ease-in-out both; }
-  .logo-link:hover .logo-mid { animation: logo-tip-h 1.5s ease-in-out both; }
-  .logo-link:hover .logo-tall { animation: logo-nudge-h 1.5s ease-in-out both; }
+  .logo-block { animation: logo-grow 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  .logo-link:hover .logo-block { animation-name: logo-grow-h; }
 }
-@keyframes logo-drop { from { transform: translateY(-14px); opacity: 0; } to { transform: none; opacity: 1; } }
-@keyframes logo-roll { 0% { translate: 0 0; } 22%, 48% { translate: 2.5px 0; } 85%, 100% { translate: 0 0; } }
-@keyframes logo-tip { 0%, 20% { rotate: 0deg; } 42%, 58% { rotate: 14.5deg; } 88%, 100% { rotate: 0deg; } }
-@keyframes logo-nudge { 0%, 40% { rotate: 0deg; } 50% { rotate: 3deg; } 72%, 100% { rotate: 0deg; } }
-@keyframes logo-roll-h { 0% { translate: 0 0; } 22%, 48% { translate: 2.5px 0; } 85%, 100% { translate: 0 0; } }
-@keyframes logo-tip-h { 0%, 20% { rotate: 0deg; } 42%, 58% { rotate: 14.5deg; } 88%, 100% { rotate: 0deg; } }
-@keyframes logo-nudge-h { 0%, 40% { rotate: 0deg; } 50% { rotate: 3deg; } 72%, 100% { rotate: 0deg; } }
+@keyframes logo-grow { from { transform: scaleY(0.15); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes logo-grow-h { from { transform: scaleY(0.15); opacity: 0; } to { transform: none; opacity: 1; } }
 
 /* Industry hero mock site: the call-to-action button pulses */
 @media (prefers-reduced-motion: no-preference) {
