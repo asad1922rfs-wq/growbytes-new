@@ -24,7 +24,7 @@ const ENV_FILE = ".env.local";
 const PORT = 3999;
 const REDIRECT = `http://localhost:${PORT}/callback`;
 const SITE = (process.env.GSC_SITE_URL || "https://www.growbytes.co").replace(/\/$/, "");
-const VERSION = "202510"; // LinkedIn-Version header (YYYYMM)
+const VERSION = process.env.LINKEDIN_API_VERSION || "202610"; // LinkedIn-Version header (YYYYMM)
 
 function fail(msg) {
   console.error(`\n  ${msg}\n`);
