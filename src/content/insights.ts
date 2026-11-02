@@ -5,6 +5,18 @@ export const ARTICLE_AUTHOR = "Growbytes editorial team";
 
 export const articles: Article[] = [
   {
+    slug: "how-to-choose-a-shopify-development-agency",
+    seoTitle: "How to Choose a Shopify Development Agency",
+    title: "How to choose a Shopify development agency",
+    description:
+      "What a Shopify agency does, what to look for, 10 questions to ask before you sign, what affects the cost, and the warning signs to avoid.",
+    category: "Ecommerce",
+    published: "2026-11-02",
+    readingMinutes: 8,
+    services: ["shopify-development", "conversion-optimization", "seo"],
+    illustration: "storefront",
+  },
+  {
     slug: "prepare-before-redesigning-your-business-website",
     seoTitle: "Website Redesign Checklist: What to Prepare",
     title: "What to prepare before redesigning your business website",

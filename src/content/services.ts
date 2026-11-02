@@ -166,9 +166,9 @@ export const services: Service[] = [
     group: "design",
     menuBlurb: "Custom storefronts, theme development, and integrations.",
     summary: "Shopify storefronts, theme work, integrations, and migrations focused on removing buying friction.",
-    metaTitle: "Shopify Development and Optimization",
+    metaTitle: "Shopify Development Agency: Build & Grow",
     metaDescription:
-      "Shopify development for ecommerce brands: storefront UX, custom theme work, app and ERP integrations, platform migrations, and conversion improvements.",
+      "Shopify development agency for ecommerce brands: store builds, theme customisation, migrations, app and ERP integrations, and speed fixes.",
     h1: "Shopify stores that make products easy to find, understand, and buy",
     intro:
       "We design and develop Shopify storefronts, extend themes, connect the systems behind your store, and migrate catalogs from other platforms. Our focus is the path from first visit to checkout, and the operations that support it.",
@@ -284,7 +284,7 @@ export const services: Service[] = [
       },
     ],
     related: ["web-design-development", "paid-advertising", "seo"],
-    articles: ["shopify-theme-customization-or-custom-storefront"],
+    articles: ["how-to-choose-a-shopify-development-agency", "shopify-theme-customization-or-custom-storefront"],
     workSlug: "hearthline-homeware",
     clientInputs: [
       "Staff access to your Shopify admin and any connected apps",
