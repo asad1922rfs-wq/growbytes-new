@@ -8,12 +8,15 @@
  *   npm run linkedin -- article <insights-slug> ["Intro text"]   share an Insights article as a link post
  *   npm run linkedin -- image <file.png> "Text"   image post (e.g. a card from npm run social:card)
  *
- * Add --dry to post/article to print what would be sent without posting.
+ * Add --dry to post/article/image to print what would be sent without posting.
+ * Add --page to any command to use the Growbytes company page instead of your profile
+ * (second app with Community Management API; `npm run linkedin -- login --page` first).
  *
  * Reads/writes .env.local:
  *   LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SECRET   from the LinkedIn developer app
  *   LINKEDIN_ACCESS_TOKEN, LINKEDIN_TOKEN_EXPIRES, LINKEDIN_PERSON_URN   written by `login`
- *   LINKEDIN_ORG_ID   optional: numeric company page ID (needs Community Management API approval)
+ *   LINKEDIN_PAGE_CLIENT_ID, LINKEDIN_PAGE_CLIENT_SECRET, LINKEDIN_ORG_ID   company page app
+ *   LINKEDIN_PAGE_ACCESS_TOKEN, LINKEDIN_PAGE_TOKEN_EXPIRES   written by `login --page`
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { createServer } from "node:http";
@@ -25,6 +28,8 @@ const PORT = 3999;
 const REDIRECT = `http://localhost:${PORT}/callback`;
 const SITE = (process.env.GSC_SITE_URL || "https://www.growbytes.co").replace(/\/$/, "");
 const VERSION = process.env.LINKEDIN_API_VERSION || "202610"; // LinkedIn-Version header (YYYYMM)
+
+const PAGE = process.argv.includes("--page");
 
 function fail(msg) {
   console.error(`\n  ${msg}\n`);
@@ -45,11 +50,13 @@ function saveEnv(values) {
 }
 
 async function login() {
-  const id = process.env.LINKEDIN_CLIENT_ID;
-  const secret = process.env.LINKEDIN_CLIENT_SECRET;
-  if (!id || !secret) fail("Set LINKEDIN_CLIENT_ID and LINKEDIN_CLIENT_SECRET in .env.local first.");
+  const id = PAGE ? process.env.LINKEDIN_PAGE_CLIENT_ID : process.env.LINKEDIN_CLIENT_ID;
+  const secret = PAGE ? process.env.LINKEDIN_PAGE_CLIENT_SECRET : process.env.LINKEDIN_CLIENT_SECRET;
+  if (!id || !secret)
+    fail(PAGE ? "Set LINKEDIN_PAGE_CLIENT_ID and LINKEDIN_PAGE_CLIENT_SECRET in .env.local first." : "Set LINKEDIN_CLIENT_ID and LINKEDIN_CLIENT_SECRET in .env.local first.");
+  if (PAGE && !process.env.LINKEDIN_ORG_ID) fail("Set LINKEDIN_ORG_ID (the number in linkedin.com/company/<id>/admin/) in .env.local first.");
   const state = randomBytes(16).toString("hex");
-  const scopes = ["openid", "profile", "w_member_social", ...(process.env.LINKEDIN_ORG_ID ? ["w_organization_social"] : [])];
+  const scopes = PAGE ? ["w_organization_social", "r_organization_social"] : ["openid", "profile", "w_member_social"];
   const url = `https://www.linkedin.com/oauth/v2/authorization?${new URLSearchParams({
     response_type: "code",
     client_id: id,
@@ -86,24 +93,32 @@ async function login() {
   const token = await tokenRes.json();
   if (!tokenRes.ok) fail(`Token exchange failed: ${token.error_description || token.error}`);
 
+  const expiresOn = new Date(Date.now() + token.expires_in * 1000).toISOString().slice(0, 10);
+  if (PAGE) {
+    saveEnv({ LINKEDIN_PAGE_ACCESS_TOKEN: token.access_token, LINKEDIN_PAGE_TOKEN_EXPIRES: expiresOn });
+    console.log(`Company page connected (organization ${process.env.LINKEDIN_ORG_ID}). Token valid until ${expiresOn}.`);
+    return;
+  }
+
   const me = await (await fetch("https://api.linkedin.com/v2/userinfo", { headers: { Authorization: `Bearer ${token.access_token}` } })).json();
   if (!me.sub) fail("Signed in, but could not read the profile. Is 'Sign In with LinkedIn using OpenID Connect' added to the app?");
 
-  const expires = new Date(Date.now() + token.expires_in * 1000).toISOString().slice(0, 10);
+  const expires = expiresOn;
   saveEnv({ LINKEDIN_ACCESS_TOKEN: token.access_token, LINKEDIN_TOKEN_EXPIRES: expires, LINKEDIN_PERSON_URN: `urn:li:person:${me.sub}` });
   console.log(`Connected as ${me.name}. Token saved to ${ENV_FILE}, valid until ${expires}.`);
 }
 
 function auth() {
-  const token = process.env.LINKEDIN_ACCESS_TOKEN;
-  if (!token) fail("Not signed in. Run: npm run linkedin -- login");
-  const exp = process.env.LINKEDIN_TOKEN_EXPIRES;
-  if (exp && new Date(exp) < new Date()) fail(`Token expired on ${exp}. Run: npm run linkedin -- login`);
+  const token = PAGE ? process.env.LINKEDIN_PAGE_ACCESS_TOKEN : process.env.LINKEDIN_ACCESS_TOKEN;
+  const relogin = PAGE ? "npm run linkedin -- login --page" : "npm run linkedin -- login";
+  if (!token) fail(`Not signed in. Run: ${relogin}`);
+  const exp = PAGE ? process.env.LINKEDIN_PAGE_TOKEN_EXPIRES : process.env.LINKEDIN_TOKEN_EXPIRES;
+  if (exp && new Date(exp) < new Date()) fail(`Token expired on ${exp}. Run: ${relogin}`);
   return token;
 }
 
 function author() {
-  if (process.env.LINKEDIN_ORG_ID) return `urn:li:organization:${process.env.LINKEDIN_ORG_ID}`;
+  if (PAGE) return `urn:li:organization:${process.env.LINKEDIN_ORG_ID || fail("Missing LINKEDIN_ORG_ID in .env.local")}`;
   return process.env.LINKEDIN_PERSON_URN || fail("Missing LINKEDIN_PERSON_URN. Run: npm run linkedin -- login");
 }
 
@@ -175,7 +190,7 @@ function article(slug) {
 
 const args = process.argv.slice(2);
 const dry = args.includes("--dry");
-const [cmd, a1, a2] = args.filter((x) => x !== "--dry");
+const [cmd, a1, a2] = args.filter((x) => x !== "--dry" && x !== "--page");
 
 switch (cmd) {
   case "login":
