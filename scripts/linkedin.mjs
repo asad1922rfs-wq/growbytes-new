@@ -6,6 +6,7 @@
  *   npm run linkedin -- whoami                      show the connected account
  *   npm run linkedin -- post "Text to share"        text post on your profile
  *   npm run linkedin -- article <insights-slug> ["Intro text"]   share an Insights article as a link post
+ *   npm run linkedin -- image <file.png> "Text"   image post (e.g. a card from npm run social:card)
  *
  * Add --dry to post/article to print what would be sent without posting.
  *
@@ -130,6 +131,27 @@ async function publish(body, dry) {
   console.log(`Posted. ${id ? `https://www.linkedin.com/feed/update/${id}/` : ""}`);
 }
 
+/** Uploads a PNG/JPG through the Images API and returns its image URN. */
+async function uploadImage(file) {
+  const headers = {
+    Authorization: `Bearer ${auth()}`,
+    "Content-Type": "application/json",
+    "LinkedIn-Version": VERSION,
+    "X-Restli-Protocol-Version": "2.0.0",
+  };
+  const init = await fetch("https://api.linkedin.com/rest/images?action=initializeUpload", {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ initializeUploadRequest: { owner: author() } }),
+  });
+  const data = await init.json();
+  if (!init.ok) fail(`Image upload could not start (${init.status}): ${JSON.stringify(data)}`);
+  const { uploadUrl, image } = data.value;
+  const put = await fetch(uploadUrl, { method: "PUT", headers: { Authorization: `Bearer ${auth()}` }, body: readFileSync(file) });
+  if (!put.ok) fail(`Image upload failed (${put.status}): ${await put.text()}`);
+  return image;
+}
+
 const base = (commentary) => ({
   author: author(),
   commentary,
@@ -178,10 +200,21 @@ switch (cmd) {
     );
     break;
   }
+  case "image": {
+    if (!a1 || !a2) fail('Usage: npm run linkedin -- image <file.png> "Text"');
+    if (dry) {
+      console.log(`\n[dry run] Would upload ${a1} and post:\n\n${a2}`);
+      break;
+    }
+    const image = await uploadImage(a1);
+    await publish({ ...base(escape(a2)), content: { media: { id: image, altText: "Growbytes guide cover" } } }, false);
+    break;
+  }
   default:
     console.log(`Usage:
   npm run linkedin -- login
   npm run linkedin -- whoami
   npm run linkedin -- post "Text" [--dry]
-  npm run linkedin -- article <slug> ["Intro text"] [--dry]`);
+  npm run linkedin -- article <slug> ["Intro text"] [--dry]
+  npm run linkedin -- image <file.png> "Text" [--dry]`);
 }
