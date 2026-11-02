@@ -9,20 +9,20 @@ export function LogoMark({ className }: { className?: string; dark?: boolean }) 
     <svg aria-hidden="true" viewBox="0 0 16 12" className={cn("h-6 w-auto", className)}>
       <defs>
         <linearGradient id={`${id}-0`} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="#FFC15A" />
-          <stop offset="1" stopColor="#F7893A" />
+          <stop offset="0" stopColor="#FF9C6E" />
+          <stop offset="1" stopColor="#F66135" />
         </linearGradient>
         <linearGradient id={`${id}-1`} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="#FF8A4C" />
-          <stop offset="1" stopColor="#F0563A" />
+          <stop offset="0" stopColor="#F66135" />
+          <stop offset="1" stopColor="#D9481F" />
         </linearGradient>
         <linearGradient id={`${id}-2`} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="#F2665A" />
-          <stop offset="1" stopColor="#D93F5C" />
+          <stop offset="0" stopColor="#FF8152" />
+          <stop offset="1" stopColor="#EA5527" />
         </linearGradient>
         <linearGradient id={`${id}-3`} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="#FFB84D" />
-          <stop offset="1" stopColor="#F57A35" />
+          <stop offset="0" stopColor="#FF8A5C" />
+          <stop offset="1" stopColor="#F66135" />
         </linearGradient>
       </defs>
       <rect className="logo-block" style={{ animationDelay: "0ms" }} x="0" y="7.5" width="4" height="4.5" fill={`url(#${id}-0)`} />
