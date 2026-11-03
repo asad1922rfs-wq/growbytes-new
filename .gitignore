@@ -48,3 +48,6 @@ next-env.d.ts
 *service-account*.json
 gsc-key*.json
 /secrets/
+
+.vercel
+.env*
