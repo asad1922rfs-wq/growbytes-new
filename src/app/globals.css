@@ -458,7 +458,7 @@
   .dial { animation: dial 5s ease-in-out infinite; }
 }
 @keyframes eng-cell { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-@keyframes dial { 0%, 100% { translate: 0 0; } 50% { translate: 10px 0; } }
+@keyframes dial { 0%, 100% { width: var(--w); } 50% { width: calc(var(--w) + 10px); } }
 
 /* Logo mark: blocks grow up from the baseline in turn, on load and again on hover */
 .logo-block { transform-box: fill-box; transform-origin: bottom; }

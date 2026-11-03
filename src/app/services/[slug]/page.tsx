@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import type React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleCard } from "@/components/cards";
@@ -16,7 +15,6 @@ import { GbIcon } from "@/components/icons/GbIcon";
 import { GrowGrid } from "@/components/visuals/GrowGrid";
 import { PerspectiveGrid } from "@/components/visuals/PerspectiveGrid";
 import { ServiceHeroArt } from "@/components/visuals/ServiceHeroArt";
-import { clientProjects } from "@/content/clients";
 import { engagementModels } from "@/content/home";
 import { articles, getArticle } from "@/content/insights";
 import { getService, serviceFaqs, serviceGroups, serviceNoun, services } from "@/content/services";
@@ -39,13 +37,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return pageMetadata({ title: service.metaTitle, description: service.metaDescription, path: `/services/${slug}/` });
 }
 
-// Live client work that relates to each service group
-const groupWork: Record<string, string[]> = {
-  design: ["blinq"],
-  software: ["advocate-epaper", "rfs-hcm"],
-  marketing: [],
-};
-
 export default async function ServicePage({ params }: Props) {
   const { slug } = await params;
   const service = getService(slug);
@@ -58,7 +49,6 @@ export default async function ServicePage({ params }: Props) {
   // Always show three guides: the service's own picks first, then others
   const reading = [...relatedArticles, ...articles.filter((a) => !relatedArticles.includes(a))].slice(0, 3);
   const faqs = serviceFaqs(service);
-  const work = clientProjects.filter((p) => groupWork[service.group].includes(p.name));
   const contactHref = `/contact/?service=${service.slug}`;
 
   return (
@@ -226,38 +216,6 @@ export default async function ServicePage({ params }: Props) {
         </Container>
       </Section>
 
-      {/* Live client work for this kind of service */}
-      {work.length > 0 && (
-        <Section>
-          <Container>
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <SectionHeading eyebrow="Real work" title="Built and shipped for clients" />
-              <ArrowLink href="/work/">See all work</ArrowLink>
-            </div>
-            <div className={cn("mt-12 grid gap-6", work.length > 1 && "md:grid-cols-2")}>
-              {work.map((p) => (
-                <Link key={p.name} href={`/work/#${p.name}`} className="group block overflow-hidden rounded-3xl border border-line bg-white">
-                  <div className={cn("px-6 pt-6 sm:px-10 sm:pt-10", p.dark ? "bg-[#2b2c2a]" : "bg-[#efe9df]")}>
-                    <Image
-                      src={p.image}
-                      alt={p.imageAlt}
-                      width={p.width}
-                      height={p.height}
-                      sizes="(min-width: 768px) 45vw, 100vw"
-                      className="block h-auto w-full translate-y-1 rounded-t-lg shadow-[0_20px_40px_-24px_rgb(23_25_24/0.5)] transition-transform duration-500 group-hover:translate-y-0"
-                    />
-                  </div>
-                  <div className="p-6 sm:p-8">
-                    <span className={cn("rounded-sm px-2 py-1 text-[0.75rem] font-bold text-white", p.green ? "bg-[#1f7a46]" : "bg-accent-button")}>Client project</span>
-                    <h3 className="mt-4 text-[1.375rem] leading-snug font-extrabold group-hover:text-accent-strong">{p.title}</h3>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </Container>
-        </Section>
-      )}
-
       <TechStack slug={service.slug} name={service.name} />
 
       {/* Ways to work */}
@@ -326,12 +284,14 @@ export default async function ServicePage({ params }: Props) {
                 {service.scopeFactors.map((f, i) => (
                   <li key={f}>
                     <span className="block text-[0.9375rem] text-white/85">{f}</span>
-                    <span aria-hidden="true" className="relative mt-2 block h-1.5 rounded-full bg-white/10">
-                      <span className="absolute inset-y-0 left-0 rounded-full bg-accent/60" style={{ width: `${[38, 62, 45, 74, 30, 55, 66][i % 7]}%` }} />
+                    <span aria-hidden="true" className="relative mt-3 block h-1.5 rounded-full bg-white/10">
+                      {/* Fill and knob move together; the knob sits centred on the end of the fill */}
                       <span
-                        className="dial absolute top-1/2 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white ring-2 ring-accent"
-                        style={{ left: `${[38, 62, 45, 74, 30, 55, 66][i % 7]}%`, animationDelay: `${i * 0.4}s` } as React.CSSProperties}
-                      />
+                        className="dial absolute inset-y-0 left-0 rounded-full bg-accent/60"
+                        style={{ "--w": `${[38, 62, 45, 74, 30, 55, 66][i % 7]}%`, width: "var(--w)", animationDelay: `${i * 0.4}s` } as React.CSSProperties}
+                      >
+                        <span className="absolute top-1/2 -right-[7px] -mt-[7px] size-3.5 rounded-full bg-white ring-2 ring-accent" />
+                      </span>
                     </span>
                   </li>
                 ))}

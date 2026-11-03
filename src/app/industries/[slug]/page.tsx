@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IndustryIcon } from "@/components/icons/IndustryIcon";
@@ -9,7 +8,6 @@ import { ArrowIcon, ArrowLink, ButtonLink, Container, Eyebrow, Section, SectionH
 import { GrowGrid } from "@/components/visuals/GrowGrid";
 import { ServiceVisual } from "@/components/visuals/ServiceVisuals";
 import { IndustryHeroArt } from "@/components/visuals/IndustryHeroArt";
-import { clientProjects } from "@/content/clients";
 import { processStages } from "@/content/home";
 import { getIndustry, industries } from "@/content/industries";
 import { getService, serviceGroups } from "@/content/services";
@@ -49,7 +47,6 @@ export default async function IndustryPage({ params }: Props) {
   if (!ind) notFound();
 
   const featured = ind.services.map((s) => getService(s)!).filter(Boolean);
-  const work = clientProjects.find((p) => p.name === ind.clientWork);
   const others = industries.filter((i) => i.slug !== ind.slug);
 
   return (
@@ -159,32 +156,6 @@ export default async function IndustryPage({ params }: Props) {
           </div>
         </Container>
       </Section>
-
-      {/* Client work in this industry */}
-      {work && (
-        <Section tone="white">
-          <Container className="grid items-center gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-            <div className={cn("relative overflow-hidden rounded-3xl px-6 pt-8 sm:px-10 sm:pt-12", work.dark ? "bg-[#2b2c2a]" : "bg-[#efe9df]")}>
-              <Image
-                src={work.image}
-                alt={work.imageAlt}
-                width={work.width}
-                height={work.height}
-                sizes="(min-width: 1024px) 55vw, 100vw"
-                className="block h-auto w-full rounded-t-lg shadow-[0_24px_60px_-28px_rgb(23_25_24/0.5)]"
-              />
-            </div>
-            <div>
-              <span className={cn("rounded-sm px-2 py-1 text-[0.75rem] font-bold text-white", work.green ? "bg-[#1f7a46]" : "bg-accent-button")}>Client project</span>
-              <h2 className="mt-5 text-h2 font-extrabold">{work.title}</h2>
-              <p className="mt-4 text-[1.0625rem] text-ink/75">{work.body}</p>
-              <ArrowLink href={`/work/#${work.name}`} className="mt-8">
-                See the project
-              </ArrowLink>
-            </div>
-          </Container>
-        </Section>
-      )}
 
       {/* Featured services: one big feature beside compact rows */}
       <Section>
