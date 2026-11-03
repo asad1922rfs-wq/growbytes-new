@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Analytics } from "@/components/layout/Analytics";
+import { CookieConsent } from "@/components/layout/CookieConsent";
 import { MetaPixel } from "@/components/layout/MetaPixel";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { Header } from "@/components/layout/Header";
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <Analytics />
         <MetaPixel />
+        <CookieConsent />
       </body>
     </html>
   );

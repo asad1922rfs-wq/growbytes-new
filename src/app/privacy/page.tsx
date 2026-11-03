@@ -56,7 +56,7 @@ export default function PrivacyPage() {
               )}
               {process.env.NEXT_PUBLIC_META_PIXEL_ID ? (
                 <p>
-                  <strong>Meta Pixel:</strong> only if you allow it in the cookie banner, we use the Meta Pixel to measure visits
+                  <strong>Meta Pixel:</strong> only if you turn on Marketing cookies, we use the Meta Pixel to measure visits
                   and enquiries from Facebook and Instagram and to show our ads to past visitors. We do not sell personal
                   information.
                 </p>

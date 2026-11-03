@@ -2,6 +2,7 @@ import Link from "next/link";
 import { siBehance, siDribbble, siFacebook, siInstagram, siLinkedin, siX, siYoutube } from "simple-icons";
 import { siteConfig } from "@/config/site";
 import { ArticleIllustration } from "@/components/visuals/ArticleIllustration";
+import { CookieSettingsLink } from "@/components/layout/CookieConsent";
 import { SubscribeForm } from "@/components/forms/SubscribeForm";
 import { companyLinks } from "@/content/navigation";
 import { industries } from "@/content/industries";
@@ -129,6 +130,9 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <CookieSettingsLink className="cursor-pointer hover:text-white hover:underline" />
+            </li>
           </ul>
         </div>
       </div>

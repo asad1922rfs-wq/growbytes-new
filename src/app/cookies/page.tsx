@@ -51,7 +51,7 @@ export default function CookiesPage() {
                   <p>
                     We use Google Analytics to understand which pages are useful and how visitors find us. It sets cookies
                     such as <code>_ga</code> and <code>_ga_*</code>, which last up to two years. IP addresses are anonymised,
-                    and we don&rsquo;t use these cookies for advertising.
+                    and we don&rsquo;t use these cookies for advertising. They load only if you turn on Analytics in the cookie banner.
                   </p>
                   <p>You can block them in your browser settings, or opt out with Google&rsquo;s analytics opt-out add-on.</p>
                 </>
@@ -75,11 +75,11 @@ export default function CookiesPage() {
                 body: (
                   <>
                     <p>
-                      If you choose <strong>Allow</strong> in the cookie banner, we load the Meta Pixel. It sets cookies such as{" "}
+                      If you turn on <strong>Marketing</strong> cookies (or choose <strong>Accept all</strong>), we load the Meta Pixel. It sets cookies such as{" "}
                       <code>_fbp</code> (up to 90 days) so we can measure visits and enquiries from Facebook and Instagram, and show
-                      our ads to people who have visited this site. If you choose <strong>No thanks</strong>, it never loads.
+                      our ads to people who have visited this site. If you choose <strong>Reject all</strong>, it never loads.
                     </p>
-                    <p>To change your choice, clear this site&rsquo;s data in your browser and the banner will appear again.</p>
+                    <p>You can change your choice at any time with the <strong>Cookie settings</strong> link at the bottom of every page.</p>
                   </>
                 ),
               },
