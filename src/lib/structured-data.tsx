@@ -31,7 +31,7 @@ export function organizationSchema(): Json {
     name: siteConfig.name,
     alternateName: siteConfig.alternateNames,
     url: absoluteUrl("/"),
-    logo: absoluteUrl("/icon.svg"),
+    logo: { "@type": "ImageObject", url: absoluteUrl("/logo.png"), width: 512, height: 512 },
     description: siteConfig.statement,
   };
   if (siteConfig.legal.entityName) org.legalName = siteConfig.legal.entityName;
