@@ -54,7 +54,15 @@ export default function PrivacyPage() {
                   IP addresses are anonymised. See our <a href="/cookies/">cookie policy</a>.
                 </p>
               )}
-              <p>We do not use advertising trackers or sell personal information.</p>
+              {process.env.NEXT_PUBLIC_META_PIXEL_ID ? (
+                <p>
+                  <strong>Meta Pixel:</strong> only if you allow it in the cookie banner, we use the Meta Pixel to measure visits
+                  and enquiries from Facebook and Instagram and to show our ads to past visitors. We do not sell personal
+                  information.
+                </p>
+              ) : (
+                <p>We do not use advertising trackers or sell personal information.</p>
+              )}
             </>
           ),
         },

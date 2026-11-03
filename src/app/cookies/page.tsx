@@ -9,13 +9,16 @@ export const metadata = pageMetadata({
 
 export default function CookiesPage() {
   const analytics = Boolean(process.env.NEXT_PUBLIC_GA_ID);
+  const metaPixel = Boolean(process.env.NEXT_PUBLIC_META_PIXEL_ID);
   return (
     <LegalPage
       title="Cookie policy"
       path="/cookies/"
       updated="October 31, 2026"
       intro={
-        analytics
+        metaPixel
+          ? "Cookies are small files a website stores in your browser. We use one functional cookie, Google Analytics, and Meta advertising cookies only if you allow them."
+          : analytics
           ? "Cookies are small files a website stores in your browser. We keep their use to a minimum: one functional cookie and Google Analytics, and no advertising cookies."
           : "Cookies are small files a website stores in your browser. We keep their use to a minimum: this site uses no advertising or tracking cookies."
       }
@@ -64,6 +67,24 @@ export default function CookiesPage() {
                 </p>
               ),
             },
+        ...(metaPixel
+          ? [
+              {
+                id: "meta",
+                heading: "Meta advertising cookies",
+                body: (
+                  <>
+                    <p>
+                      If you choose <strong>Allow</strong> in the cookie banner, we load the Meta Pixel. It sets cookies such as{" "}
+                      <code>_fbp</code> (up to 90 days) so we can measure visits and enquiries from Facebook and Instagram, and show
+                      our ads to people who have visited this site. If you choose <strong>No thanks</strong>, it never loads.
+                    </p>
+                    <p>To change your choice, clear this site&rsquo;s data in your browser and the banner will appear again.</p>
+                  </>
+                ),
+              },
+            ]
+          : []),
         {
           id: "third-parties",
           heading: "Third-party content",

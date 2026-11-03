@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { ArrowIcon, ButtonLink, Container } from "@/components/ui/primitives";
 import { PerspectiveGrid } from "@/components/visuals/PerspectiveGrid";
+import { MetaLead } from "@/components/layout/MetaPixel";
 import { THANK_YOU_COOKIE } from "@/lib/inquiry/constants";
 import { pageMetadata } from "@/lib/seo";
 
@@ -37,6 +38,7 @@ export default function ThankYouPage() {
   return (
     <Suspense fallback={<div className="min-h-[70vh] bg-paper" />}>
       <Gate>
+        <MetaLead />
         <section className="relative isolate overflow-hidden bg-paper">
           <PerspectiveGrid className="h-[60%]" />
           <Container className="py-20 lg:py-28">
