@@ -15,6 +15,7 @@
     "pagespeed": "node --env-file-if-exists=.env.local scripts/pagespeed.mjs",
     "seo:audit": "node --env-file-if-exists=.env.local scripts/seo-audit.mjs",
     "linkedin": "node --env-file-if-exists=.env.local scripts/linkedin.mjs",
+    "meta": "node --env-file-if-exists=.env.local scripts/meta.mjs",
     "social:card": "node scripts/social-card.mjs"
   },
   "dependencies": {
