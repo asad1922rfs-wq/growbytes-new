@@ -12,6 +12,12 @@ import sharp from "sharp";
 
 // Short checklist shown on the card, per article
 const POINTS = {
+  "migrate-to-shopify-without-losing-seo": [
+    "Why migrations lose search traffic",
+    "How to map every 301 redirect",
+    "A pre-launch SEO checklist",
+    "What to watch after launch",
+  ],
   "how-to-choose-a-shopify-development-agency": [
     "What a Shopify agency actually does",
     "10 questions to ask before you sign",

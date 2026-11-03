@@ -284,7 +284,7 @@ export const services: Service[] = [
       },
     ],
     related: ["web-design-development", "paid-advertising", "seo"],
-    articles: ["how-to-choose-a-shopify-development-agency", "shopify-theme-customization-or-custom-storefront"],
+    articles: ["how-to-choose-a-shopify-development-agency", "migrate-to-shopify-without-losing-seo", "shopify-theme-customization-or-custom-storefront"],
     workSlug: "hearthline-homeware",
     clientInputs: [
       "Staff access to your Shopify admin and any connected apps",

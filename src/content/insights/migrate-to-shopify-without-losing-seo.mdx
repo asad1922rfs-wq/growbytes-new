@@ -1,0 +1,100 @@
+Moving your store to Shopify can make it faster, easier to run, and cheaper to maintain. But a migration done in a rush can wipe out years of search traffic in a few days. The good news is that almost every SEO loss during a migration is avoidable, as long as you plan it.
+
+This guide walks through how to migrate to Shopify from WooCommerce, Magento, BigCommerce, or a custom platform while keeping your rankings, traffic, and sales.
+
+## Why migrations lose search traffic
+
+Search engines rank individual URLs. When you change platforms, most of those URLs change too. Shopify uses its own fixed patterns, such as `/products/`, `/collections/`, and `/pages/`. If Google visits an old URL and finds a "page not found" error, the ranking that page earned starts to disappear.
+
+The most common causes of lost traffic are:
+
+- **Missing redirects** from old URLs to the new ones.
+- **Lost content**, such as product descriptions, category text, or blog posts that weren't moved.
+- **Changed page titles and meta descriptions** that no longer match what people search for.
+- **Broken internal links** that still point to old addresses.
+- **A slower new store**, often because of too many apps.
+
+## Step 1: Take a full inventory before you start
+
+You can only protect what you've measured. Before anything moves, export:
+
+- **Every URL on the current site.** Use your sitemap, a crawler such as Screaming Frog, and your Google Search Console pages report.
+- **Your top pages by traffic and revenue.** Search Console and Google Analytics show which pages bring in visitors and sales.
+- **Titles, meta descriptions, and headings** for those top pages.
+- **Backlinks.** Pages that other websites link to deserve extra care, because those links pass on authority.
+
+Save a baseline of clicks, impressions, and average position from Search Console. You'll compare against it after launch.
+
+## Step 2: Map every old URL to its new home
+
+Create a simple spreadsheet with two columns: the old URL and the new Shopify URL. For example:
+
+| Old URL | New Shopify URL |
+|---|---|
+| `/product/oak-side-table` | `/products/oak-side-table` |
+| `/category/living-room` | `/collections/living-room` |
+| `/blog/how-to-care-for-oak` | `/blogs/news/how-to-care-for-oak` |
+| `/about-us` | `/pages/about-us` |
+
+Every old page should point to the closest matching new page, not just the home page. Sending everything to the home page is treated almost like a missing page.
+
+## Step 3: Move the content, not just the products
+
+Product data is the easy part. Make sure you also bring across:
+
+- Full product descriptions, not shortened versions.
+- Category and collection introductions.
+- Blog posts, guides, and FAQs, with their images and alt text.
+- Customer reviews, if your review app supports importing them.
+
+Keep the page titles and meta descriptions of your best-performing pages the same, or very close. Change them later, one at a time, once the migration has settled.
+
+## Step 4: Set up 301 redirects in Shopify
+
+A 301 redirect tells search engines a page has moved permanently and passes most of its ranking value to the new address. In Shopify you add them under **Online Store → Navigation → URL Redirects**, or import your whole mapping spreadsheet as a CSV.
+
+A few rules make redirects work properly:
+
+- Redirect directly from the old URL to the final new URL, with no chains.
+- Include old URLs that have backlinks, even if they no longer get much traffic.
+- Test a sample of redirects before launch, and all of your top pages after it.
+
+## Step 5: Check the technical basics before launch
+
+Run through this checklist on the new store before you switch the domain:
+
+- Product, collection, and page URLs are final and won't change again.
+- Each page has a unique title and meta description.
+- Images have descriptive alt text.
+- Internal links in menus, footers, and content point to the new URLs.
+- The store loads quickly on mobile. Remove apps you don't need.
+- Product structured data is in place, so Google can show prices and stock.
+- The store isn't still password-protected or blocked from search engines.
+
+## Step 6: Launch, then watch closely
+
+Pick a quieter sales period to switch over. Once the new store is live:
+
+1. Submit the new sitemap (`yourstore.com/sitemap.xml`) in Google Search Console.
+2. Use the URL Inspection tool on your most important pages and request indexing.
+3. Watch the Search Console pages report for "not found" errors and add any missing redirects.
+4. Compare clicks, impressions, and positions with your baseline every week for the first two months.
+
+A small dip in the first few weeks is normal while Google re-crawls the site. A steady drop on specific pages usually points to a missing redirect or missing content on that page.
+
+## How long does recovery take?
+
+When the redirects and content are right, most stores see search traffic return to normal within a few weeks to two months. Larger catalogues take longer simply because there are more pages for Google to revisit. If traffic hasn't recovered after two months, review the pages that lost the most, because the cause is usually specific and fixable.
+
+## Common mistakes to avoid
+
+- Redirecting every old page to the home page.
+- Launching without testing redirects on the top pages.
+- Rewriting all titles and descriptions at the same time as the migration.
+- Leaving old blog content behind.
+- Installing a long list of apps that slow the new store down.
+- Forgetting to update the sitemap in Search Console.
+
+## Getting help with a Shopify migration
+
+A careful migration is mostly planning: an accurate inventory, a complete redirect map, and close monitoring after launch. At Growbytes we handle Shopify migrations end to end, from moving products, customers, and orders to protecting your search traffic. Read more about our [Shopify development services](/services/shopify-development/), or see our guide on [how to choose a Shopify development agency](/insights/how-to-choose-a-shopify-development-agency/).

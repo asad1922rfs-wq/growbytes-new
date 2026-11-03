@@ -5,6 +5,18 @@ export const ARTICLE_AUTHOR = "Growbytes editorial team";
 
 export const articles: Article[] = [
   {
+    slug: "migrate-to-shopify-without-losing-seo",
+    seoTitle: "Migrate to Shopify Without Losing SEO",
+    title: "How to migrate to Shopify without losing SEO",
+    description:
+      "A step-by-step Shopify migration plan: inventory your URLs, map 301 redirects, move content, check the basics, and protect your rankings after launch.",
+    category: "Ecommerce",
+    published: "2026-11-03",
+    readingMinutes: 9,
+    services: ["shopify-development", "seo", "web-design-development"],
+    illustration: "redesign",
+  },
+  {
     slug: "how-to-choose-a-shopify-development-agency",
     seoTitle: "How to Choose a Shopify Development Agency",
     title: "How to choose a Shopify development agency",
