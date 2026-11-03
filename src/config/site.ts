@@ -48,7 +48,7 @@ export const siteConfig = {
    */
   // href: null shows the icon without a link (placeholder until the profile is live).
   social: [
-    { platform: "linkedin", label: "LinkedIn", href: null },
+    { platform: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/company/growbytes/" },
     { platform: "instagram", label: "Instagram", href: "https://www.instagram.com/growbytes.co" },
     { platform: "facebook", label: "Facebook", href: "https://www.facebook.com/profile.php?id=61590474761445" },
   ] as { platform: "linkedin" | "instagram" | "facebook" | "x" | "youtube" | "behance" | "dribbble"; label: string; href: string | null }[],
