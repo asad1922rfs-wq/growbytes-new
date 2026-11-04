@@ -46,12 +46,12 @@ function Corona({ active }: { active: boolean }) {
     ro.observe(canvas);
 
     // Particles live in units of the core radius (1 = the edge of the dark disc).
-    const COUNT = active ? 9000 : 7000;
+    const COUNT = active ? 6000 : 4500;
     const spawn = (p: Partial<P> = {}): P => {
-      const max = 80 + Math.random() * 200;
+      const max = 60 + Math.random() * 140;
       return {
         a: Math.random() * Math.PI * 2,
-        r: 1 + Math.pow(Math.random(), 1.8) * 0.62,
+        r: 1 + Math.pow(Math.random(), 2.2) * 0.4,
         v: (0.0004 + Math.random() * 0.0016) * (active ? 1.7 : 1),
         life: Math.random() * max,
         max,
@@ -77,11 +77,11 @@ function Corona({ active }: { active: boolean }) {
           p.life += 1;
           p.r += p.v;
           p.a += 0.0006;
-          if (p.life > p.max || p.r > 1.72) Object.assign(p, spawn({ life: 0 }));
+          if (p.life > p.max || p.r > 1.5) Object.assign(p, spawn({ life: 0 }));
         }
         const fadeIn = Math.min(1, p.life / 12);
         const fadeOut = 1 - p.life / p.max;
-        const edge = 1 - Math.min(1, (p.r - 1) / 0.72);
+        const edge = 1 - Math.min(1, (p.r - 1) / 0.5);
         const flicker = 0.85 + Math.sin(t * 0.2 + p.a * 40) * 0.25;
         const alpha = Math.max(0, fadeIn * fadeOut * edge * flicker);
         if (alpha < 0.02) continue;
