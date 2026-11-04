@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Suspense } from "react";
 import { requireAdmin } from "@/lib/admin/auth";
 import { LogoMark } from "@/components/ui/Logo";
@@ -12,13 +13,8 @@ async function Gate({ children }: { children: React.ReactNode }) {
 
 function Loading() {
   return (
-    <div className="space-y-4" aria-busy="true">
-      <div className="h-9 w-72 animate-pulse rounded-xl bg-white/[0.05]" />
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {[0, 1, 2, 3].map((i) => (
-          <div key={i} className="h-32 animate-pulse rounded-2xl bg-white/[0.04]" />
-        ))}
-      </div>
+    <div className="grid min-h-[60vh] place-items-center" aria-busy="true">
+      <div className="size-40 animate-pulse rounded-full bg-[var(--hq-orange)]/10" />
     </div>
   );
 }
@@ -35,36 +31,26 @@ export default function HqLayout({ children }: { children: React.ReactNode }) {
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative">
-            <div className="relative mx-auto flex min-h-dvh max-w-[90rem]">
-        <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-[var(--hq-line)] px-4 py-6 lg:flex">
-          <div className="flex items-center gap-3 px-3">
-            <LogoMark className="h-6 w-auto" />
-            <div>
-              <p className="font-display leading-none font-bold">Growbytes HQ</p>
-              <p className="mt-1 text-xs text-[var(--hq-muted)]">Command room</p>
-            </div>
+    <div className="flex min-h-dvh flex-col">
+      <header className="sticky top-0 z-30 border-b border-[var(--hq-line)] bg-[var(--hq-night)]/80 backdrop-blur-md">
+        <div className="grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 sm:px-8 lg:px-12">
+          <NavItems side="left" />
+          <Link href="/admin/" aria-label="Command room" className="grid place-items-center">
+            <LogoMark className="h-7 w-auto" />
+          </Link>
+          <div className="flex items-center justify-end gap-1">
+            <NavItems side="right" />
+            <form action={logout}>
+              <button type="submit" className="ml-2 hidden rounded-full px-3 py-1.5 text-[0.8125rem] text-[var(--hq-dim)] hover:text-white sm:block">
+                Sign out
+              </button>
+            </form>
           </div>
-          <NavItems />
-          <form action={logout} className="mt-auto px-3">
-            <button type="submit" className="text-xs font-semibold text-white/40 hover:text-white">
-              Sign out
-            </button>
-          </form>
-        </aside>
-        <div className="min-w-0 flex-1">
-          <header className="sticky top-0 z-20 flex items-center justify-between gap-4 border-b border-[var(--hq-line)] bg-[var(--hq-night)]/85 px-4 py-3 backdrop-blur sm:px-8 lg:hidden">
-            <div className="flex items-center gap-2">
-              <LogoMark className="h-5 w-auto" />
-              <span className="text-sm font-extrabold">HQ</span>
-            </div>
-            <NavItems compact />
-          </header>
-          <main className="px-4 py-8 sm:px-8 lg:py-10">
-            <Suspense fallback={<Loading />}>{children}</Suspense>
-          </main>
         </div>
-      </div>
+      </header>
+      <main className="flex-1 px-4 py-10 sm:px-8 lg:px-12">
+        <Suspense fallback={<Loading />}>{children}</Suspense>
+      </main>
     </div>
   );
 }

@@ -5,6 +5,9 @@ import { updateLead } from "../../actions";
 import { ApprovalCard } from "../ApprovalCard";
 import { Card, PageHeader, Pill, scoreTone, statusTone, timeAgo } from "../ui";
 
+// Live, per-request data for the owner only; no instant prefetch needed.
+export const instant = false;
+
 export const metadata = { title: "Leads" };
 
 type Props = { searchParams: Promise<{ status?: string; id?: string }> };

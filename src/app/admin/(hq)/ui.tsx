@@ -45,9 +45,9 @@ export function Pill({ children, tone = "muted" }: { children: React.ReactNode; 
   const tones = {
     muted: "bg-white/[0.05] text-[var(--hq-muted)]",
     orange: "bg-[#F66135]/15 text-[#FF9470]",
-    green: "bg-[#3CCFB4]/12 text-[#7FE3D0]",
+    green: "bg-[#EFE9DF]/10 text-[#EFE9DF]",
     red: "bg-[#FF6B7A]/12 text-[#FF9AA5]",
-    amber: "bg-[#F2B544]/12 text-[#F6CD7A]",
+    amber: "bg-[#FFB38F]/12 text-[#FFB38F]",
   };
   return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${tones[tone]}`}>{children}</span>;
 }
@@ -55,8 +55,8 @@ export function Pill({ children, tone = "muted" }: { children: React.ReactNode; 
 export function LiveDot({ on = true }: { on?: boolean }) {
   return (
     <span className="relative inline-flex size-2">
-      {on && <span className="absolute inset-0 animate-ping rounded-full bg-[#3CCFB4]/60 motion-reduce:hidden" />}
-      <span className={`relative inline-flex size-2 rounded-full ${on ? "bg-[#3CCFB4]" : "bg-[var(--hq-dim)]"}`} />
+      {on && <span className="absolute inset-0 animate-ping rounded-full bg-[#FFB38F]/60 motion-reduce:hidden" />}
+      <span className={`relative inline-flex size-2 rounded-full ${on ? "bg-[#FFB38F]" : "bg-[var(--hq-dim)]"}`} />
     </span>
   );
 }

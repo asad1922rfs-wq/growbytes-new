@@ -2,6 +2,9 @@ import { departments } from "@/lib/db";
 import { getOverview } from "@/lib/admin/data";
 import { Card, DEPTS, LiveDot, PageHeader, Pill } from "../ui";
 
+// Live, per-request data for the owner only; no instant prefetch needed.
+export const instant = false;
+
 export const metadata = { title: "Agents" };
 
 const howToRun: Record<string, string> = {

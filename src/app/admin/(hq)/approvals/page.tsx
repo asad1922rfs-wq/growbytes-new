@@ -2,6 +2,9 @@ import { listActions } from "@/lib/admin/data";
 import { ApprovalCard } from "../ApprovalCard";
 import { Card, PageHeader } from "../ui";
 
+// Live, per-request data for the owner only; no instant prefetch needed.
+export const instant = false;
+
 export const metadata = { title: "Approvals" };
 
 export default async function ApprovalsPage() {

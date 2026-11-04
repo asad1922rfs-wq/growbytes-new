@@ -8,6 +8,9 @@ import { DecisionDesk } from "./DecisionDesk";
 import { OrgMap } from "./OrgMap";
 import { Card, DEPTS, NotConfigured, SectionTitle, timeAgo } from "./ui";
 
+// Live, per-request data for the owner only; no instant prefetch needed.
+export const instant = false;
+
 export const metadata = { title: "Command room" };
 
 function greeting() {
@@ -31,18 +34,24 @@ export default async function CommandRoom() {
         ? `Your team is working on ${orders.length} order${orders.length === 1 ? "" : "s"}.`
         : "Your company is quiet. Give it something to do.";
 
+  // What the AI core says, in turn.
+  const lines = [
+    `${greeting()}, Asad. ${line}`,
+    ...orders.slice(0, 2).map((ord) => `${DEPTS[ord.department].name} has your order: ${ord.text}`),
+    ...activity.slice(0, 3).map((a) => a.message),
+  ];
+
   return (
     <div className="space-y-12">
-      <header>
-        <h1 className="font-display text-4xl leading-[1.05] font-bold tracking-tight text-balance sm:text-5xl">{greeting()}, Asad.</h1>
-        <p className="mt-3 text-lg text-[var(--hq-muted)]">{line}</p>
-      </header>
+      <h1 className="sr-only">
+        {greeting()}, Asad. {line}
+      </h1>
 
       <section aria-label="Your organisation">
-        <OrgMap o={o} />
+        <OrgMap o={o} lines={lines} />
       </section>
 
-      <section aria-label="Give an order" className="-mt-4">
+      <section aria-label="Give an order" className="mx-auto max-w-4xl">
         <CommandBar />
         {orders.length > 0 && (
           <ul className="mt-3 flex flex-wrap gap-2">
@@ -108,7 +117,7 @@ export default async function CommandRoom() {
                     <span className="flex h-20 items-end rounded-xl bg-white/[0.03] p-1.5">
                       <span
                         className="block w-full rounded-lg transition-colors group-hover:brightness-125"
-                        style={{ height: `${Math.max(8, (o.pipeline[s] / flowMax) * 100)}%`, background: o.pipeline[s] === 0 ? "transparent" : s === "won" ? "var(--hq-projects)" : s === "new" ? "var(--hq-sales)" : "var(--hq-operations)" }}
+                        style={{ height: `${Math.max(8, (o.pipeline[s] / flowMax) * 100)}%`, background: o.pipeline[s] === 0 ? "transparent" : s === "won" ? "var(--hq-projects)" : s === "new" ? "var(--hq-sales)" : "rgb(246 97 53 / 0.4)" }}
                       />
                     </span>
                     <span className="mt-2 block font-display text-xl font-semibold tabular-nums">{o.pipeline[s]}</span>

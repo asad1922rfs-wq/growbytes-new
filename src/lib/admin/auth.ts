@@ -2,6 +2,7 @@ import "server-only";
 import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 
 /**
  * Single-owner admin session: a signed, httpOnly cookie that expires.
@@ -50,6 +51,8 @@ export async function destroySession() {
 }
 
 export async function isAdmin() {
+  // Admin pages are always per-request (live data, "time ago" labels).
+  await connection();
   const key = secret();
   const raw = (await cookies()).get(SESSION_COOKIE)?.value;
   if (!key || !raw) return false;
