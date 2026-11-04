@@ -103,7 +103,7 @@ const commands = {
     const lead = isId(flags.lead) ? flags.lead : null;
     const [action] = await sql`
       insert into actions (department, kind, title, payload, lead_id)
-      values (${a1}, ${a2}, ${flags.title}, ${JSON.stringify({ text, ...(flags.image ? { image: flags.image } : {}), ...(flags.when ? { when: flags.when } : {}) })}::jsonb, ${lead})
+      values (${a1}, ${a2}, ${flags.title}, ${JSON.stringify({ text, ...(flags.image ? { image: flags.image.replace(/^.*?\/social\//, "/social/") } : {}), ...(flags.when ? { when: flags.when } : {}) })}::jsonb, ${lead})
       returning id`;
     await sql`insert into activity (department, message, lead_id) values (${a1}, ${`Proposed: ${flags.title}`}, ${lead})`;
     out({ ok: true, action: action.id });
