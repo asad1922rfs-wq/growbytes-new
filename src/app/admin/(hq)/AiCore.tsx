@@ -21,7 +21,7 @@ export function AiCore({ pending, lines }: { pending: number; lines: string[] })
   );
 }
 
-type P = { a: number; r: number; v: number; life: number; max: number; size: number; hue: number; color: string };
+type P = { a: number; r: number; v: number; life: number; max: number; size: number; hue: number };
 
 function Corona({ active }: { active: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -57,17 +57,10 @@ function Corona({ active }: { active: boolean }) {
         max,
         size: 0.5 + Math.random() * 1.6,
         hue: Math.random(),
-        // Brand orange, from #F66135 to a lighter #FF9C6E
-        color: "",
         ...p,
       };
     };
-    const tint = (h: number) => `rgb(${246 + Math.round(h * 9)},${97 + Math.round(h * 59)},${53 + Math.round(h * 57)})`;
-    const ps: P[] = Array.from({ length: COUNT }, () => {
-      const p = spawn();
-      p.color = tint(p.hue);
-      return p;
-    });
+    const ps: P[] = Array.from({ length: COUNT }, () => spawn());
 
     let raf = 0;
     let t = 0;
@@ -84,18 +77,21 @@ function Corona({ active }: { active: boolean }) {
           p.life += 1;
           p.r += p.v;
           p.a += 0.0006;
-          if (p.life > p.max || p.r > 1.5) Object.assign(p, spawn({ life: 0, hue: p.hue, color: p.color }));
+          if (p.life > p.max || p.r > 1.5) Object.assign(p, spawn({ life: 0 }));
         }
         const fadeIn = Math.min(1, p.life / 12);
         const fadeOut = 1 - p.life / p.max;
         const edge = 1 - Math.min(1, (p.r - 1) / 0.5);
         const flicker = 0.85 + Math.sin(t * 0.2 + p.a * 40) * 0.25;
-        const alpha = Math.max(0, fadeIn * fadeOut * edge * flicker * 0.7);
+        const alpha = Math.max(0, fadeIn * fadeOut * edge * flicker);
         if (alpha < 0.02) continue;
         const x = c + Math.cos(p.a) * p.r * R;
         const y = c + Math.sin(p.a) * p.r * R;
+        // Hot white-gold near the edge, deep orange further out
+        const g = Math.round(150 + p.hue * 80 * edge);
+        const b = Math.round(70 + p.hue * 110 * edge * edge);
         ctx.globalAlpha = alpha;
-        ctx.fillStyle = p.color;
+        ctx.fillStyle = `rgb(255,${g},${b})`;
         ctx.fillRect(x, y, p.size * dpr, p.size * dpr);
       }
       ctx.globalAlpha = 1;
