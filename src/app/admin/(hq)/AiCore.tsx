@@ -12,15 +12,16 @@ export function AiCore({ pending, lines }: { pending: number; lines: string[] })
     <div className="relative mx-auto aspect-square w-full">
       <Corona active={pending > 0} />
       <div className="absolute inset-0 grid place-content-center text-center">
-        <span className="font-display text-[clamp(2rem,4.4vw,3.25rem)] leading-none font-bold text-white tabular-nums">{pending}</span>
-        <span className="mt-1.5 text-[0.8125rem] font-medium text-[#FFB38F]">{pending === 1 ? "decision for you" : "decisions for you"}</span>
+        <span className="font-display text-[clamp(2.5rem,5vw,4rem)] leading-none text-white tabular-nums">{pending}</span>
+        <span className="mt-2 text-[0.9375rem] text-[#FFB38F]">{pending === 1 ? "decision for you" : "decisions for you"}</span>
+        {pending > 0 && <span className="mt-1 text-[0.8125rem] text-white/60">Tap to open your desk</span>}
       </div>
       <Voice lines={lines} />
     </div>
   );
 }
 
-type P = { a: number; r: number; v: number; life: number; max: number; size: number; hue: number };
+type P = { a: number; r: number; v: number; life: number; max: number; size: number; hue: number; color: string };
 
 function Corona({ active }: { active: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -45,7 +46,7 @@ function Corona({ active }: { active: boolean }) {
     ro.observe(canvas);
 
     // Particles live in units of the core radius (1 = the edge of the dark disc).
-    const COUNT = active ? 3600 : 2600;
+    const COUNT = active ? 6000 : 4500;
     const spawn = (p: Partial<P> = {}): P => {
       const max = 60 + Math.random() * 140;
       return {
@@ -56,10 +57,17 @@ function Corona({ active }: { active: boolean }) {
         max,
         size: 0.5 + Math.random() * 1.6,
         hue: Math.random(),
+        // Brand orange, from #F66135 to a lighter #FF9C6E
+        color: "",
         ...p,
       };
     };
-    const ps: P[] = Array.from({ length: COUNT }, () => spawn());
+    const tint = (h: number) => `rgb(${246 + Math.round(h * 9)},${97 + Math.round(h * 59)},${53 + Math.round(h * 57)})`;
+    const ps: P[] = Array.from({ length: COUNT }, () => {
+      const p = spawn();
+      p.color = tint(p.hue);
+      return p;
+    });
 
     let raf = 0;
     let t = 0;
@@ -76,28 +84,28 @@ function Corona({ active }: { active: boolean }) {
           p.life += 1;
           p.r += p.v;
           p.a += 0.0006;
-          if (p.life > p.max || p.r > 1.5) Object.assign(p, spawn({ life: 0 }));
+          if (p.life > p.max || p.r > 1.5) Object.assign(p, spawn({ life: 0, hue: p.hue, color: p.color }));
         }
         const fadeIn = Math.min(1, p.life / 12);
         const fadeOut = 1 - p.life / p.max;
         const edge = 1 - Math.min(1, (p.r - 1) / 0.5);
-        const flicker = 0.75 + Math.sin(t * 0.2 + p.a * 40) * 0.25;
-        const alpha = Math.max(0, fadeIn * fadeOut * edge * flicker);
+        const flicker = 0.85 + Math.sin(t * 0.2 + p.a * 40) * 0.25;
+        const alpha = Math.max(0, fadeIn * fadeOut * edge * flicker * 0.7);
+        if (alpha < 0.02) continue;
         const x = c + Math.cos(p.a) * p.r * R;
         const y = c + Math.sin(p.a) * p.r * R;
-        // Hot white-gold near the edge, deep orange further out
-        const g = Math.round(150 + p.hue * 80 * edge);
-        const b = Math.round(70 + p.hue * 110 * edge * edge);
-        ctx.fillStyle = `rgba(255,${g},${b},${alpha})`;
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = p.color;
         ctx.fillRect(x, y, p.size * dpr, p.size * dpr);
       }
+      ctx.globalAlpha = 1;
       ctx.globalCompositeOperation = "source-over";
 
       // Bright rim where the light wraps the disc
       const rim = ctx.createRadialGradient(c, c, R * 0.96, c, c, R * 1.08);
-      rim.addColorStop(0, "rgba(255,190,140,0)");
-      rim.addColorStop(0.45, `rgba(255,190,140,${active ? 0.55 : 0.4})`);
-      rim.addColorStop(1, "rgba(255,190,140,0)");
+      rim.addColorStop(0, "rgba(246,97,53,0)");
+      rim.addColorStop(0.45, `rgba(246,97,53,${active ? 0.35 : 0.22})`);
+      rim.addColorStop(1, "rgba(246,97,53,0)");
       ctx.fillStyle = rim;
       ctx.beginPath();
       ctx.arc(c, c, R * 1.08, 0, Math.PI * 2);
@@ -105,8 +113,9 @@ function Corona({ active }: { active: boolean }) {
 
       // The dark core
       const core = ctx.createRadialGradient(c, c - R * 0.2, R * 0.1, c, c, R);
-      core.addColorStop(0, "#1a1a19");
-      core.addColorStop(1, "#050505");
+      core.addColorStop(0, "#070707");
+      core.addColorStop(0.85, "#020202");
+      core.addColorStop(1, "#000000");
       ctx.fillStyle = core;
       ctx.beginPath();
       ctx.arc(c, c, R, 0, Math.PI * 2);
@@ -157,7 +166,7 @@ function Voice({ lines }: { lines: string[] }) {
   }, [shown, line]);
 
   return (
-    <p className="absolute top-[100%] left-1/2 w-[min(40rem,92vw)] -translate-x-1/2 text-center font-display text-[1.0625rem] text-[var(--hq-text)]/90" aria-live="polite">
+    <p className="absolute top-[100%] left-1/2 w-[min(40rem,92vw)] -translate-x-1/2 text-center font-display text-[clamp(1.25rem,1.8vw,1.75rem)] leading-snug text-white" aria-live="polite">
       <span className="sr-only">{line}</span>
       <span aria-hidden="true">
         {line.slice(0, shown)}

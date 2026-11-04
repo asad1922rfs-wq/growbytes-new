@@ -30,12 +30,12 @@ export default async function AgentsPage() {
             <Card key={d} className="relative overflow-hidden p-6">
               <div className="relative flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="grid size-11 place-items-center rounded-2xl text-lg font-extrabold text-[var(--hq-night)]" style={{ background: dept.hue }}>
+                  <span className="grid size-11 place-items-center rounded-2xl text-lg font-medium text-[var(--hq-night)]" style={{ background: dept.hue }}>
                     {dept.name.slice(0, 1)}
                   </span>
                   <div>
-                    <p className="font-display text-xl font-semibold">{dept.agent}</p>
-                    <p className="text-xs text-[var(--hq-muted)]">{dept.live ? "Working, powered by Claude" : "Not switched on yet"}</p>
+                    <p className="font-display text-xl font-medium">{dept.agent}</p>
+                    <p className="text-[0.8125rem] text-[var(--hq-muted)]">{dept.live ? "Working, powered by Claude" : "Not switched on yet"}</p>
                   </div>
                 </div>
                 {dept.live ? (
@@ -49,7 +49,7 @@ export default async function AgentsPage() {
               <p className="relative mt-4 text-sm leading-relaxed text-white/65">{dept.role}</p>
               <div className="relative mt-4 flex flex-wrap gap-1.5">
                 {dept.skills.map((k) => (
-                  <span key={k} className="rounded-full border border-white/10 px-2.5 py-1 text-[0.6875rem] text-white/60">
+                  <span key={k} className="rounded-full border border-white/10 px-2.5 py-1 text-[0.8125rem] text-white/60">
                     {k}
                   </span>
                 ))}
@@ -62,7 +62,7 @@ export default async function AgentsPage() {
                   <b className="text-xl tabular-nums">{s.done7d}</b> <span className="text-white/45">done this week</span>
                 </p>
               </div>
-              <p className="relative mt-4 text-xs text-white/40">{howToRun[d]}</p>
+              <p className="relative mt-4 text-[0.8125rem] text-white/40">{howToRun[d]}</p>
             </Card>
           );
         })}

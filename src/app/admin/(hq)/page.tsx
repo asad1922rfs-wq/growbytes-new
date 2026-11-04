@@ -51,12 +51,16 @@ export default async function CommandRoom() {
         <OrgMap o={o} lines={lines} />
       </section>
 
-      <section aria-label="Give an order" className="mx-auto max-w-4xl">
+      <section aria-labelledby="order-title" className="mx-auto max-w-4xl pt-14">
+        <h2 id="order-title" className="font-display text-2xl tracking-tight">
+          Give your team an order
+        </h2>
+        <p className="mt-1 mb-4 text-[var(--hq-muted)]">Pick a department and say what you want done, in your own words. Its agent starts with it on the next run.</p>
         <CommandBar />
         {orders.length > 0 && (
           <ul className="mt-3 flex flex-wrap gap-2">
             {orders.map((ord) => (
-              <li key={ord.id} className="flex max-w-full items-center gap-2 rounded-full border border-[var(--hq-line)] py-1 pr-1 pl-3 text-xs text-[var(--hq-muted)]">
+              <li key={ord.id} className="flex max-w-full items-center gap-2 rounded-full border border-[var(--hq-line)] py-1 pr-1 pl-3 text-[0.8125rem] text-[var(--hq-muted)]">
                 <span className="size-1.5 shrink-0 rounded-full" style={{ background: DEPTS[ord.department].hue }} />
                 <span className="truncate">
                   <span className="text-white">{DEPTS[ord.department].name}:</span> {ord.text}
@@ -120,13 +124,13 @@ export default async function CommandRoom() {
                         style={{ height: `${Math.max(8, (o.pipeline[s] / flowMax) * 100)}%`, background: o.pipeline[s] === 0 ? "transparent" : s === "won" ? "var(--hq-projects)" : s === "new" ? "var(--hq-sales)" : "rgb(246 97 53 / 0.4)" }}
                       />
                     </span>
-                    <span className="mt-2 block font-display text-xl font-semibold tabular-nums">{o.pipeline[s]}</span>
-                    <span className="block text-xs text-[var(--hq-muted)]">{stageLabel[s]}</span>
+                    <span className="mt-2 block font-display text-xl font-medium tabular-nums">{o.pipeline[s]}</span>
+                    <span className="block text-[0.8125rem] text-[var(--hq-muted)]">{stageLabel[s]}</span>
                   </Link>
                 </li>
               ))}
             </ol>
-            <p className="mt-3 text-xs text-[var(--hq-dim)]">
+            <p className="mt-3 text-[0.8125rem] text-[var(--hq-dim)]">
               {o.leads.thisWeek} new this week, {o.pipeline.lost} closed as lost.
             </p>
           </section>
@@ -140,7 +144,7 @@ export default async function CommandRoom() {
                 <li key={a.id} className="grid grid-cols-[0.5rem_1fr_auto] items-baseline gap-3">
                   <span className="size-2 translate-y-[-1px] rounded-full" style={{ background: DEPTS[a.department]?.hue ?? "var(--hq-dim)" }} />
                   <span className="text-[0.875rem] text-white/85">{a.message}</span>
-                  <span className="text-xs whitespace-nowrap text-[var(--hq-dim)]">{timeAgo(a.created_at)}</span>
+                  <span className="text-[0.8125rem] whitespace-nowrap text-[var(--hq-dim)]">{timeAgo(a.created_at)}</span>
                 </li>
               ))}
               {!activity.length && <li className="text-sm text-[var(--hq-muted)]">Nothing yet.</li>}

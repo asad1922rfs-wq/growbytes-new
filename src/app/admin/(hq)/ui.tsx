@@ -49,7 +49,7 @@ export function Pill({ children, tone = "muted" }: { children: React.ReactNode; 
     red: "bg-[#FF6B7A]/12 text-[#FF9AA5]",
     amber: "bg-[#FFB38F]/12 text-[#FFB38F]",
   };
-  return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${tones[tone]}`}>{children}</span>;
+  return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.8125rem] font-medium ${tones[tone]}`}>{children}</span>;
 }
 
 export function LiveDot({ on = true }: { on?: boolean }) {
@@ -92,8 +92,8 @@ export function PageHeader({ title, lead, children }: { title: string; lead?: st
   return (
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div className="max-w-2xl">
-        <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
-        {lead && <p className="mt-2 text-[0.9375rem] text-[var(--hq-muted)]">{lead}</p>}
+        <h1 className="font-display text-4xl tracking-tight sm:text-5xl">{title}</h1>
+        {lead && <p className="mt-3 text-lg text-[var(--hq-muted)]">{lead}</p>}
       </div>
       {children}
     </div>
@@ -103,7 +103,7 @@ export function PageHeader({ title, lead, children }: { title: string; lead?: st
 export function SectionTitle({ children, aside }: { children: React.ReactNode; aside?: React.ReactNode }) {
   return (
     <div className="flex items-baseline justify-between gap-4">
-      <h2 className="font-display text-lg font-semibold tracking-tight">{children}</h2>
+      <h2 className="font-display text-2xl tracking-tight">{children}</h2>
       {aside}
     </div>
   );

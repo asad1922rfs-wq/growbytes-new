@@ -5,8 +5,8 @@
   --hq-raised: #1a1d1b;
   --hq-line: #242826;
   --hq-text: #f7f7f2;
-  --hq-muted: #9aa29c;
-  --hq-dim: #5f6762;
+  --hq-muted: #c4c9c5;
+  --hq-dim: #858c87;
   --hq-orange: #f66135;
   /* One colour per department, all from the brand */
   --hq-sales: #f66135;
@@ -15,12 +15,17 @@
   --hq-operations: #c9cfc9;
   background: var(--hq-night);
   color: var(--hq-text);
-  font-family: var(--font-hq-ui), system-ui, sans-serif;
+  font-family: var(--font-hq), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 450;
+  letter-spacing: 0.005em;
   -webkit-font-smoothing: antialiased;
 }
 .hq .font-display {
-  font-family: var(--font-hq-display), var(--font-hq-ui), sans-serif;
-  font-optical-sizing: auto;
+  font-family: var(--font-hq), system-ui, sans-serif;
+  font-weight: 500 !important;
+  letter-spacing: -0.02em;
+  color: #fff;
 }
 .hq :focus-visible {
   outline: 2px solid var(--hq-orange);

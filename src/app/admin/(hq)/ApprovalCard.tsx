@@ -27,7 +27,7 @@ export function ApprovalCard({ action }: { action: AgentAction }) {
           </span>
         )}
       </div>
-      <p className="mt-2 font-display text-xl font-semibold tracking-tight">{action.title}</p>
+      <p className="mt-2 font-display text-xl font-medium tracking-tight">{action.title}</p>
       {action.lead_id && action.lead_name && (
         <Link href={`/admin/leads/?id=${action.lead_id}`} className="mt-1 inline-block text-[0.8125rem] text-[var(--hq-muted)] underline-offset-4 hover:text-white hover:underline">
           Open {action.lead_name}&rsquo;s lead
@@ -48,13 +48,13 @@ export function ApprovalCard({ action }: { action: AgentAction }) {
 
       {pending ? (
         <div className="mt-5 flex flex-wrap items-center gap-2">
-          <button type="submit" className="rounded-xl bg-[#D2461F] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#C2401B]">
+          <button type="submit" className="rounded-xl bg-[#D2461F] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#C2401B]">
             {action.kind === "email_reply" ? "Approve and send" : "Approve"}
           </button>
           <button formAction={rejectAction} className="rounded-xl px-4 py-2.5 text-sm font-medium text-[var(--hq-muted)] transition-colors hover:bg-white/5 hover:text-white">
             Reject
           </button>
-          {action.kind === "email_reply" && <span className="text-xs text-[var(--hq-dim)]">Edit anything first. A copy goes to info@growbytes.co.</span>}
+          {action.kind === "email_reply" && <span className="text-[0.8125rem] text-[var(--hq-dim)]">Edit anything first. A copy goes to info@growbytes.co.</span>}
         </div>
       ) : (
         action.result && <p className="mt-4 text-sm text-[var(--hq-muted)]">{action.result}</p>

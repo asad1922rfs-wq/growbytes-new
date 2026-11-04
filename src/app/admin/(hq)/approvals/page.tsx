@@ -25,7 +25,7 @@ export default async function ApprovalsPage() {
       </div>
       {decided.length > 0 && (
         <section>
-          <h2 className="font-display text-lg font-semibold tracking-tight">Recently decided</h2>
+          <h2 className="font-display text-lg font-medium tracking-tight">Recently decided</h2>
           <div className="mt-4 grid gap-3 xl:grid-cols-2">
             {decided.map((a) => (
               <ApprovalCard key={a.id} action={a} />

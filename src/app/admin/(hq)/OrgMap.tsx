@@ -10,13 +10,13 @@ import { DEPTS, LiveDot, timeAgo } from "./ui";
  * lines; open orders travel out to the agent that will do them.
  */
 const W = 1000;
-const H = 500;
-const CORE = { x: 500, y: 235 };
+const H = 470;
+const CORE = { x: 500, y: 225 };
 const POS: Record<Department, { x: number; y: number }> = {
   sales: { x: 125, y: 95 },
   marketing: { x: 875, y: 95 },
-  projects: { x: 125, y: 380 },
-  operations: { x: 875, y: 380 },
+  projects: { x: 125, y: 360 },
+  operations: { x: 875, y: 360 },
 };
 
 function edge(d: Department) {
@@ -31,7 +31,7 @@ function edgeOut(d: Department) {
 }
 
 function status(d: Department, s: Overview["byDept"][Department]) {
-  if (!DEPTS[d].live) return "Waiting to be switched on";
+  if (!DEPTS[d].live) return DEPTS[d].role;
   if (s.pending) return `Sent you ${s.pending} thing${s.pending === 1 ? "" : "s"} to decide`;
   if (s.orders) return `Working on ${s.orders} order${s.orders === 1 ? "" : "s"} from you`;
   return s.last ?? "Standing by";
@@ -41,7 +41,7 @@ export function OrgMap({ o, lines }: { o: Overview; lines: string[] }) {
   return (
     <>
       {/* Wide screens: the map */}
-      <div className="relative hidden aspect-[1000/500] w-full md:block">
+      <div className="relative hidden aspect-[1000/470] w-full md:block">
         <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 size-full" aria-hidden="true">
           {departments.map((d) => {
             const s = o.byDept[d];
@@ -99,18 +99,18 @@ function Node({ d, s, className = "", style }: { d: Department; s: Overview["byD
       style={style}
     >
       <span className="flex items-center gap-2.5">
-        <span className="grid size-8 place-items-center rounded-lg font-display text-sm font-bold text-[var(--hq-night)]" style={{ background: dept.live ? dept.hue : "var(--hq-line)" }}>
+        <span className="grid size-8 place-items-center rounded-lg font-display text-sm font-medium text-[var(--hq-night)]" style={{ background: dept.live ? dept.hue : "var(--hq-line)" }}>
           {dept.name.slice(0, 1)}
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block font-display font-semibold leading-tight">{dept.name}</span>
-          <span className="flex items-center gap-1.5 text-xs text-[var(--hq-muted)]">
-            <LiveDot on={dept.live} /> {dept.live ? "Agent live" : "Not on yet"}
+          <span className="block font-display text-xl leading-tight">{dept.name}</span>
+          <span className="flex items-center gap-1.5 text-[0.8125rem] text-[var(--hq-muted)]">
+            <LiveDot on={dept.live} /> {dept.live ? "Working" : "Coming soon"}
           </span>
         </span>
       </span>
-      <span className={`mt-3 block truncate text-[0.8125rem] ${s.pending ? "text-white" : "text-[var(--hq-muted)]"}`}>{status(d, s)}</span>
-      {s.lastAt && dept.live && <span className="mt-0.5 block text-[0.6875rem] text-[var(--hq-dim)]">Last move {timeAgo(s.lastAt)}</span>}
+      <span className={`mt-3 block truncate text-[0.9375rem] ${s.pending ? "text-white" : "text-[var(--hq-muted)]"}`}>{status(d, s)}</span>
+      {s.lastAt && dept.live && <span className="mt-1 block text-[0.8125rem] text-[var(--hq-dim)]">Last move {timeAgo(s.lastAt)}</span>}
     </Link>
   );
 }

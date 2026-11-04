@@ -53,12 +53,12 @@ export function CommandBar() {
           }}
           className="min-h-12 flex-1 resize-none bg-transparent py-2 text-[0.9375rem] text-white outline-none placeholder:text-[var(--hq-dim)]"
         />
-        <button type="submit" disabled={pending} className="mb-1 shrink-0 rounded-xl bg-[#D2461F] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#C2401B] disabled:opacity-60">
+        <button type="submit" disabled={pending} className="mb-1 shrink-0 rounded-xl bg-[#D2461F] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#C2401B] disabled:opacity-60">
           {pending ? "Sending" : `Send to ${dept.label}`}
         </button>
       </div>
       {(state.error || state.ok) && (
-        <p role="status" className={`px-3 pb-2 text-xs ${state.error ? "text-[#FF9AA5]" : "text-[#7FE3D0]"}`}>
+        <p role="status" className={`px-3 pb-2 text-[0.8125rem] ${state.error ? "text-[#FF9AA5]" : "text-[#7FE3D0]"}`}>
           {state.error ?? "Order sent. The agent picks it up first on its next run."}
         </p>
       )}

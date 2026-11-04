@@ -24,7 +24,7 @@ export function NavItems({ side }: { side: "left" | "right" }) {
           key={i.href}
           href={i.href}
           aria-current={active(i.href) ? "page" : undefined}
-          className={`relative rounded-full px-2 py-1.5 text-[0.8125rem] font-medium whitespace-nowrap transition-colors sm:px-3 sm:text-sm ${active(i.href) ? "text-white" : "text-[var(--hq-muted)] hover:text-white"}`}
+          className={`relative rounded-full px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 sm:text-[0.9375rem] ${active(i.href) ? "text-white" : "text-[var(--hq-muted)] hover:text-white"}`}
         >
           <span className="sm:hidden">{i.short}</span>
           <span className="hidden sm:inline">{i.label}</span>

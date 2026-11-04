@@ -19,7 +19,7 @@ export default function LoginPage() {
       </Suspense>
       <div className="relative w-full max-w-sm">
         <LoginForm />
-        <p className="mt-6 text-center text-xs text-white/35">Private workspace. Only the owner can sign in.</p>
+        <p className="mt-6 text-center text-[0.8125rem] text-white/35">Private workspace. Only the owner can sign in.</p>
       </div>
     </div>
   );
