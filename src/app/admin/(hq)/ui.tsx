@@ -16,7 +16,7 @@ export const DEPTS: Record<Department, { name: string; agent: string; role: stri
     agent: "Marketing agent",
     role: "Plans content and prepares posts for Facebook, Instagram and LinkedIn.",
     skills: ["Content calendar", "Social posts", "SEO report", "Articles"],
-    live: false,
+    live: true,
     hue: "var(--hq-marketing)",
   },
   projects: {

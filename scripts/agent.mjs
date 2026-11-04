@@ -8,6 +8,8 @@
  *   npm run agent -- score <id> --score 72 --reason "..." --summary "..." [--status qualified] [--next "..."]
  *   npm run agent -- draft-reply <id> --subject "..." --body-file reply.txt
  *   npm run agent -- propose <dept> <kind> --title "..." [--text-file f.txt] [--lead <id>]
+ *   npm run agent -- propose marketing social_post --title "..." --text-file caption.txt --image /social/x.jpg [--when "Mon 10 Nov"]
+ *   npm run agent -- publish <action-id>          posts an approved social_post to Facebook and Instagram
  *   npm run agent -- actions [--status approved] [--dept marketing]
  *   npm run agent -- done <action-id> "what happened"        mark an approved action as carried out
  *   npm run agent -- log <dept> "message" [--lead <id>]
@@ -101,7 +103,7 @@ const commands = {
     const lead = isId(flags.lead) ? flags.lead : null;
     const [action] = await sql`
       insert into actions (department, kind, title, payload, lead_id)
-      values (${a1}, ${a2}, ${flags.title}, ${JSON.stringify({ text, ...(flags.image ? { image: flags.image } : {}) })}::jsonb, ${lead})
+      values (${a1}, ${a2}, ${flags.title}, ${JSON.stringify({ text, ...(flags.image ? { image: flags.image } : {}), ...(flags.when ? { when: flags.when } : {}) })}::jsonb, ${lead})
       returning id`;
     await sql`insert into activity (department, message, lead_id) values (${a1}, ${`Proposed: ${flags.title}`}, ${lead})`;
     out({ ok: true, action: action.id });
@@ -122,6 +124,29 @@ const commands = {
     if (!a) fail("No approved action with that id.");
     await sql`insert into activity (department, message, lead_id) values (${a.department}, ${`Done: ${a.title}${a2 ? `. ${a2}` : ""}`}, ${a.lead_id})`;
     out({ ok: true });
+  },
+
+  // Publish an approved social post to the Facebook Page and Instagram, then mark it done.
+  async publish() {
+    if (!isId(a1)) fail("Usage: publish <action-id>");
+    const [a] = await sql`select * from actions where id = ${a1} and kind = 'social_post' and status = 'approved'`;
+    if (!a) fail("No approved social post with that id.");
+    const img = a.payload.image?.startsWith("http") ? a.payload.image : `https://www.growbytes.co${a.payload.image}`;
+    const { execFileSync } = await import("node:child_process");
+    const run = (...args) => execFileSync(process.execPath, ["--env-file-if-exists=.env.local", "scripts/meta.mjs", ...args], { encoding: "utf8" }).trim();
+    const results = [];
+    for (const target of ["fb-image", "ig"]) {
+      try {
+        results.push(run(target, img, a.payload.text || ""));
+      } catch (e) {
+        results.push(`${target} failed: ${(e.stderr || e.message).toString().trim()}`);
+      }
+    }
+    const ok = !results.some((r) => r.includes("failed"));
+    const result = results.join(" | ");
+    await sql`update actions set status = ${ok ? "done" : "failed"}, result = ${result} where id = ${a1}`;
+    await sql`insert into activity (department, message) values ('marketing', ${`${ok ? "Published" : "Publish failed"}: ${a.title}`})`;
+    out({ ok, result });
   },
 
   async log() {

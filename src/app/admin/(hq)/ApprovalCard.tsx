@@ -42,6 +42,17 @@ export function ApprovalCard({ action }: { action: AgentAction }) {
           </div>
           <textarea name="body" defaultValue={p.body} disabled={!pending} rows={9} aria-label="Email body" className={`${field} leading-relaxed`} />
         </div>
+      ) : action.kind === "social_post" ? (
+        <div className="mt-5 grid gap-4 sm:grid-cols-[minmax(0,14rem)_1fr]">
+          {p.image && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={p.image} alt="The post image" className="aspect-[4/5] w-full rounded-xl border border-[var(--hq-line)] object-cover" />
+          )}
+          <div className="space-y-2">
+            <textarea name="text" defaultValue={p.text} disabled={!pending} rows={8} aria-label="Caption" className={`${field} leading-relaxed`} />
+            <p className="text-[0.8125rem] text-[var(--hq-dim)]">Goes to the Facebook Page and Instagram{p.when ? `, planned for ${p.when}` : ""}.</p>
+          </div>
+        </div>
       ) : (
         p.text && <textarea name="text" defaultValue={p.text} disabled={!pending} rows={6} aria-label="Content" className={`${field} mt-5 leading-relaxed`} />
       )}
@@ -49,7 +60,7 @@ export function ApprovalCard({ action }: { action: AgentAction }) {
       {pending ? (
         <div className="mt-5 flex flex-wrap items-center gap-2">
           <button type="submit" className="rounded-xl bg-[#D2461F] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#C2401B]">
-            {action.kind === "email_reply" ? "Approve and send" : "Approve"}
+            {action.kind === "email_reply" ? "Approve and send" : action.kind === "social_post" ? "Approve post" : "Approve"}
           </button>
           <button formAction={rejectAction} className="rounded-xl px-4 py-2.5 text-sm font-medium text-[var(--hq-muted)] transition-colors hover:bg-white/5 hover:text-white">
             Reject
