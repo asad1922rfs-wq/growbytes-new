@@ -1,100 +1,144 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
- * The company's AI, drawn as a living core: turning rings, a breathing orb,
- * and voice bars that move while it "speaks". Below it, what it is saying
- * types out line by line.
+ * The company's AI, drawn like an eclipse: a dark core with a corona of
+ * glowing particles streaming off its edge. It burns brighter and faster
+ * while something is waiting for you. Below it, what it is saying types out.
  */
-const BARS = 48;
-
 export function AiCore({ pending, lines }: { pending: number; lines: string[] }) {
-  const speaking = pending > 0;
-  // Unique per instance: the phone and desktop layouts each render a core.
-  const uid = useId().replace(/:/g, "");
   return (
     <div className="relative mx-auto aspect-square w-full">
-      <svg viewBox="0 0 400 400" className="absolute inset-0 size-full overflow-visible" aria-hidden="true">
-        <defs>
-          <radialGradient id={`orb-${uid}`} cx="50%" cy="45%" r="55%">
-            <stop offset="0" stopColor="#FFD2BD" />
-            <stop offset="0.35" stopColor="#FF9C6E" />
-            <stop offset="0.7" stopColor="#F66135" />
-            <stop offset="1" stopColor="#C2401B" />
-          </radialGradient>
-          <radialGradient id={`glow-${uid}`}>
-            <stop offset="0" stopColor="#F66135" stopOpacity="0.45" />
-            <stop offset="0.6" stopColor="#F66135" stopOpacity="0.08" />
-            <stop offset="1" stopColor="#F66135" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-
-        <circle cx="200" cy="200" r="200" fill={`url(#glow-${uid})`} />
-
-        {/* Outer scale: fine ticks, slowly turning */}
-        <g className="hq-spin">
-          {Array.from({ length: 120 }, (_, i) => {
-            const a = (i / 120) * Math.PI * 2;
-            const long = i % 10 === 0;
-            const r1 = 188;
-            const r2 = long ? 176 : 182;
-            return (
-              <line
-                key={i}
-                x1={(200 + Math.cos(a) * r1).toFixed(2)}
-                y1={(200 + Math.sin(a) * r1).toFixed(2)}
-                x2={(200 + Math.cos(a) * r2).toFixed(2)}
-                y2={(200 + Math.sin(a) * r2).toFixed(2)}
-                stroke={long ? "#F66135" : "#F7F7F2"}
-                strokeOpacity={long ? 0.8 : 0.18}
-                strokeWidth={long ? 1.6 : 1}
-              />
-            );
-          })}
-        </g>
-
-        {/* Segmented ring, turning the other way */}
-        <g className="hq-spin-rev">
-          <circle cx="200" cy="200" r="160" fill="none" stroke="#F66135" strokeOpacity="0.55" strokeWidth="2" strokeDasharray="70 18 8 18" />
-        </g>
-
-        {/* Thin fast arc, like a scanner */}
-        <g className="hq-spin-fast">
-          <circle cx="200" cy="200" r="146" fill="none" stroke="#FFB38F" strokeOpacity="0.7" strokeWidth="1.2" strokeDasharray="90 828" strokeLinecap="round" />
-        </g>
-
-        {/* Voice: radial bars around the orb */}
-        <g className="hq-voice" data-calm={!speaking}>
-          {Array.from({ length: BARS }, (_, i) => {
-            const deg = (i / BARS) * 360;
-            const h = 14 + ((i * 37) % 22);
-            return (
-              <g key={i} transform={`rotate(${deg} 200 200)`}>
-                <rect x="198.5" y={200 - 128 - h} width="3" height={h} rx="1.5" fill="#F66135" fillOpacity={0.55 + ((i * 13) % 40) / 100} style={{ animationDelay: `${((i * 7) % BARS) * -0.045}s` }} />
-              </g>
-            );
-          })}
-        </g>
-
-        <circle cx="200" cy="200" r="108" fill="none" stroke="#F7F7F2" strokeOpacity="0.08" />
-
-        {/* The orb */}
-        <g className="hq-breathe">
-          <circle cx="200" cy="200" r="92" fill={`url(#orb-${uid})`} />
-          <circle cx="200" cy="200" r="92" fill="none" stroke="#FFD2BD" strokeOpacity="0.5" />
-          <ellipse cx="182" cy="168" rx="38" ry="22" fill="#fff" fillOpacity="0.16" />
-        </g>
-      </svg>
-
-      <div className="absolute inset-0 grid place-content-center text-center text-[#2A0E05]">
-        <span className="font-display text-[clamp(2rem,4.6vw,3.25rem)] leading-none font-bold tabular-nums">{pending}</span>
-        <span className="mt-1 text-[0.8125rem] font-semibold">{pending === 1 ? "decision for you" : "decisions for you"}</span>
+      <Corona active={pending > 0} />
+      <div className="absolute inset-0 grid place-content-center text-center">
+        <span className="font-display text-[clamp(2rem,4.4vw,3.25rem)] leading-none font-bold text-white tabular-nums">{pending}</span>
+        <span className="mt-1.5 text-[0.8125rem] font-medium text-[#FFB38F]">{pending === 1 ? "decision for you" : "decisions for you"}</span>
       </div>
-
       <Voice lines={lines} />
     </div>
   );
+}
+
+type P = { a: number; r: number; v: number; life: number; max: number; size: number; hue: number };
+
+function Corona({ active }: { active: boolean }) {
+  const ref = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let size = 0;
+    let dpr = 1;
+    const fit = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      size = canvas.clientWidth;
+      canvas.width = size * dpr;
+      canvas.height = size * dpr;
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(canvas);
+
+    // Particles live in units of the core radius (1 = the edge of the dark disc).
+    const COUNT = active ? 3600 : 2600;
+    const spawn = (p: Partial<P> = {}): P => {
+      const max = 60 + Math.random() * 140;
+      return {
+        a: Math.random() * Math.PI * 2,
+        r: 1 + Math.pow(Math.random(), 2.2) * 0.4,
+        v: (0.0004 + Math.random() * 0.0016) * (active ? 1.7 : 1),
+        life: Math.random() * max,
+        max,
+        size: 0.5 + Math.random() * 1.6,
+        hue: Math.random(),
+        ...p,
+      };
+    };
+    const ps: P[] = Array.from({ length: COUNT }, () => spawn());
+
+    let raf = 0;
+    let t = 0;
+    const draw = () => {
+      const w = size * dpr;
+      const c = w / 2;
+      const R = w * 0.29; // radius of the dark disc
+      ctx.clearRect(0, 0, w, w);
+
+      // Soft outer glow, breathing slowly
+      const breathe = 1 + Math.sin(t / 90) * 0.04;
+      const glow = ctx.createRadialGradient(c, c, R * 0.9, c, c, R * 1.75 * breathe);
+      glow.addColorStop(0, `rgba(246,97,53,${active ? 0.55 : 0.42})`);
+      glow.addColorStop(0.35, "rgba(246,97,53,0.16)");
+      glow.addColorStop(1, "rgba(246,97,53,0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, w, w);
+
+      // Corona particles
+      ctx.globalCompositeOperation = "lighter";
+      for (const p of ps) {
+        if (!still) {
+          p.life += 1;
+          p.r += p.v;
+          p.a += 0.0006;
+          if (p.life > p.max || p.r > 1.5) Object.assign(p, spawn({ life: 0 }));
+        }
+        const fadeIn = Math.min(1, p.life / 12);
+        const fadeOut = 1 - p.life / p.max;
+        const edge = 1 - Math.min(1, (p.r - 1) / 0.5);
+        const flicker = 0.75 + Math.sin(t * 0.2 + p.a * 40) * 0.25;
+        const alpha = Math.max(0, fadeIn * fadeOut * edge * flicker);
+        const x = c + Math.cos(p.a) * p.r * R;
+        const y = c + Math.sin(p.a) * p.r * R;
+        // Hot white-gold near the edge, deep orange further out
+        const g = Math.round(150 + p.hue * 80 * edge);
+        const b = Math.round(70 + p.hue * 110 * edge * edge);
+        ctx.fillStyle = `rgba(255,${g},${b},${alpha})`;
+        ctx.fillRect(x, y, p.size * dpr, p.size * dpr);
+      }
+      ctx.globalCompositeOperation = "source-over";
+
+      // Bright rim where the light wraps the disc
+      const rim = ctx.createRadialGradient(c, c, R * 0.96, c, c, R * 1.08);
+      rim.addColorStop(0, "rgba(255,190,140,0)");
+      rim.addColorStop(0.45, `rgba(255,190,140,${active ? 0.55 : 0.4})`);
+      rim.addColorStop(1, "rgba(255,190,140,0)");
+      ctx.fillStyle = rim;
+      ctx.beginPath();
+      ctx.arc(c, c, R * 1.08, 0, Math.PI * 2);
+      ctx.fill();
+
+      // The dark core
+      const core = ctx.createRadialGradient(c, c - R * 0.2, R * 0.1, c, c, R);
+      core.addColorStop(0, "#1a1a19");
+      core.addColorStop(1, "#050505");
+      ctx.fillStyle = core;
+      ctx.beginPath();
+      ctx.arc(c, c, R, 0, Math.PI * 2);
+      ctx.fill();
+
+      t += 1;
+      if (!still) raf = requestAnimationFrame(draw);
+    };
+    draw();
+
+    const onVis = () => {
+      cancelAnimationFrame(raf);
+      if (!document.hidden && !still) raf = requestAnimationFrame(draw);
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [active]);
+
+  return <canvas ref={ref} aria-hidden="true" className="absolute inset-0 size-full" />;
 }
 
 /** Types each line out, holds it, then moves to the next. */
@@ -122,7 +166,7 @@ function Voice({ lines }: { lines: string[] }) {
   }, [shown, line]);
 
   return (
-    <p className="absolute top-[102%] left-1/2 w-[min(40rem,92vw)] -translate-x-1/2 text-center font-display text-[1.0625rem] text-[var(--hq-text)]/90" aria-live="polite">
+    <p className="absolute top-[100%] left-1/2 w-[min(40rem,92vw)] -translate-x-1/2 text-center font-display text-[1.0625rem] text-[var(--hq-text)]/90" aria-live="polite">
       <span className="sr-only">{line}</span>
       <span aria-hidden="true">
         {line.slice(0, shown)}
