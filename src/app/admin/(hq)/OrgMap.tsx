@@ -48,7 +48,7 @@ export function OrgMap({ o, lines }: { o: Overview; lines: string[] }) {
             const live = DEPTS[d].live;
             return (
               <g key={d}>
-                <path d={edge(d)} fill="none" stroke="var(--hq-line)" strokeWidth="1.5" strokeDasharray={live ? undefined : "4 6"} />
+                <path d={edge(d)} fill="none" stroke={live ? "rgb(255 255 255 / 0.16)" : "rgb(255 255 255 / 0.08)"} strokeWidth="1.25" strokeDasharray={live ? undefined : "3 7"} />
                 {s.pending > 0 &&
                   [0, 1.07, 2.13].slice(0, Math.min(3, s.pending)).map((delay) => (
                     <circle key={delay} r="5" fill={DEPTS[d].hue} className="hq-packet" style={{ offsetPath: `path("${edge(d)}")`, animationDelay: `${delay}s` }} />
@@ -90,27 +90,70 @@ export function OrgMap({ o, lines }: { o: Overview; lines: string[] }) {
   );
 }
 
+const ICONS: Record<Department, string> = {
+  // chat bubble
+  sales: "M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-4.5 3.5V17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z",
+  // megaphone
+  marketing: "M4 10v4a1 1 0 0 0 1 1h2l5 4V5L7 9H5a1 1 0 0 0-1 1Zm12-1.5a4 4 0 0 1 0 7M18.5 6a7.5 7.5 0 0 1 0 12",
+  // stacked layers
+  projects: "m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16.5l9 5 9-5",
+  // gauge / settings
+  operations: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7.4-3a7.4 7.4 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-2-1.2L14.5 3h-5l-.4 2.6a7.6 7.6 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6a7.4 7.4 0 0 0 0 2.4l-2 1.6 2 3.4 2.4-1a7.6 7.6 0 0 0 2 1.2l.4 2.6h5l.4-2.6a7.6 7.6 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2Z",
+};
+const PHASE: Partial<Record<Department, string>> = { marketing: "Arrives in Phase 2", projects: "Arrives in Phase 3", operations: "Arrives in Phase 3" };
+
 function Node({ d, s, className = "", style }: { d: Department; s: Overview["byDept"][Department]; className?: string; style?: React.CSSProperties }) {
   const dept = DEPTS[d];
+  const live = dept.live;
   return (
     <Link
       href={d === "sales" ? "/admin/leads/" : "/admin/agents/"}
-      className={`group block rounded-[1.25rem] border bg-[var(--hq-panel)]/90 p-4 backdrop-blur transition-colors hover:bg-[var(--hq-raised)] ${dept.live ? "border-[var(--hq-line)]" : "border-dashed border-[var(--hq-line)]"} ${className}`}
+      className={`group block overflow-hidden rounded-[1.5rem] border p-5 backdrop-blur-xl transition-[border-color,background-color] duration-300 ${className.includes("absolute") ? "" : "relative"} ${
+        live ? "border-white/[0.09] bg-white/[0.035] hover:border-white/20" : "border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12]"
+      } ${className}`}
       style={style}
     >
-      <span className="flex items-center gap-2.5">
-        <span className="grid size-8 place-items-center rounded-lg font-display text-sm font-medium text-[var(--hq-night)]" style={{ background: dept.live ? dept.hue : "var(--hq-line)" }}>
-          {dept.name.slice(0, 1)}
+      {/* Glass: a lit top edge, and the department's colour glowing faintly inside live agents */}
+      <span aria-hidden="true" className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+      {live && <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-10 size-44 rounded-full opacity-[0.14] blur-3xl" style={{ background: dept.hue }} />}
+
+      <span className="relative flex items-start gap-3">
+        <span
+          className="grid size-11 shrink-0 place-items-center rounded-2xl border"
+          style={live ? { background: `color-mix(in srgb, ${dept.hue} 16%, transparent)`, borderColor: `color-mix(in srgb, ${dept.hue} 35%, transparent)`, color: dept.hue } : { borderColor: "rgb(255 255 255 / 0.08)", color: "var(--hq-dim)" }}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" className="size-5 fill-none stroke-current" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+            <path d={ICONS[d]} />
+          </svg>
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block font-display text-xl leading-tight">{dept.name}</span>
-          <span className="flex items-center gap-1.5 text-[0.8125rem] text-[var(--hq-muted)]">
-            <LiveDot on={dept.live} /> {dept.live ? "Working" : "Coming soon"}
+          <span className="flex items-center justify-between gap-2">
+            <span className={`font-display text-xl leading-tight ${live ? "" : "!text-white/70"}`}>{dept.name}</span>
+            <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.75rem] ${live ? "bg-[#FFB38F]/10 text-[#FFB38F]" : "bg-white/[0.05] text-[var(--hq-dim)]"}`}>
+              <LiveDot on={live} /> {live ? "Working" : "Coming soon"}
+            </span>
           </span>
+          <span className={`mt-1.5 line-clamp-2 text-[0.9375rem] leading-snug ${s.pending ? "text-white" : live ? "text-[var(--hq-muted)]" : "text-[var(--hq-dim)]"}`}>{status(d, s)}</span>
         </span>
       </span>
-      <span className={`mt-3 block truncate text-[0.9375rem] ${s.pending ? "text-white" : "text-[var(--hq-muted)]"}`}>{status(d, s)}</span>
-      {s.lastAt && dept.live && <span className="mt-1 block text-[0.8125rem] text-[var(--hq-dim)]">Last move {timeAgo(s.lastAt)}</span>}
+
+      {live ? (
+        <span className="relative mt-4 grid grid-cols-3 gap-2 border-t border-white/[0.06] pt-3.5">
+          {[
+            [s.pending, "for you"],
+            [s.orders, "orders"],
+            [s.done7d, "done this week"],
+          ].map(([n, label]) => (
+            <span key={label as string}>
+              <span className={`block font-display text-lg leading-none tabular-nums ${n ? "" : "!text-white/45"}`}>{n}</span>
+              <span className="mt-1 block text-[0.75rem] text-[var(--hq-dim)]">{label}</span>
+            </span>
+          ))}
+        </span>
+      ) : (
+        <span className="relative mt-4 block border-t border-white/[0.05] pt-3 text-[0.8125rem] text-[var(--hq-dim)]">{PHASE[d]}</span>
+      )}
+      {live && s.lastAt && <span className="relative mt-2 block text-[0.75rem] text-[var(--hq-dim)]">Last move {timeAgo(s.lastAt)}</span>}
     </Link>
   );
 }
