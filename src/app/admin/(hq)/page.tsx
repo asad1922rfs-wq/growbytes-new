@@ -1,13 +1,8 @@
-import Link from "next/link";
-import { leadStatuses } from "@/lib/db";
-import { getOverview, listActions, listActivity, listOrders } from "@/lib/admin/data";
+import { getOverview, listActivity, listOrders } from "@/lib/admin/data";
 import { dropOrder } from "../actions";
-import { ApprovalCard } from "./ApprovalCard";
 import { CommandBar } from "./CommandBar";
-import { DecisionDesk } from "./DecisionDesk";
 import { OrgMap } from "./OrgMap";
-import { Dock } from "./Dock";
-import { DEPTS, NotConfigured, timeAgo } from "./ui";
+import { DEPTS, NotConfigured } from "./ui";
 
 // Live, per-request data for the owner only; no instant prefetch needed.
 export const instant = false;
@@ -20,14 +15,10 @@ function greeting() {
   return h < 5 ? "Working late" : h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
 }
 
-const stageLabel: Record<string, string> = { new: "New", qualified: "Qualified", contacted: "Contacted", proposal: "Proposal", won: "Won", lost: "Lost" };
-
 export default async function CommandRoom() {
-  const [o, pending, activity, orders] = await Promise.all([getOverview(), listActions({ status: "pending", limit: 20 }), listActivity(10), listOrders("open", 8)]);
+  const [o, activity, orders] = await Promise.all([getOverview(), listActivity(10), listOrders("open", 8)]);
   if (!o.configured) return <NotConfigured />;
 
-  const flow = leadStatuses.filter((s) => s !== "lost");
-  const flowMax = Math.max(1, ...flow.map((s) => o.pipeline[s]));
   const line =
     o.pending > 0
       ? `${o.pending} decision${o.pending === 1 ? " is" : "s are"} waiting on your desk.`
@@ -42,56 +33,6 @@ export default async function CommandRoom() {
     ...activity.slice(0, 3).map((a) => a.message),
   ];
 
-  const deskPanel = pending.length ? (
-      <DecisionDesk>
-        {pending.map((a) => (
-          <ApprovalCard key={a.id} action={a} />
-        ))}
-      </DecisionDesk>
-    ) : (
-      <p className="text-[var(--hq-muted)]">Your desk is clear. Drafts from your agents land here before anything goes out.</p>
-    );
-
-  const pipelinePanel = (
-    <>
-      <ol className="grid grid-cols-5 gap-1.5">
-        {flow.map((s) => (
-          <li key={s}>
-            <Link href={`/admin/leads/?status=${s}`} className="group block">
-              <span className="flex h-20 items-end rounded-xl bg-white/[0.03] p-1.5">
-                <span
-                  className="block w-full rounded-lg transition-colors group-hover:brightness-125"
-                  style={{ height: `${Math.max(8, (o.pipeline[s] / flowMax) * 100)}%`, background: o.pipeline[s] === 0 ? "transparent" : s === "won" ? "var(--hq-projects)" : s === "new" ? "var(--hq-sales)" : "rgb(246 97 53 / 0.4)" }}
-                />
-              </span>
-              <span className="mt-2 block text-xl text-white tabular-nums">{o.pipeline[s]}</span>
-              <span className="block text-[0.875rem] text-[var(--hq-muted)]">{stageLabel[s]}</span>
-            </Link>
-          </li>
-        ))}
-      </ol>
-      <p className="mt-4 text-[0.9375rem] text-[var(--hq-dim)]">
-        {o.leads.thisWeek} new this week, {o.pipeline.lost} closed as lost.{" "}
-        <Link href="/admin/leads/" className="text-[var(--hq-muted)] underline underline-offset-4 hover:text-white">
-          Open leads
-        </Link>
-      </p>
-    </>
-  );
-
-  const activityPanel = (
-    <ol className="space-y-4">
-      {activity.map((a) => (
-        <li key={a.id} className="grid grid-cols-[0.5rem_1fr_auto] items-baseline gap-3">
-          <span className="size-2 translate-y-[-1px] rounded-full" style={{ background: DEPTS[a.department]?.hue ?? "var(--hq-dim)" }} />
-          <span className="text-[var(--hq-muted)]">{a.message}</span>
-          <span className="text-[0.875rem] whitespace-nowrap text-[var(--hq-dim)]">{timeAgo(a.created_at)}</span>
-        </li>
-      ))}
-      {!activity.length && <li className="text-[var(--hq-muted)]">Nothing yet.</li>}
-    </ol>
-  );
-
   return (
     <div className="flex flex-col gap-4 md:h-full">
       <h1 className="sr-only">
@@ -103,13 +44,7 @@ export default async function CommandRoom() {
         <OrgMap o={o} lines={lines} />
       </section>
 
-      <Dock
-        tabs={[
-          { id: "desk", label: "Your desk", count: pending.length, content: deskPanel },
-          { id: "pipeline", label: "Pipeline", content: pipelinePanel },
-          { id: "log", label: "What happened", content: activityPanel },
-        ]}
-      >
+      <div>
         {orders.length > 0 && (
           <ul className="mb-2 flex gap-2 overflow-hidden">
             {orders.slice(0, 3).map((ord) => (
@@ -131,7 +66,7 @@ export default async function CommandRoom() {
           </ul>
         )}
         <CommandBar />
-      </Dock>
+      </div>
     </div>
   );
 }
