@@ -42,8 +42,8 @@ describe("sitemap", () => {
   });
 
   it("includes every service, industry, project, and article exactly once", () => {
-    // home, services, industries, work, about, insights, contact, business formation, and four policies
-    expect(paths.length).toBe(12 + services.length + industries.length + projects.length + articles.length);
+    // home, services, industries, work, about, insights, contact, and four policies (business formation is noindex)
+    expect(paths.length).toBe(11 + services.length + industries.length + projects.length + articles.length);
     expect(new Set(paths).size).toBe(paths.length);
   });
 

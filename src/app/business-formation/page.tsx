@@ -10,6 +10,7 @@ export const metadata = pageMetadata({
   description:
     "How to start a business: choose a structure, form your LLC, get an EIN and registered agent, then launch with a brand, website, and marketing.",
   path: "/business-formation/",
+  noindex: true,
 });
 
 const steps = [

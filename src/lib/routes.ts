@@ -18,7 +18,7 @@ export function publicRoutes(): { path: string; lastModified?: string }[] {
     { path: "/insights/" },
     ...articles.map((a) => ({ path: `/insights/${a.slug}/`, lastModified: a.updated ?? a.published })),
     { path: "/contact/" },
-    { path: "/business-formation/" },
+    // /business-formation/ is noindex (not a core service), so it stays out of the sitemap.
     { path: "/privacy/" },
     { path: "/terms/" },
     { path: "/cookies/" },
