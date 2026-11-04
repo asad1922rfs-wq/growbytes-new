@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
 };
 
-export const viewport: Viewport = { themeColor: "#0C1222" };
+export const viewport: Viewport = { themeColor: "#080908" };
 
 /** Shell for the private dashboard. The public header and footer don't render here. */
 export default function AdminRootLayout({ children }: { children: React.ReactNode }) {

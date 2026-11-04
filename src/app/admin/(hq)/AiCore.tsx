@@ -69,16 +69,7 @@ function Corona({ active }: { active: boolean }) {
       const R = w * 0.29; // radius of the dark disc
       ctx.clearRect(0, 0, w, w);
 
-      // Soft outer glow, breathing slowly
-      const breathe = 1 + Math.sin(t / 90) * 0.04;
-      const glow = ctx.createRadialGradient(c, c, R * 0.9, c, c, R * 1.75 * breathe);
-      glow.addColorStop(0, `rgba(246,97,53,${active ? 0.55 : 0.42})`);
-      glow.addColorStop(0.35, "rgba(246,97,53,0.16)");
-      glow.addColorStop(1, "rgba(246,97,53,0)");
-      ctx.fillStyle = glow;
-      ctx.fillRect(0, 0, w, w);
-
-      // Corona particles
+      // Corona particles (no outer haze: only the particles and the rim give off light)
       ctx.globalCompositeOperation = "lighter";
       for (const p of ps) {
         if (!still) {

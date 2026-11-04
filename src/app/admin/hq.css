@@ -1,9 +1,9 @@
 /* Growbytes HQ tokens: the brand's own ink, orange and paper, made into a command room. */
 .hq {
-  --hq-night: #0f1110;
-  --hq-panel: #171918;
-  --hq-raised: #202322;
-  --hq-line: #2c302e;
+  --hq-night: #080908;
+  --hq-panel: #111312;
+  --hq-raised: #1a1d1b;
+  --hq-line: #242826;
   --hq-text: #f7f7f2;
   --hq-muted: #9aa29c;
   --hq-dim: #5f6762;
@@ -13,9 +13,7 @@
   --hq-marketing: #ffb38f;
   --hq-projects: #efe9df;
   --hq-operations: #c9cfc9;
-  background:
-    radial-gradient(70rem 36rem at 50% 22rem, rgb(246 97 53 / 0.07), transparent 70%),
-    var(--hq-night);
+  background: var(--hq-night);
   color: var(--hq-text);
   font-family: var(--font-hq-ui), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -65,5 +63,5 @@
 
 /* Keep the page behind the dashboard dark too (no light strip on overscroll). */
 body:has(.hq) {
-  background: #0f1110;
+  background: #080908;
 }
