@@ -128,11 +128,11 @@ function Node({ d, s, className = "", style }: { d: Department; s: Overview["byD
         <span className="min-w-0 flex-1">
           <span className="flex items-center justify-between gap-2">
             <span className="font-display text-2xl leading-tight">{dept.name}</span>
-            <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-[0.875rem] ${live ? "bg-[#FFB38F]/10 text-[#FFB38F]" : "bg-white/[0.06] text-white/75"}`}>
+            <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-[0.875rem] ${live ? "bg-[#FFB38F]/10 text-[#FFB38F]" : "bg-white/[0.06] text-[var(--hq-muted)]"}`}>
               <LiveDot on={live} /> {live ? "Working" : "Coming soon"}
             </span>
           </span>
-          <span className="mt-2 line-clamp-2 text-[1.0625rem] leading-snug text-white">{status(d, s)}</span>
+          <span className="mt-2 line-clamp-2 text-[1.0625rem] leading-snug text-[var(--hq-muted)]">{status(d, s)}</span>
         </span>
       </span>
 
@@ -144,15 +144,15 @@ function Node({ d, s, className = "", style }: { d: Department; s: Overview["byD
             [s.done7d, "done this week"],
           ].map(([n, label]) => (
             <span key={label as string}>
-              <span className="block font-display text-2xl leading-none tabular-nums">{n}</span>
-              <span className="mt-1.5 block text-[0.875rem] text-white/75">{label}</span>
+              <span className="block text-2xl leading-none text-[var(--hq-muted)] tabular-nums">{n}</span>
+              <span className="mt-1.5 block text-[0.875rem] text-[var(--hq-dim)]">{label}</span>
             </span>
           ))}
         </span>
       ) : (
-        <span className="relative mt-4 block border-t border-white/[0.06] pt-3 text-[0.9375rem] text-white/70">{PHASE[d]}</span>
+        <span className="relative mt-4 block border-t border-white/[0.06] pt-3 text-[0.9375rem] text-[var(--hq-dim)]">{PHASE[d]}</span>
       )}
-      {live && s.lastAt && <span className="relative mt-2.5 block text-[0.9375rem] text-white/70">Last move {timeAgo(s.lastAt)}</span>}
+      {live && s.lastAt && <span className="relative mt-2.5 block text-[0.9375rem] text-[var(--hq-dim)]">Last move {timeAgo(s.lastAt)}</span>}
     </Link>
   );
 }
