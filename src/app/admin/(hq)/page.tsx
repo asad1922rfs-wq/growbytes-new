@@ -1,7 +1,6 @@
 import { getOverview, listActivity, listOrders } from "@/lib/admin/data";
 import { dropOrder } from "../actions";
-import { CommandBar } from "./CommandBar";
-import { OrderPopup } from "./OrderPopup";
+import { OrderChat } from "./ChatInput";
 import { OrgMap } from "./OrgMap";
 import { DEPTS, NotConfigured } from "./ui";
 
@@ -46,30 +45,27 @@ export default async function CommandRoom() {
           o={o}
           lines={lines}
           action={
-            <OrderPopup count={orders.length}>
-              <CommandBar />
-              {orders.length > 0 && (
-                <div className="mt-5">
-                  <p className="text-[0.9375rem] text-[var(--hq-muted)]">Open orders</p>
-                  <ul className="mt-2 max-h-40 space-y-2 overflow-y-auto">
-                    {orders.map((ord) => (
-                      <li key={ord.id} className="flex items-center gap-3 rounded-2xl border border-[var(--hq-line)] py-2 pr-2 pl-4 text-[var(--hq-muted)]">
-                        <span className="size-2 shrink-0 rounded-full" style={{ background: DEPTS[ord.department].hue }} />
-                        <span className="min-w-0 flex-1 truncate">
-                          <span className="text-white">{DEPTS[ord.department].name}:</span> {ord.text}
-                        </span>
-                        <form action={dropOrder}>
-                          <input type="hidden" name="id" value={ord.id} />
-                          <button type="submit" className="rounded-full px-3 py-1.5 text-[0.875rem] hover:bg-white/10 hover:text-white">
-                            Cancel
-                          </button>
-                        </form>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </OrderPopup>
+            <OrderChat
+              openCount={orders.length}
+              openOrders={
+                <ul className="space-y-2">
+                  {orders.map((ord) => (
+                    <li key={ord.id} className="flex items-center gap-3 rounded-2xl border border-[var(--hq-line)] py-2 pr-2 pl-4 text-[var(--hq-muted)]">
+                      <span className="size-2 shrink-0 rounded-full" style={{ background: DEPTS[ord.department].hue }} />
+                      <span className="min-w-0 flex-1 truncate">
+                        <span className="text-white">{DEPTS[ord.department].name}:</span> {ord.text}
+                      </span>
+                      <form action={dropOrder}>
+                        <input type="hidden" name="id" value={ord.id} />
+                        <button type="submit" className="rounded-full px-3 py-1.5 text-[0.875rem] hover:bg-white/10 hover:text-white">
+                          Cancel
+                        </button>
+                      </form>
+                    </li>
+                  ))}
+                </ul>
+              }
+            />
           }
         />
       </section>
