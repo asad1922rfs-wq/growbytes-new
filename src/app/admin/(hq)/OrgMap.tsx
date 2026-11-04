@@ -108,19 +108,18 @@ function Node({ d, s, className = "", style }: { d: Department; s: Overview["byD
   return (
     <Link
       href={d === "sales" ? "/admin/leads/" : "/admin/agents/"}
-      className={`group block overflow-hidden rounded-[1.5rem] border p-5 backdrop-blur-xl transition-[border-color,background-color] duration-300 ${className.includes("absolute") ? "" : "relative"} ${
-        live ? "border-white/[0.09] bg-white/[0.035] hover:border-white/20" : "border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12]"
+      className={`group block overflow-hidden rounded-[1.5rem] p-5 transition-[filter] duration-300 hover:brightness-125 ${className.includes("absolute") ? "" : "relative"} ${
+        live ? "hq-glass" : "hq-glass hq-glass-dim"
       } ${className}`}
       style={style}
     >
       {/* Glass: a lit top edge, and the department's colour glowing faintly inside live agents */}
-      <span aria-hidden="true" className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-      {live && <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-10 size-44 rounded-full opacity-[0.14] blur-3xl" style={{ background: dept.hue }} />}
+      {live && <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-10 size-44 rounded-full opacity-[0.1] blur-3xl" style={{ background: dept.hue }} />}
 
       <span className="relative flex items-start gap-3">
         <span
-          className="grid size-11 shrink-0 place-items-center rounded-2xl border"
-          style={live ? { background: `color-mix(in srgb, ${dept.hue} 16%, transparent)`, borderColor: `color-mix(in srgb, ${dept.hue} 35%, transparent)`, color: dept.hue } : { borderColor: "rgb(255 255 255 / 0.08)", color: "var(--hq-dim)" }}
+          className="grid size-12 shrink-0 place-items-center rounded-2xl border"
+          style={live ? { background: `color-mix(in srgb, ${dept.hue} 16%, transparent)`, borderColor: `color-mix(in srgb, ${dept.hue} 35%, transparent)`, color: dept.hue } : { borderColor: "rgb(255 255 255 / 0.12)", color: "rgb(255 255 255 / 0.8)" }}
         >
           <svg viewBox="0 0 24 24" aria-hidden="true" className="size-5 fill-none stroke-current" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
             <path d={ICONS[d]} />
@@ -128,12 +127,12 @@ function Node({ d, s, className = "", style }: { d: Department; s: Overview["byD
         </span>
         <span className="min-w-0 flex-1">
           <span className="flex items-center justify-between gap-2">
-            <span className={`font-display text-xl leading-tight ${live ? "" : "!text-white/70"}`}>{dept.name}</span>
-            <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.75rem] ${live ? "bg-[#FFB38F]/10 text-[#FFB38F]" : "bg-white/[0.05] text-[var(--hq-dim)]"}`}>
+            <span className="font-display text-2xl leading-tight">{dept.name}</span>
+            <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-[0.875rem] ${live ? "bg-[#FFB38F]/10 text-[#FFB38F]" : "bg-white/[0.06] text-white/75"}`}>
               <LiveDot on={live} /> {live ? "Working" : "Coming soon"}
             </span>
           </span>
-          <span className={`mt-1.5 line-clamp-2 text-[0.9375rem] leading-snug ${s.pending ? "text-white" : live ? "text-[var(--hq-muted)]" : "text-[var(--hq-dim)]"}`}>{status(d, s)}</span>
+          <span className="mt-2 line-clamp-2 text-[1.0625rem] leading-snug text-white">{status(d, s)}</span>
         </span>
       </span>
 
@@ -145,15 +144,15 @@ function Node({ d, s, className = "", style }: { d: Department; s: Overview["byD
             [s.done7d, "done this week"],
           ].map(([n, label]) => (
             <span key={label as string}>
-              <span className={`block font-display text-lg leading-none tabular-nums ${n ? "" : "!text-white/45"}`}>{n}</span>
-              <span className="mt-1 block text-[0.75rem] text-[var(--hq-dim)]">{label}</span>
+              <span className="block font-display text-2xl leading-none tabular-nums">{n}</span>
+              <span className="mt-1.5 block text-[0.875rem] text-white/75">{label}</span>
             </span>
           ))}
         </span>
       ) : (
-        <span className="relative mt-4 block border-t border-white/[0.05] pt-3 text-[0.8125rem] text-[var(--hq-dim)]">{PHASE[d]}</span>
+        <span className="relative mt-4 block border-t border-white/[0.06] pt-3 text-[0.9375rem] text-white/70">{PHASE[d]}</span>
       )}
-      {live && s.lastAt && <span className="relative mt-2 block text-[0.75rem] text-[var(--hq-dim)]">Last move {timeAgo(s.lastAt)}</span>}
+      {live && s.lastAt && <span className="relative mt-2.5 block text-[0.9375rem] text-white/70">Last move {timeAgo(s.lastAt)}</span>}
     </Link>
   );
 }
