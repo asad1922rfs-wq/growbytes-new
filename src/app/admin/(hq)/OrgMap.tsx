@@ -12,7 +12,7 @@ import { DEPTS, LiveDot, timeAgo } from "./ui";
 // Lines are drawn in a 1000 x 1000 box stretched to the room; cards sit in the corners at a fixed width.
 const W = 1000;
 const H = 1000;
-const CORE = { x: 500, y: 470 };
+const CORE = { x: 500, y: 400 };
 const POS: Record<Department, { x: number; y: number }> = {
   sales: { x: 190, y: 150 },
   marketing: { x: 810, y: 150 },
@@ -44,7 +44,7 @@ function status(d: Department, s: Overview["byDept"][Department]) {
   return s.last ?? "Standing by";
 }
 
-export function OrgMap({ o, lines }: { o: Overview; lines: string[] }) {
+export function OrgMap({ o, lines, action }: { o: Overview; lines: string[]; action?: React.ReactNode }) {
   return (
     <>
       {/* Wide screens: the map */}
@@ -80,6 +80,8 @@ export function OrgMap({ o, lines }: { o: Overview; lines: string[] }) {
         {departments.map((d) => (
           <Node key={d} d={d} s={o.byDept[d]} className={`absolute w-[clamp(17.5rem,24cqw,25rem)] ${CORNER[d]}`} />
         ))}
+
+        {action && <div className="absolute bottom-[3%] left-1/2 -translate-x-1/2">{action}</div>}
       </div>
 
       {/* Phones: the core on top, the agents below */}
@@ -87,6 +89,7 @@ export function OrgMap({ o, lines }: { o: Overview; lines: string[] }) {
         <Link href="/admin/approvals/" className="mx-auto block w-[78%] pb-20">
           <AiCore pending={o.pending} lines={lines} />
         </Link>
+        {action && <div className="mb-6 flex justify-center">{action}</div>}
         <div className="space-y-3">
           {departments.map((d) => (
             <Node key={d} d={d} s={o.byDept[d]} />

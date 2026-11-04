@@ -1,6 +1,7 @@
 import { getOverview, listActivity, listOrders } from "@/lib/admin/data";
 import { dropOrder } from "../actions";
 import { CommandBar } from "./CommandBar";
+import { OrderPopup } from "./OrderPopup";
 import { OrgMap } from "./OrgMap";
 import { DEPTS, NotConfigured } from "./ui";
 
@@ -39,34 +40,39 @@ export default async function CommandRoom() {
         {greeting()}, Asad. {line}
       </h1>
 
-      {/* The map fills whatever height is left, so the room always fits one screen */}
+      {/* The whole room fits one screen; giving an order opens in a popup */}
       <section aria-label="Your organisation" className="relative md:min-h-0 md:flex-1 md:[container-type:size]">
-        <OrgMap o={o} lines={lines} />
+        <OrgMap
+          o={o}
+          lines={lines}
+          action={
+            <OrderPopup count={orders.length}>
+              <CommandBar />
+              {orders.length > 0 && (
+                <div className="mt-5">
+                  <p className="text-[0.9375rem] text-[var(--hq-muted)]">Open orders</p>
+                  <ul className="mt-2 max-h-40 space-y-2 overflow-y-auto">
+                    {orders.map((ord) => (
+                      <li key={ord.id} className="flex items-center gap-3 rounded-2xl border border-[var(--hq-line)] py-2 pr-2 pl-4 text-[var(--hq-muted)]">
+                        <span className="size-2 shrink-0 rounded-full" style={{ background: DEPTS[ord.department].hue }} />
+                        <span className="min-w-0 flex-1 truncate">
+                          <span className="text-white">{DEPTS[ord.department].name}:</span> {ord.text}
+                        </span>
+                        <form action={dropOrder}>
+                          <input type="hidden" name="id" value={ord.id} />
+                          <button type="submit" className="rounded-full px-3 py-1.5 text-[0.875rem] hover:bg-white/10 hover:text-white">
+                            Cancel
+                          </button>
+                        </form>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </OrderPopup>
+          }
+        />
       </section>
-
-      <div>
-        {orders.length > 0 && (
-          <ul className="mb-2 flex gap-2 overflow-hidden">
-            {orders.slice(0, 3).map((ord) => (
-              <li key={ord.id} className="flex min-w-0 items-center gap-2 rounded-full border border-[var(--hq-line)] py-1 pr-1 pl-3 text-[0.875rem] text-[var(--hq-muted)]">
-                <span className="size-1.5 shrink-0 rounded-full" style={{ background: DEPTS[ord.department].hue }} />
-                <span className="truncate">
-                  <span className="text-white">{DEPTS[ord.department].name}:</span> {ord.text}
-                </span>
-                <form action={dropOrder}>
-                  <input type="hidden" name="id" value={ord.id} />
-                  <button type="submit" aria-label="Cancel this order" className="grid size-6 place-items-center rounded-full hover:bg-white/10 hover:text-white">
-                    <svg viewBox="0 0 24 24" className="size-3 fill-none stroke-current" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
-                      <path d="M6 6l12 12M18 6 6 18" />
-                    </svg>
-                  </button>
-                </form>
-              </li>
-            ))}
-          </ul>
-        )}
-        <CommandBar />
-      </div>
     </div>
   );
 }
