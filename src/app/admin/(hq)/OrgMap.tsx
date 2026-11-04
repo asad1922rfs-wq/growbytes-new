@@ -37,13 +37,6 @@ function edgeOut(d: Department) {
   return `M ${CORE.x} ${CORE.y} C ${mx} ${CORE.y}, ${mx} ${p.y}, ${p.x} ${p.y}`;
 }
 
-function status(d: Department, s: Overview["byDept"][Department]) {
-  if (!DEPTS[d].live) return DEPTS[d].role;
-  if (s.pending) return `Sent you ${s.pending} thing${s.pending === 1 ? "" : "s"} to decide`;
-  if (s.orders) return `Working on ${s.orders} order${s.orders === 1 ? "" : "s"} from you`;
-  return s.last ?? "Standing by";
-}
-
 export function OrgMap({ o, lines, action }: { o: Overview; lines: string[]; action?: React.ReactNode }) {
   return (
     <>
@@ -126,7 +119,7 @@ function Node({ d, s, className = "", style }: { d: Department; s: Overview["byD
       {/* Glass: a lit top edge, and the department's colour glowing faintly inside live agents */}
       {live && <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-10 size-44 rounded-full opacity-[0.1] blur-3xl" style={{ background: dept.hue }} />}
 
-      <span className="relative flex items-start gap-3">
+      <span className="relative flex items-center gap-3">
         <span
           className="grid size-12 shrink-0 place-items-center rounded-2xl border"
           style={live ? { background: `color-mix(in srgb, ${dept.hue} 16%, transparent)`, borderColor: `color-mix(in srgb, ${dept.hue} 35%, transparent)`, color: dept.hue } : { borderColor: "rgb(255 255 255 / 0.12)", color: "rgb(255 255 255 / 0.8)" }}
@@ -142,7 +135,6 @@ function Node({ d, s, className = "", style }: { d: Department; s: Overview["byD
               <LiveDot on={live} /> {live ? "Working" : "Coming soon"}
             </span>
           </span>
-          <span className="mt-2 line-clamp-2 text-[1.0625rem] leading-snug text-[var(--hq-muted)]">{status(d, s)}</span>
         </span>
       </span>
 
