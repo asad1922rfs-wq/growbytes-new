@@ -31,7 +31,7 @@ export default function HqLayout({ children }: { children: React.ReactNode }) {
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col md:h-dvh md:overflow-hidden">
       <header className="sticky top-0 z-30 border-b border-[var(--hq-line)] bg-[var(--hq-night)]/80 backdrop-blur-md">
         <div className="grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 sm:px-8 lg:px-12">
           <NavItems side="left" />
@@ -48,7 +48,7 @@ function Shell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </header>
-      <main className="flex-1 px-4 py-10 sm:px-8 lg:px-12">
+      <main className="flex-1 px-4 py-6 sm:px-8 md:min-h-0 lg:px-12">
         <Suspense fallback={<Loading />}>{children}</Suspense>
       </main>
     </div>

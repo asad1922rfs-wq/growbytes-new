@@ -202,7 +202,7 @@ function Voice({ lines }: { lines: string[] }) {
   }, [shown, line]);
 
   return (
-    <p className="absolute top-[100%] left-1/2 w-[min(40rem,92vw)] -translate-x-1/2 text-center font-display text-[clamp(1.25rem,1.8vw,1.75rem)] leading-snug text-white" aria-live="polite">
+    <p className="absolute top-[100%] left-1/2 w-[min(40rem,92vw,44cqw)] -translate-x-1/2 text-center font-display text-[clamp(1.25rem,1.8vw,1.75rem)] leading-snug text-white" aria-live="polite">
       <span className="sr-only">{line}</span>
       <span aria-hidden="true">
         {line.slice(0, shown)}

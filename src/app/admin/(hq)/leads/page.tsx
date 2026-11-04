@@ -19,7 +19,7 @@ export default async function LeadsPage({ searchParams }: Props) {
   const [actions, activity] = lead ? await Promise.all([listActions({ leadId: lead.id }), listActivity(20, lead.id)]) : [[], []];
 
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col gap-5 md:h-full">
       <PageHeader title="Leads" />
       <nav className="flex flex-wrap gap-1.5">
         {(["all", ...leadStatuses] as const).map((t) => (
@@ -33,8 +33,9 @@ export default async function LeadsPage({ searchParams }: Props) {
         ))}
       </nav>
 
-      <div className={`grid gap-6 ${lead ? "xl:grid-cols-[1fr_1.15fr]" : ""}`}>
-        <Card className="divide-y divide-white/[0.06] self-start">
+      <div className="grid gap-6 md:min-h-0 md:flex-1 lg:grid-cols-[1fr_1.15fr]">
+        {/* The list and the detail each scroll inside their own box; the page stays put */}
+        <Card className="divide-y divide-white/[0.06] self-start md:max-h-full md:overflow-y-auto">
           {leads.map((l) => (
             <Link
               key={l.id}
@@ -60,8 +61,14 @@ export default async function LeadsPage({ searchParams }: Props) {
           {!leads.length && <p className="px-5 py-8 text-sm text-white/45">No leads here yet.</p>}
         </Card>
 
+        {!lead && (
+          <div className="hidden place-items-center rounded-[1.5rem] border border-dashed border-[var(--hq-line)] p-10 text-center text-[var(--hq-muted)] lg:grid">
+            Pick a lead on the left to see the brief, their message and the reply draft.
+          </div>
+        )}
+
         {lead && (
-          <div className="space-y-4">
+          <div className="space-y-4 md:min-h-0 md:overflow-y-auto md:pr-1">
             <Card className="p-6">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>

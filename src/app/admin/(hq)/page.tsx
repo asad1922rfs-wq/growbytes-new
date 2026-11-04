@@ -6,7 +6,8 @@ import { ApprovalCard } from "./ApprovalCard";
 import { CommandBar } from "./CommandBar";
 import { DecisionDesk } from "./DecisionDesk";
 import { OrgMap } from "./OrgMap";
-import { Card, DEPTS, NotConfigured, SectionTitle, timeAgo } from "./ui";
+import { Dock } from "./Dock";
+import { DEPTS, NotConfigured, timeAgo } from "./ui";
 
 // Live, per-request data for the owner only; no instant prefetch needed.
 export const instant = false;
@@ -41,26 +42,78 @@ export default async function CommandRoom() {
     ...activity.slice(0, 3).map((a) => a.message),
   ];
 
+  const deskPanel = pending.length ? (
+      <DecisionDesk>
+        {pending.map((a) => (
+          <ApprovalCard key={a.id} action={a} />
+        ))}
+      </DecisionDesk>
+    ) : (
+      <p className="text-[var(--hq-muted)]">Your desk is clear. Drafts from your agents land here before anything goes out.</p>
+    );
+
+  const pipelinePanel = (
+    <>
+      <ol className="grid grid-cols-5 gap-1.5">
+        {flow.map((s) => (
+          <li key={s}>
+            <Link href={`/admin/leads/?status=${s}`} className="group block">
+              <span className="flex h-20 items-end rounded-xl bg-white/[0.03] p-1.5">
+                <span
+                  className="block w-full rounded-lg transition-colors group-hover:brightness-125"
+                  style={{ height: `${Math.max(8, (o.pipeline[s] / flowMax) * 100)}%`, background: o.pipeline[s] === 0 ? "transparent" : s === "won" ? "var(--hq-projects)" : s === "new" ? "var(--hq-sales)" : "rgb(246 97 53 / 0.4)" }}
+                />
+              </span>
+              <span className="mt-2 block text-xl text-white tabular-nums">{o.pipeline[s]}</span>
+              <span className="block text-[0.875rem] text-[var(--hq-muted)]">{stageLabel[s]}</span>
+            </Link>
+          </li>
+        ))}
+      </ol>
+      <p className="mt-4 text-[0.9375rem] text-[var(--hq-dim)]">
+        {o.leads.thisWeek} new this week, {o.pipeline.lost} closed as lost.{" "}
+        <Link href="/admin/leads/" className="text-[var(--hq-muted)] underline underline-offset-4 hover:text-white">
+          Open leads
+        </Link>
+      </p>
+    </>
+  );
+
+  const activityPanel = (
+    <ol className="space-y-4">
+      {activity.map((a) => (
+        <li key={a.id} className="grid grid-cols-[0.5rem_1fr_auto] items-baseline gap-3">
+          <span className="size-2 translate-y-[-1px] rounded-full" style={{ background: DEPTS[a.department]?.hue ?? "var(--hq-dim)" }} />
+          <span className="text-[var(--hq-muted)]">{a.message}</span>
+          <span className="text-[0.875rem] whitespace-nowrap text-[var(--hq-dim)]">{timeAgo(a.created_at)}</span>
+        </li>
+      ))}
+      {!activity.length && <li className="text-[var(--hq-muted)]">Nothing yet.</li>}
+    </ol>
+  );
+
   return (
-    <div className="space-y-12">
+    <div className="flex flex-col gap-4 md:h-full">
       <h1 className="sr-only">
         {greeting()}, Asad. {line}
       </h1>
 
-      <section aria-label="Your organisation">
+      {/* The map fills whatever height is left, so the room always fits one screen */}
+      <section aria-label="Your organisation" className="relative md:min-h-0 md:flex-1 md:[container-type:size]">
         <OrgMap o={o} lines={lines} />
       </section>
 
-      <section aria-labelledby="order-title" className="mx-auto max-w-4xl pt-14">
-        <h2 id="order-title" className="font-display text-2xl tracking-tight">
-          Give your team an order
-        </h2>
-        <p className="mt-1 mb-4 text-[var(--hq-muted)]">Pick a department and say what you want done, in your own words. Its agent starts with it on the next run.</p>
-        <CommandBar />
+      <Dock
+        tabs={[
+          { id: "desk", label: "Your desk", count: pending.length, content: deskPanel },
+          { id: "pipeline", label: "Pipeline", content: pipelinePanel },
+          { id: "log", label: "What happened", content: activityPanel },
+        ]}
+      >
         {orders.length > 0 && (
-          <ul className="mt-3 flex flex-wrap gap-2">
-            {orders.map((ord) => (
-              <li key={ord.id} className="flex max-w-full items-center gap-2 rounded-full border border-[var(--hq-line)] py-1 pr-1 pl-3 text-[0.8125rem] text-[var(--hq-muted)]">
+          <ul className="mb-2 flex gap-2 overflow-hidden">
+            {orders.slice(0, 3).map((ord) => (
+              <li key={ord.id} className="flex min-w-0 items-center gap-2 rounded-full border border-[var(--hq-line)] py-1 pr-1 pl-3 text-[0.875rem] text-[var(--hq-muted)]">
                 <span className="size-1.5 shrink-0 rounded-full" style={{ background: DEPTS[ord.department].hue }} />
                 <span className="truncate">
                   <span className="text-white">{DEPTS[ord.department].name}:</span> {ord.text}
@@ -77,81 +130,8 @@ export default async function CommandRoom() {
             ))}
           </ul>
         )}
-      </section>
-
-      <div className="grid gap-10 xl:grid-cols-[1.35fr_1fr]">
-        <section aria-labelledby="desk">
-          <SectionTitle
-            aside={
-              <Link href="/admin/approvals/" className="text-sm text-[var(--hq-muted)] hover:text-white">
-                See all
-              </Link>
-            }
-          >
-            <span id="desk">Your desk</span>
-          </SectionTitle>
-          <div className="mt-4">
-            {pending.length ? (
-              <DecisionDesk>
-                {pending.map((a) => (
-                  <ApprovalCard key={a.id} action={a} />
-                ))}
-              </DecisionDesk>
-            ) : (
-              <Card className="p-6 text-[0.9375rem] text-[var(--hq-muted)]">Your desk is clear. Drafts from your agents land here before anything goes out.</Card>
-            )}
-          </div>
-        </section>
-
-        <div className="space-y-10">
-          <section aria-labelledby="pipeline">
-            <SectionTitle
-              aside={
-                <Link href="/admin/leads/" className="text-sm text-[var(--hq-muted)] hover:text-white">
-                  Open leads
-                </Link>
-              }
-            >
-              <span id="pipeline">Pipeline</span>
-            </SectionTitle>
-            <ol className="mt-4 grid grid-cols-5 gap-1.5">
-              {flow.map((s) => (
-                <li key={s}>
-                  <Link href={`/admin/leads/?status=${s}`} className="group block">
-                    <span className="flex h-20 items-end rounded-xl bg-white/[0.03] p-1.5">
-                      <span
-                        className="block w-full rounded-lg transition-colors group-hover:brightness-125"
-                        style={{ height: `${Math.max(8, (o.pipeline[s] / flowMax) * 100)}%`, background: o.pipeline[s] === 0 ? "transparent" : s === "won" ? "var(--hq-projects)" : s === "new" ? "var(--hq-sales)" : "rgb(246 97 53 / 0.4)" }}
-                      />
-                    </span>
-                    <span className="mt-2 block font-display text-xl font-medium tabular-nums">{o.pipeline[s]}</span>
-                    <span className="block text-[0.8125rem] text-[var(--hq-muted)]">{stageLabel[s]}</span>
-                  </Link>
-                </li>
-              ))}
-            </ol>
-            <p className="mt-3 text-[0.8125rem] text-[var(--hq-dim)]">
-              {o.leads.thisWeek} new this week, {o.pipeline.lost} closed as lost.
-            </p>
-          </section>
-
-          <section aria-labelledby="log">
-            <SectionTitle>
-              <span id="log">What happened</span>
-            </SectionTitle>
-            <ol className="mt-4 space-y-4">
-              {activity.map((a) => (
-                <li key={a.id} className="grid grid-cols-[0.5rem_1fr_auto] items-baseline gap-3">
-                  <span className="size-2 translate-y-[-1px] rounded-full" style={{ background: DEPTS[a.department]?.hue ?? "var(--hq-dim)" }} />
-                  <span className="text-[0.875rem] text-white/85">{a.message}</span>
-                  <span className="text-[0.8125rem] whitespace-nowrap text-[var(--hq-dim)]">{timeAgo(a.created_at)}</span>
-                </li>
-              ))}
-              {!activity.length && <li className="text-sm text-[var(--hq-muted)]">Nothing yet.</li>}
-            </ol>
-          </section>
-        </div>
-      </div>
+        <CommandBar />
+      </Dock>
     </div>
   );
 }

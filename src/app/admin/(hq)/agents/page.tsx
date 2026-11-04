@@ -17,17 +17,17 @@ const howToRun: Record<string, string> = {
 export default async function AgentsPage() {
   const o = await getOverview();
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col gap-5 md:h-full">
       <PageHeader title="Agents" />
       <p className="max-w-2xl text-sm text-white/50">
         Each department is a Claude agent with its own skills. They prepare the work; you decide what goes out.
       </p>
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 md:min-h-0 md:flex-1 lg:grid-cols-2 lg:grid-rows-2">
         {departments.map((d) => {
           const dept = DEPTS[d];
           const s = o.byDept[d];
           return (
-            <Card key={d} className="relative overflow-hidden p-6">
+            <Card key={d} className="relative flex flex-col overflow-hidden p-5">
               <div className="relative flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <span className="grid size-11 place-items-center rounded-2xl text-lg font-medium text-[var(--hq-night)]" style={{ background: dept.hue }}>
@@ -46,15 +46,15 @@ export default async function AgentsPage() {
                   <Pill>Coming soon</Pill>
                 )}
               </div>
-              <p className="relative mt-4 text-sm leading-relaxed text-white/65">{dept.role}</p>
-              <div className="relative mt-4 flex flex-wrap gap-1.5">
+              <p className="relative mt-3 text-sm leading-relaxed text-white/65">{dept.role}</p>
+              <div className="relative mt-3 flex flex-wrap gap-1.5">
                 {dept.skills.map((k) => (
                   <span key={k} className="rounded-full border border-white/10 px-2.5 py-1 text-[0.8125rem] text-white/60">
                     {k}
                   </span>
                 ))}
               </div>
-              <div className="relative mt-5 grid grid-cols-2 gap-3 border-t border-[var(--hq-line)] pt-4 text-sm">
+              <div className="relative mt-4 grid grid-cols-2 gap-3 border-t border-[var(--hq-line)] pt-3 text-sm">
                 <p>
                   <b className="text-xl tabular-nums">{s.pending}</b> <span className="text-white/45">waiting for you</span>
                 </p>
@@ -62,7 +62,7 @@ export default async function AgentsPage() {
                   <b className="text-xl tabular-nums">{s.done7d}</b> <span className="text-white/45">done this week</span>
                 </p>
               </div>
-              <p className="relative mt-4 text-[0.8125rem] text-white/40">{howToRun[d]}</p>
+              <p className="relative mt-auto pt-3 text-[0.8125rem] text-white/40 [@media(max-height:820px)]:hidden">{howToRun[d]}</p>
             </Card>
           );
         })}

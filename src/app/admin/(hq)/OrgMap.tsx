@@ -9,14 +9,21 @@ import { DEPTS, LiveDot, timeAgo } from "./ui";
  * department's agent around it. Work waiting for you travels in along the
  * lines; open orders travel out to the agent that will do them.
  */
+// Lines are drawn in a 1000 x 1000 box stretched to the room; cards sit in the corners at a fixed width.
 const W = 1000;
-const H = 470;
-const CORE = { x: 500, y: 225 };
+const H = 1000;
+const CORE = { x: 500, y: 470 };
 const POS: Record<Department, { x: number; y: number }> = {
-  sales: { x: 125, y: 95 },
-  marketing: { x: 875, y: 95 },
-  projects: { x: 125, y: 360 },
-  operations: { x: 875, y: 360 },
+  sales: { x: 190, y: 150 },
+  marketing: { x: 810, y: 150 },
+  projects: { x: 190, y: 850 },
+  operations: { x: 810, y: 850 },
+};
+const CORNER: Record<Department, string> = {
+  sales: "top-0 left-0",
+  marketing: "top-0 right-0",
+  projects: "bottom-0 left-0",
+  operations: "bottom-0 right-0",
 };
 
 function edge(d: Department) {
@@ -41,17 +48,17 @@ export function OrgMap({ o, lines }: { o: Overview; lines: string[] }) {
   return (
     <>
       {/* Wide screens: the map */}
-      <div className="relative hidden aspect-[1000/470] w-full md:block">
-        <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 size-full" aria-hidden="true">
+      <div className="relative hidden size-full md:block">
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="absolute inset-0 size-full" aria-hidden="true">
           {departments.map((d) => {
             const s = o.byDept[d];
             const live = DEPTS[d].live;
             return (
               <g key={d}>
-                <path d={edge(d)} fill="none" stroke={live ? "rgb(255 255 255 / 0.16)" : "rgb(255 255 255 / 0.08)"} strokeWidth="1.25" strokeDasharray={live ? undefined : "3 7"} />
+                <path d={edge(d)} fill="none" stroke={live ? "rgb(255 255 255 / 0.16)" : "rgb(255 255 255 / 0.08)"} strokeWidth="1.25" vectorEffect="non-scaling-stroke" strokeDasharray={live ? undefined : "3 7"} />
                 {s.pending > 0 &&
                   [0, 1.07, 2.13].slice(0, Math.min(3, s.pending)).map((delay) => (
-                    <circle key={delay} r="5" fill={DEPTS[d].hue} className="hq-packet" style={{ offsetPath: `path("${edge(d)}")`, animationDelay: `${delay}s` }} />
+                    <circle key={delay} r="4" fill={DEPTS[d].hue} className="hq-packet" style={{ offsetPath: `path("${edge(d)}")`, animationDelay: `${delay}s` }} />
                   ))}
                 {s.orders > 0 && (
                   <circle r="4" fill="none" stroke={DEPTS[d].hue} strokeWidth="1.5" className="hq-packet" style={{ offsetPath: `path("${edgeOut(d)}")`, animationDuration: "4.6s" }} />
@@ -64,14 +71,14 @@ export function OrgMap({ o, lines }: { o: Overview; lines: string[] }) {
         <Link
           href="/admin/approvals/"
           aria-label={`${o.pending} decisions waiting for you`}
-          className="absolute w-[31%] -translate-x-1/2 -translate-y-1/2"
+          className="absolute w-[min(62cqh,34cqw)] -translate-x-1/2 -translate-y-1/2"
           style={{ left: `${(CORE.x / W) * 100}%`, top: `${(CORE.y / H) * 100}%` }}
         >
           <AiCore pending={o.pending} lines={lines} />
         </Link>
 
         {departments.map((d) => (
-          <Node key={d} d={d} s={o.byDept[d]} className="absolute w-[22%] -translate-x-1/2 -translate-y-1/2" style={{ left: `${(POS[d].x / W) * 100}%`, top: `${(POS[d].y / H) * 100}%` }} />
+          <Node key={d} d={d} s={o.byDept[d]} className={`absolute w-[clamp(17.5rem,24cqw,25rem)] ${CORNER[d]}`} />
         ))}
       </div>
 
@@ -126,7 +133,7 @@ function Node({ d, s, className = "", style }: { d: Department; s: Overview["byD
           </svg>
         </span>
         <span className="min-w-0 flex-1">
-          <span className="flex items-center justify-between gap-2">
+          <span className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
             <span className="font-display text-2xl leading-tight">{dept.name}</span>
             <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-[0.875rem] ${live ? "bg-[#FFB38F]/10 text-[#FFB38F]" : "bg-white/[0.06] text-[var(--hq-muted)]"}`}>
               <LiveDot on={live} /> {live ? "Working" : "Coming soon"}
