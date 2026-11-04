@@ -1,6 +1,6 @@
 import "server-only";
 import { requireAdmin } from "@/lib/admin/auth";
-import { db, type Activity, type AgentAction, type Department, type Lead, type LeadStatus } from "@/lib/db";
+import { db, leadStatuses, type Activity, type AgentAction, type Department, type Lead, type LeadStatus, type Order } from "@/lib/db";
 import type { Inquiry } from "@/lib/inquiry/schema";
 
 /** Saves a website inquiry as a new lead. Never throws: the form must not fail because of the database. */
@@ -23,10 +23,11 @@ export type Overview = {
   configured: boolean;
   leads: { total: number; new: number; thisWeek: number; won: number; open: number };
   pending: number;
-  byDept: Record<Department, { pending: number; done7d: number; last: string | null }>;
+  pipeline: Record<LeadStatus, number>;
+  byDept: Record<Department, { pending: number; done7d: number; orders: number; last: string | null; lastAt: string | null }>;
 };
 
-const emptyDept = () => ({ pending: 0, done7d: 0, last: null as string | null });
+const emptyDept = () => ({ pending: 0, done7d: 0, orders: 0, last: null as string | null, lastAt: null as string | null });
 
 export async function getOverview(): Promise<Overview> {
   await requireAdmin(); // data never leaves the database without a valid session
@@ -35,6 +36,7 @@ export async function getOverview(): Promise<Overview> {
     configured: Boolean(sql),
     leads: { total: 0, new: 0, thisWeek: 0, won: 0, open: 0 },
     pending: 0,
+    pipeline: Object.fromEntries(leadStatuses.map((s) => [s, 0])) as Record<LeadStatus, number>,
     byDept: { sales: emptyDept(), marketing: emptyDept(), projects: emptyDept(), operations: emptyDept() },
   };
   if (!sql) return base;
@@ -49,9 +51,13 @@ export async function getOverview(): Promise<Overview> {
     select d.department,
       (select count(*)::int from actions a where a.department = d.department and a.status = 'pending') pending,
       (select count(*)::int from actions a where a.department = d.department and a.status = 'done' and a.decided_at > now() - interval '7 days') done7d,
-      (select message from activity x where x.department = d.department order by created_at desc limit 1) last
-    from (values ('sales'),('marketing'),('projects'),('operations')) d(department)`) as { department: Department; pending: number; done7d: number; last: string | null }[];
-  for (const d of depts) base.byDept[d.department] = { pending: d.pending, done7d: d.done7d, last: d.last };
+      (select count(*)::int from orders o where o.department = d.department and o.status = 'open') orders,
+      (select message from activity x where x.department = d.department order by created_at desc limit 1) last,
+      (select created_at from activity x where x.department = d.department order by created_at desc limit 1) "lastAt"
+    from (values ('sales'),('marketing'),('projects'),('operations')) d(department)`) as { department: Department; pending: number; done7d: number; orders: number; last: string | null; lastAt: string | null }[];
+  for (const d of depts) base.byDept[d.department] = { pending: d.pending, done7d: d.done7d, orders: d.orders, last: d.last, lastAt: d.lastAt };
+  const stages = (await sql`select status, count(*)::int n from leads group by status`) as { status: LeadStatus; n: number }[];
+  for (const s of stages) if (s.status in base.pipeline) base.pipeline[s.status] = s.n;
   base.leads = l;
   base.pending = depts.reduce((n, d) => n + d.pending, 0);
   return base;
@@ -93,4 +99,13 @@ export async function listActivity(limit = 30, leadId?: string): Promise<Activit
   return (leadId
     ? await sql`select * from activity where lead_id = ${leadId} order by created_at desc limit ${limit}`
     : await sql`select * from activity order by created_at desc limit ${limit}`) as Activity[];
+}
+
+export async function listOrders(status: Order["status"] | "all" = "open", limit = 20): Promise<Order[]> {
+  await requireAdmin(); // data never leaves the database without a valid session
+  const sql = db();
+  if (!sql) return [];
+  return (status === "all"
+    ? await sql`select * from orders order by created_at desc limit ${limit}`
+    : await sql`select * from orders where status = ${status} order by created_at desc limit ${limit}`) as Order[];
 }

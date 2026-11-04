@@ -13,7 +13,7 @@ async function RedirectIfSignedIn() {
 export default function LoginPage() {
   return (
     <div className="relative grid min-h-dvh place-items-center overflow-hidden px-4">
-      <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-1/2 size-[42rem] -translate-x-1/2 rounded-full bg-[#F66135]/15 blur-[120px]" />
+      <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-1/2 size-[42rem] -translate-x-1/2 rounded-full bg-[#8A9BFF]/15 blur-[120px]" />
       <Suspense fallback={null}>
         <RedirectIfSignedIn />
       </Suspense>

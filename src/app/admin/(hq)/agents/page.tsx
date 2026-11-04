@@ -15,7 +15,7 @@ export default async function AgentsPage() {
   const o = await getOverview();
   return (
     <div className="space-y-8">
-      <PageHeader eyebrow="Your team" title="Agents" />
+      <PageHeader title="Agents" />
       <p className="max-w-2xl text-sm text-white/50">
         Each department is a Claude agent with its own skills. They prepare the work; you decide what goes out.
       </p>
@@ -25,15 +25,14 @@ export default async function AgentsPage() {
           const s = o.byDept[d];
           return (
             <Card key={d} className="relative overflow-hidden p-6">
-              <span aria-hidden="true" className="absolute -top-16 -right-16 size-44 rounded-full opacity-20 blur-3xl" style={{ background: dept.hue }} />
               <div className="relative flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="grid size-11 place-items-center rounded-2xl text-lg font-extrabold text-[#0B0C0C]" style={{ background: dept.hue }}>
+                  <span className="grid size-11 place-items-center rounded-2xl text-lg font-extrabold text-[var(--hq-night)]" style={{ background: dept.hue }}>
                     {dept.name.slice(0, 1)}
                   </span>
                   <div>
-                    <p className="text-lg font-extrabold">{dept.name} agent</p>
-                    <p className="text-xs text-white/45">{dept.live ? "Running on Claude" : "Not switched on yet"}</p>
+                    <p className="font-display text-xl font-semibold">{dept.agent}</p>
+                    <p className="text-xs text-[var(--hq-muted)]">{dept.live ? "Working, powered by Claude" : "Not switched on yet"}</p>
                   </div>
                 </div>
                 {dept.live ? (
@@ -52,7 +51,7 @@ export default async function AgentsPage() {
                   </span>
                 ))}
               </div>
-              <div className="relative mt-5 grid grid-cols-2 gap-3 border-t border-white/[0.06] pt-4 text-sm">
+              <div className="relative mt-5 grid grid-cols-2 gap-3 border-t border-[var(--hq-line)] pt-4 text-sm">
                 <p>
                   <b className="text-xl tabular-nums">{s.pending}</b> <span className="text-white/45">waiting for you</span>
                 </p>

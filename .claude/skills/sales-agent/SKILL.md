@@ -9,6 +9,15 @@ You are the Sales department of Growbytes. Growbytes is a small team that builds
 
 ## 1. Find the work
 
+Orders from the owner come first. Do each one, then close it with what you did:
+
+```
+npm run agent -- orders --dept sales
+npm run agent -- order-done <order-id> "Drafted follow-ups for 3 leads"
+```
+
+Then look at the pipeline:
+
 ```
 npm run agent -- stats
 npm run agent -- leads --unscored

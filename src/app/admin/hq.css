@@ -1,0 +1,54 @@
+/* Growbytes HQ tokens: a night-blue command room, one colour per department. */
+.hq {
+  --hq-night: #0c1222;
+  --hq-panel: #131a2e;
+  --hq-raised: #1a2340;
+  --hq-line: #24304d;
+  --hq-text: #e6eaf2;
+  --hq-muted: #8c97b2;
+  --hq-dim: #5d6885;
+  --hq-sales: #f66135;
+  --hq-marketing: #f2b544;
+  --hq-projects: #3ccfb4;
+  --hq-operations: #8a9bff;
+  background:
+    radial-gradient(60rem 30rem at 50% -10rem, rgb(138 155 255 / 0.08), transparent 70%),
+    var(--hq-night);
+  color: var(--hq-text);
+  font-family: var(--font-hq-ui), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.hq .font-display {
+  font-family: var(--font-hq-display), var(--font-hq-ui), sans-serif;
+  font-optical-sizing: auto;
+}
+.hq :focus-visible {
+  outline: 2px solid var(--hq-operations);
+  outline-offset: 2px;
+}
+
+/* Work packets travelling along the org map toward you. Only rendered when something is waiting. */
+.hq-packet {
+  offset-rotate: 0deg;
+  animation: hq-travel 3.2s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+}
+@keyframes hq-travel {
+  0% { offset-distance: 0%; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+.hq-you-ring { animation: hq-ring 3.2s ease-out infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes hq-ring {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hq-packet, .hq-you-ring { animation: none; }
+  .hq-packet { offset-distance: 60%; }
+}
+
+/* Keep the page behind the dashboard night-blue too (no light strip on overscroll). */
+body:has(.hq) {
+  background: #0c1222;
+}

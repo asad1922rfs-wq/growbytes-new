@@ -2,57 +2,61 @@ import type { Department } from "@/lib/db";
 
 /** Shared pieces for the HQ dashboard. */
 
-export const DEPTS: Record<Department, { name: string; role: string; skills: string[]; live: boolean; hue: string }> = {
+export const DEPTS: Record<Department, { name: string; agent: string; role: string; skills: string[]; live: boolean; hue: string }> = {
   sales: {
     name: "Sales",
+    agent: "Sales agent",
     role: "Reads every inquiry, scores it, and drafts your reply.",
     skills: ["Lead scoring", "Reply drafts", "Follow-ups", "Pipeline"],
     live: true,
-    hue: "#F66135",
+    hue: "var(--hq-sales)",
   },
   marketing: {
     name: "Marketing",
+    agent: "Marketing agent",
     role: "Plans content and prepares posts for Facebook, Instagram and LinkedIn.",
     skills: ["Content calendar", "Social posts", "SEO report", "Articles"],
     live: false,
-    hue: "#E8B04B",
+    hue: "var(--hq-marketing)",
   },
   projects: {
     name: "Production",
+    agent: "Production agent",
     role: "Tracks client projects, tasks and deadlines, and writes status updates.",
     skills: ["Projects", "Tasks", "Deadlines", "Client updates"],
     live: false,
-    hue: "#5FB3A1",
+    hue: "var(--hq-projects)",
   },
   operations: {
     name: "Operations",
+    agent: "Operations agent",
     role: "Keeps the inbox, invoices and the weekly summary in order.",
     skills: ["Inbox triage", "Invoices", "Weekly summary"],
     live: false,
-    hue: "#8C9EFF",
+    hue: "var(--hq-operations)",
   },
 };
 
 export function Card({ className = "", children }: { className?: string; children: React.ReactNode }) {
-  return <div className={`rounded-2xl border border-white/[0.08] bg-white/[0.025] ${className}`}>{children}</div>;
+  return <div className={`rounded-[1.25rem] border border-[var(--hq-line)] bg-[var(--hq-panel)] ${className}`}>{children}</div>;
 }
 
 export function Pill({ children, tone = "muted" }: { children: React.ReactNode; tone?: "muted" | "orange" | "green" | "red" | "amber" }) {
   const tones = {
-    muted: "bg-white/[0.06] text-white/60",
+    muted: "bg-white/[0.05] text-[var(--hq-muted)]",
     orange: "bg-[#F66135]/15 text-[#FF9470]",
-    green: "bg-emerald-400/10 text-emerald-300",
-    red: "bg-red-400/10 text-red-300",
-    amber: "bg-amber-300/10 text-amber-200",
+    green: "bg-[#3CCFB4]/12 text-[#7FE3D0]",
+    red: "bg-[#FF6B7A]/12 text-[#FF9AA5]",
+    amber: "bg-[#F2B544]/12 text-[#F6CD7A]",
   };
-  return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.6875rem] font-semibold ${tones[tone]}`}>{children}</span>;
+  return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${tones[tone]}`}>{children}</span>;
 }
 
 export function LiveDot({ on = true }: { on?: boolean }) {
   return (
     <span className="relative inline-flex size-2">
-      {on && <span className="absolute inset-0 animate-ping rounded-full bg-emerald-400/60" />}
-      <span className={`relative inline-flex size-2 rounded-full ${on ? "bg-emerald-400" : "bg-white/25"}`} />
+      {on && <span className="absolute inset-0 animate-ping rounded-full bg-[#3CCFB4]/60 motion-reduce:hidden" />}
+      <span className={`relative inline-flex size-2 rounded-full ${on ? "bg-[#3CCFB4]" : "bg-[var(--hq-dim)]"}`} />
     </span>
   );
 }
@@ -84,21 +88,30 @@ export const statusTone: Record<string, "muted" | "orange" | "green" | "red" | "
   lost: "red",
 };
 
-export function PageHeader({ eyebrow, title, children }: { eyebrow: string; title: string; children?: React.ReactNode }) {
+export function PageHeader({ title, lead, children }: { title: string; lead?: string; children?: React.ReactNode }) {
   return (
     <div className="flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <p className="text-[0.6875rem] font-bold tracking-[0.18em] text-[#F66135] uppercase">{eyebrow}</p>
-        <h1 className="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl">{title}</h1>
+      <div className="max-w-2xl">
+        <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
+        {lead && <p className="mt-2 text-[0.9375rem] text-[var(--hq-muted)]">{lead}</p>}
       </div>
       {children}
     </div>
   );
 }
 
+export function SectionTitle({ children, aside }: { children: React.ReactNode; aside?: React.ReactNode }) {
+  return (
+    <div className="flex items-baseline justify-between gap-4">
+      <h2 className="font-display text-lg font-semibold tracking-tight">{children}</h2>
+      {aside}
+    </div>
+  );
+}
+
 export function NotConfigured() {
   return (
-    <Card className="p-6 text-sm text-white/60">
+    <Card className="p-6 text-sm text-[var(--hq-muted)]">
       The database isn&rsquo;t connected. Set <code className="text-white">DATABASE_URL</code> and run <code className="text-white">npm run db:migrate</code>.
     </Card>
   );

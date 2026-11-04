@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createSession, destroySession, loginAllowed, passwordMatches, recordFailedLogin, requireAdmin } from "@/lib/admin/auth";
-import { db, leadStatuses, type AgentAction, type LeadStatus } from "@/lib/db";
+import { db, departments, leadStatuses, type AgentAction, type Department, type LeadStatus } from "@/lib/db";
 
 export type LoginState = { error?: string };
 
@@ -100,5 +100,30 @@ export async function updateLead(formData: FormData) {
   const [before] = (await sql`select status from leads where id = ${id}`) as { status: string }[];
   await sql`update leads set status = ${status}, next_step = ${nextStep}, updated_at = now() where id = ${id}`;
   if (before && before.status !== status) await sql`insert into activity (department, message, lead_id) values ('sales', ${`You moved the lead to ${status}`}, ${id})`;
+  revalidatePath("/admin", "layout");
+}
+
+export type OrderState = { ok?: boolean; error?: string };
+
+/** Give a department an order. Its agent picks it up first on its next run. */
+export async function createOrder(_prev: OrderState, formData: FormData): Promise<OrderState> {
+  await requireAdmin();
+  const sql = db()!;
+  const department = String(formData.get("department") ?? "") as Department;
+  const text = String(formData.get("text") ?? "").trim();
+  if (!departments.includes(department)) return { error: "Choose a department." };
+  if (text.length < 3) return { error: "Write what you want done." };
+  if (text.length > 1000) return { error: "Keep the order under 1000 characters." };
+  await sql`insert into orders (department, text) values (${department}, ${text})`;
+  await sql`insert into activity (department, message) values (${department}, ${`New order from you: ${text.slice(0, 120)}`})`;
+  revalidatePath("/admin", "layout");
+  return { ok: true };
+}
+
+export async function dropOrder(formData: FormData) {
+  await requireAdmin();
+  const sql = db()!;
+  const id = uuid(formData.get("id"));
+  await sql`update orders set status = 'dropped', done_at = now(), result = 'Cancelled by you' where id = ${id} and status = 'open'`;
   revalidatePath("/admin", "layout");
 }

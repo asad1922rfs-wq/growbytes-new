@@ -17,13 +17,13 @@ export default async function LeadsPage({ searchParams }: Props) {
 
   return (
     <div className="space-y-8">
-      <PageHeader eyebrow="Sales" title="Leads" />
+      <PageHeader title="Leads" />
       <nav className="flex flex-wrap gap-1.5">
         {(["all", ...leadStatuses] as const).map((t) => (
           <Link
             key={t}
             href={t === "all" ? "/admin/leads/" : `/admin/leads/?status=${t}`}
-            className={`rounded-full px-3.5 py-1.5 text-xs font-semibold capitalize transition ${status === t ? "bg-white text-[#0B0C0C]" : "bg-white/[0.05] text-white/55 hover:text-white"}`}
+            className={`rounded-full px-3.5 py-1.5 text-xs font-semibold capitalize transition ${status === t ? "bg-white text-[var(--hq-night)]" : "bg-white/[0.05] text-white/55 hover:text-white"}`}
           >
             {t}
           </Link>
@@ -62,7 +62,7 @@ export default async function LeadsPage({ searchParams }: Props) {
             <Card className="p-6">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <h2 className="text-xl font-extrabold">{lead.name}</h2>
+                  <h2 className="font-display text-2xl font-semibold">{lead.name}</h2>
                   <p className="mt-1 text-sm text-white/50">
                     <a href={`mailto:${lead.email}`} className="hover:text-white">
                       {lead.email}
@@ -80,7 +80,7 @@ export default async function LeadsPage({ searchParams }: Props) {
 
               {lead.summary && (
                 <div className="mt-5 rounded-xl border border-[#F66135]/20 bg-[#F66135]/[0.05] p-4">
-                  <p className="text-[0.6875rem] font-bold tracking-[0.14em] text-[#FF9470] uppercase">Sales agent brief</p>
+                  <p className="text-[0.8125rem] font-semibold text-[#FF9470]">What the Sales agent found</p>
                   <p className="mt-2 text-sm leading-relaxed text-white/80">{lead.summary}</p>
                   {lead.score_reason && <p className="mt-2 text-xs text-white/45">Why this score: {lead.score_reason}</p>}
                 </div>
@@ -109,11 +109,11 @@ export default async function LeadsPage({ searchParams }: Props) {
                 </div>
               )}
 
-              <form action={updateLead} className="mt-6 grid gap-3 border-t border-white/[0.06] pt-5 sm:grid-cols-[10rem_1fr_auto]">
+              <form action={updateLead} className="mt-6 grid gap-3 border-t border-[var(--hq-line)] pt-5 sm:grid-cols-[10rem_1fr_auto]">
                 <input type="hidden" name="id" value={lead.id} />
                 <select name="status" defaultValue={lead.status} aria-label="Status" className="rounded-xl border border-white/10 bg-black/30 px-3 py-2.5 text-sm capitalize text-white">
                   {leadStatuses.map((st) => (
-                    <option key={st} value={st} className="bg-[#161818]">
+                    <option key={st} value={st} className="bg-[var(--hq-panel)]">
                       {st}
                     </option>
                   ))}
@@ -131,7 +131,7 @@ export default async function LeadsPage({ searchParams }: Props) {
 
             {activity.length > 0 && (
               <Card className="p-5">
-                <p className="text-xs font-bold tracking-wide text-white/60 uppercase">History</p>
+                <p className="font-display font-semibold">History</p>
                 <ol className="mt-3 space-y-2">
                   {activity.map((a) => (
                     <li key={a.id} className="flex justify-between gap-4 text-sm">

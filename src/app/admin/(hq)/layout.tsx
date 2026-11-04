@@ -36,14 +36,13 @@ export default function HqLayout({ children }: { children: React.ReactNode }) {
 function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative">
-      <div aria-hidden="true" className="pointer-events-none fixed -top-48 right-[-10rem] size-[40rem] rounded-full bg-[#F66135]/[0.07] blur-[120px]" />
-      <div className="relative mx-auto flex min-h-dvh max-w-[90rem]">
-        <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-white/[0.06] px-4 py-6 lg:flex">
+            <div className="relative mx-auto flex min-h-dvh max-w-[90rem]">
+        <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-[var(--hq-line)] px-4 py-6 lg:flex">
           <div className="flex items-center gap-3 px-3">
             <LogoMark className="h-6 w-auto" />
             <div>
-              <p className="text-sm leading-none font-extrabold">Growbytes HQ</p>
-              <p className="mt-1 text-[0.6875rem] text-white/40">AI company workspace</p>
+              <p className="font-display leading-none font-bold">Growbytes HQ</p>
+              <p className="mt-1 text-xs text-[var(--hq-muted)]">Command room</p>
             </div>
           </div>
           <NavItems />
@@ -54,7 +53,7 @@ function Shell({ children }: { children: React.ReactNode }) {
           </form>
         </aside>
         <div className="min-w-0 flex-1">
-          <header className="sticky top-0 z-20 flex items-center justify-between gap-4 border-b border-white/[0.06] bg-[#0B0C0C]/80 px-4 py-3 backdrop-blur sm:px-8 lg:hidden">
+          <header className="sticky top-0 z-20 flex items-center justify-between gap-4 border-b border-[var(--hq-line)] bg-[var(--hq-night)]/85 px-4 py-3 backdrop-blur sm:px-8 lg:hidden">
             <div className="flex items-center gap-2">
               <LogoMark className="h-5 w-auto" />
               <span className="text-sm font-extrabold">HQ</span>

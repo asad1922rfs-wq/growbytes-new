@@ -52,5 +52,7 @@ export type AgentAction = {
 
 export type Activity = { id: number; created_at: string; department: Department; message: string; lead_id: string | null };
 
+export type Order = { id: string; created_at: string; department: Department; text: string; status: "open" | "done" | "dropped"; done_at: string | null; result: string | null };
+
 export const departments = ["sales", "marketing", "projects", "operations"] as const;
 export type Department = (typeof departments)[number];

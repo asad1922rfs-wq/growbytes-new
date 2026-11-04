@@ -64,6 +64,18 @@ const statements = [
     lead_id uuid references leads(id) on delete set null
   )`,
   `create index if not exists activity_created_idx on activity (created_at desc)`,
+
+  // Orders you give a department from the dashboard. Agents pick these up first.
+  `create table if not exists orders (
+    id uuid primary key default gen_random_uuid(),
+    created_at timestamptz not null default now(),
+    department text not null,
+    text text not null,
+    status text not null default 'open',          -- open | done | dropped
+    done_at timestamptz,
+    result text
+  )`,
+  `create index if not exists orders_status_idx on orders (status, created_at desc)`,
 ];
 
 for (const s of statements) await sql.query(s);

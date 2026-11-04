@@ -12,6 +12,8 @@
  *   npm run agent -- done <action-id> "what happened"        mark an approved action as carried out
  *   npm run agent -- log <dept> "message" [--lead <id>]
  *   npm run agent -- stats
+ *   npm run agent -- orders [--dept sales]                  open orders from the owner (do these first)
+ *   npm run agent -- order-done <order-id> "what you did"
  */
 import { readFileSync } from "node:fs";
 import { neon } from "@neondatabase/serverless";
@@ -128,11 +130,25 @@ const commands = {
     out({ ok: true });
   },
 
+  async orders() {
+    const dept = flags.dept || null;
+    out(await sql`select id, created_at, department, text from orders where status = 'open' and (${dept}::text is null or department = ${dept}) order by created_at`);
+  },
+
+  async "order-done"() {
+    if (!isId(a1)) fail('Usage: order-done <order-id> "what you did"');
+    const [o] = await sql`update orders set status = 'done', done_at = now(), result = ${a2 || "Done"} where id = ${a1} and status = 'open' returning department, text`;
+    if (!o) fail("No open order with that id.");
+    await sql`insert into activity (department, message) values (${o.department}, ${`Finished your order: ${o.text}${a2 ? `. ${a2}` : ""}`})`;
+    out({ ok: true });
+  },
+
   async stats() {
     const [l] = await sql`select count(*)::int total, count(*) filter (where status='new')::int new, count(*) filter (where score is null)::int unscored from leads`;
     const [p] = await sql`select count(*)::int pending from actions where status='pending'`;
     const [ap] = await sql`select count(*)::int approved from actions where status='approved'`;
-    out({ leads: l, pendingApprovals: p.pending, approvedToCarryOut: ap.approved });
+    const [o] = await sql`select count(*)::int open from orders where status='open'`;
+    out({ leads: l, pendingApprovals: p.pending, approvedToCarryOut: ap.approved, openOrders: o.open });
   },
 };
 
