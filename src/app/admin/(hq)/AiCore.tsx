@@ -117,6 +117,50 @@ function Corona({ active }: { active: boolean }) {
       ctx.arc(c, c, R, 0, Math.PI * 2);
       ctx.fill();
 
+      // Glass: everything below is clipped to the ball so it reads as one 3D sphere
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(c, c, R, 0, Math.PI * 2);
+      ctx.clip();
+
+      // Corona light refracting up through the bottom of the glass
+      const under = ctx.createRadialGradient(c, c + R * 1.15, R * 0.2, c, c + R * 0.9, R * 1.1);
+      under.addColorStop(0, `rgba(246,97,53,${active ? 0.22 : 0.16})`);
+      under.addColorStop(1, "rgba(246,97,53,0)");
+      ctx.fillStyle = under;
+      ctx.fillRect(c - R, c - R, R * 2, R * 2);
+
+      // Fresnel: the edge of the glass catches a little light all the way round
+      const fres = ctx.createRadialGradient(c, c, R * 0.78, c, c, R);
+      fres.addColorStop(0, "rgba(255,255,255,0)");
+      fres.addColorStop(0.85, "rgba(255,236,224,0.04)");
+      fres.addColorStop(1, "rgba(255,236,224,0.13)");
+      ctx.fillStyle = fres;
+      ctx.fillRect(c - R, c - R, R * 2, R * 2);
+
+      // Soft window reflection, top left
+      ctx.save();
+      ctx.translate(c - R * 0.34, c - R * 0.42);
+      ctx.rotate(-0.6);
+      ctx.scale(1, 0.55);
+      const spec = ctx.createRadialGradient(0, 0, 0, 0, 0, R * 0.52);
+      spec.addColorStop(0, "rgba(255,255,255,0.16)");
+      spec.addColorStop(0.5, "rgba(255,255,255,0.05)");
+      spec.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = spec;
+      ctx.beginPath();
+      ctx.arc(0, 0, R * 0.52, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // A small sharp highlight
+      const dot = ctx.createRadialGradient(c - R * 0.5, c - R * 0.55, 0, c - R * 0.5, c - R * 0.55, R * 0.09);
+      dot.addColorStop(0, "rgba(255,255,255,0.55)");
+      dot.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = dot;
+      ctx.fillRect(c - R, c - R, R * 2, R * 2);
+      ctx.restore();
+
       t += 1;
       if (!still) raf = requestAnimationFrame(draw);
     };
