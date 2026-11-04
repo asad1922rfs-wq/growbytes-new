@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root { --night:#0d0f0e; --ink:#f4f1ea; --muted:#a3a8a4; --dim:#6c726e; --line:#262a28; --orange:#f66135; --peach:#ffb38f; --red:#ff8a8a; --green:#8fd6a8; }
+  :root { --night:#0d0f0e; --ink:#f4f1ea; --muted:#a3a8a4; --dim:#6c726e; --line:#262a28; --orange:#f66135; --peach:#ffb38f; }
   * { box-sizing:border-box; margin:0; padding:0; }
   html,body { width:1080px; height:1350px; }
   body { font-family:Manrope, sans-serif; background:var(--night); color:var(--ink); overflow:hidden; position:relative; }
@@ -13,63 +13,84 @@
   .grid { position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
     background-size:54px 54px; mask-image:linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent); }
   .wrap { position:absolute; inset:0; padding:88px 88px 84px; display:flex; flex-direction:column; }
-  .top { display:flex; align-items:center; justify-content:space-between; }
   .brand { display:flex; align-items:center; gap:16px; font-weight:700; font-size:30px; letter-spacing:-.3px; }
-  .site { font-size:24px; color:var(--muted); font-weight:600; }
   h1 { margin-top:52px; font-size:92px; line-height:1.0; font-weight:800; letter-spacing:-3.5px; }
   h1 span { color:var(--orange); }
   .lead { margin-top:28px; font-size:32px; line-height:1.4; color:var(--muted); max-width:820px; }
 
-  .stage { margin-top:46px; display:grid; grid-template-columns:1fr 72px 1fr; align-items:center; }
+  .stage { margin-top:46px; display:grid; grid-template-columns:1fr 64px 1fr; align-items:center; }
   .label { font-size:20px; font-weight:700; margin-bottom:14px; }
   .label.before { color:var(--dim); }
   .label.after { color:var(--peach); }
-  .card { border-radius:14px; overflow:hidden; height:360px; display:flex; flex-direction:column; box-shadow:0 30px 70px rgba(0,0,0,.55); }
+  .card { border-radius:14px; overflow:hidden; height:390px; display:flex; flex-direction:column; box-shadow:0 30px 70px rgba(0,0,0,.55); }
 
   /* Before: a familiar desktop spreadsheet */
   .xl { background:#fff; font-family:"Segoe UI", Arial, sans-serif; color:#222; }
-  .xl .title { height:34px; background:#217346; color:#fff; font-size:14px; display:flex; align-items:center; justify-content:center; position:relative; }
-  .xl .title:before { content:"● ● ●"; position:absolute; left:12px; font-size:10px; letter-spacing:3px; opacity:.6; }
-  .xl .fx { height:30px; border-bottom:1px solid #d4d4d4; display:flex; align-items:center; font-size:13px; color:#444; background:#f8f8f8; }
-  .xl .fx b { width:58px; text-align:center; border-right:1px solid #d4d4d4; font-weight:400; }
-  .xl .fx span { padding-left:10px; font-family:Consolas, monospace; color:#555; }
-  .xl table { border-collapse:collapse; width:100%; font-size:15px; table-layout:fixed; }
-  .xl th { background:#f2f2f2; color:#555; font-weight:400; font-size:13px; height:24px; border:1px solid #d4d4d4; }
-  .xl th:first-child { width:34px; }
-  .xl td { height:34px; border:1px solid #e1e1e1; padding:0 8px; white-space:nowrap; overflow:hidden; }
-  .xl td.n { background:#f2f2f2; color:#555; text-align:center; font-size:13px; border-color:#d4d4d4; }
-  .xl .h { font-weight:700; }
+  .xl .title { height:30px; background:#217346; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; position:relative; flex-shrink:0; }
+  .xl .title:before { content:"● ● ●"; position:absolute; left:12px; font-size:9px; letter-spacing:3px; opacity:.6; }
+  .xl .ribbon { height:28px; background:#f3f3f3; display:flex; gap:16px; padding:0 12px; align-items:center; font-size:12px; color:#444; border-bottom:1px solid #d4d4d4; flex-shrink:0; }
+  .xl .ribbon .on { color:#217346; font-weight:700; }
+  .xl .fx { height:28px; border-bottom:1px solid #d4d4d4; display:flex; align-items:center; font-size:12px; color:#444; flex-shrink:0; }
+  .xl .fx b { width:44px; text-align:center; border-right:1px solid #d4d4d4; font-weight:400; }
+  .xl .fx i { color:#888; padding:0 8px; border-right:1px solid #d4d4d4; }
+  .xl .fx span { padding-left:8px; font-family:Consolas, monospace; color:#555; white-space:nowrap; overflow:hidden; }
+  .xl table { border-collapse:collapse; width:100%; font-size:13.5px; table-layout:fixed; }
+  .xl th { background:#f2f2f2; color:#555; font-weight:400; font-size:12px; height:22px; border:1px solid #d4d4d4; }
+  .xl th:first-child { width:26px; }
+  .xl th:nth-child(2) { width:36%; }
+  .xl th:nth-child(3) { width:15%; }
+  .xl td { height:30px; border:1px solid #e1e1e1; padding:0 6px; white-space:nowrap; overflow:hidden; }
+  .xl td.n { background:#f2f2f2; color:#555; text-align:center; font-size:12px; border-color:#d4d4d4; }
+  .xl .h { font-weight:700; background:#e2efda; }
+  .xl .y { background:#fff2a8; }
+  .xl .x { text-decoration:line-through; color:#999; }
   .xl .err { color:#c00000; position:relative; }
-  .xl .err:before { content:""; position:absolute; left:0; top:0; border-top:7px solid #1a7f37; border-right:7px solid transparent; }
+  .xl .err:before { content:""; position:absolute; left:0; top:0; border-top:6px solid #1a7f37; border-right:6px solid transparent; }
   .xl .sel { outline:2px solid #217346; outline-offset:-2px; }
-  .xl .tabs { margin-top:auto; height:30px; background:#f2f2f2; border-top:1px solid #d4d4d4; display:flex; font-size:12px; color:#555; }
-  .xl .tabs span { padding:0 12px; display:flex; align-items:center; border-right:1px solid #d4d4d4; }
+  .xl .c { position:relative; }
+  .xl .c:after { content:""; position:absolute; right:0; top:0; border-top:6px solid #c00000; border-left:6px solid transparent; }
+  .xl .tabs { margin-top:auto; height:26px; background:#f2f2f2; border-top:1px solid #d4d4d4; display:flex; font-size:11px; color:#555; flex-shrink:0; }
+  .xl .tabs span { padding:0 10px; display:flex; align-items:center; border-right:1px solid #d4d4d4; }
   .xl .tabs .on { background:#fff; color:#217346; font-weight:700; border-bottom:2px solid #217346; }
 
-  /* After: a clean light web app */
-  .app { background:#fbfaf7; color:#1b1d1c; }
-  .app .top2 { height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; border-bottom:1px solid #ebe7df; background:#fff; }
-  .app .top2 b { font-size:18px; display:flex; align-items:center; gap:9px; }
-  .app .top2 b:before { content:""; width:22px; height:22px; border-radius:6px; background:var(--orange); }
-  .app .search { font-size:13px; color:#8a8f8b; border:1px solid #e6e2da; border-radius:8px; padding:6px 12px; width:130px; }
-  .app .sum { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:14px 18px 6px; }
-  .app .sum div { background:#fff; border:1px solid #ebe7df; border-radius:10px; padding:10px 12px; font-size:13px; color:#6b706c; }
-  .app .sum strong { display:block; font-size:20px; color:#1b1d1c; }
-  .app table { border-collapse:collapse; width:100%; font-size:15px; }
-  .app th { text-align:left; font-size:12px; font-weight:600; color:#8a8f8b; padding:10px 18px 6px; }
-  .app td { padding:12px 18px; white-space:nowrap; border-top:1px solid #efece5; }
-  .app td:first-child { font-weight:600; }
-  .pill { font-size:12px; font-weight:700; padding:4px 10px; border-radius:999px; }
+  /* After: a polished light web app */
+  .app { background:#f7f6f2; color:#1b1d1c; flex-direction:row; position:relative; }
+  .side { width:46px; background:#fff; border-right:1px solid #ebe7df; display:flex; flex-direction:column; align-items:center; gap:14px; padding-top:12px; flex-shrink:0; }
+  .side .logo { width:24px; height:24px; border-radius:7px; background:var(--orange); margin-bottom:6px; }
+  .side i { width:18px; height:18px; border-radius:5px; background:#e8e4dc; }
+  .side i.on { background:#fde3d8; outline:2px solid #fbc6b1; }
+  .main { flex:1; display:flex; flex-direction:column; min-width:0; }
+  .top2 { height:48px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; border-bottom:1px solid #ebe7df; background:#fff; flex-shrink:0; }
+  .top2 b { font-size:16px; }
+  .top2 .r { display:flex; gap:8px; align-items:center; }
+  .search { font-size:11.5px; color:#8a8f8b; border:1px solid #e6e2da; border-radius:7px; padding:5px 10px; width:110px; }
+  .av { width:24px; height:24px; border-radius:50%; display:grid; place-items:center; font-size:10px; font-weight:700; color:#fff; flex-shrink:0; }
+  .sum { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:12px 14px 4px; }
+  .sum > div { background:#fff; border:1px solid #ebe7df; border-radius:10px; padding:9px 10px; font-size:11px; color:#6b706c; }
+  .sum strong { display:block; font-size:17px; color:#1b1d1c; margin-bottom:1px; }
+  .sum em { font-style:normal; color:#17803d; font-weight:700; }
+  .bar2 { height:6px; border-radius:99px; background:#ebe7df; margin-top:6px; overflow:hidden; }
+  .bar2 span { display:block; height:100%; width:68%; background:#2fb463; }
+  .app table { border-collapse:collapse; width:100%; font-size:13px; }
+  .app th { text-align:left; font-size:10.5px; font-weight:600; color:#8a8f8b; padding:10px 14px 5px; }
+  .app td { padding:9px 14px; border-top:1px solid #efece5; white-space:nowrap; }
+  .who { display:flex; align-items:center; gap:8px; font-weight:600; }
+  .pill { font-size:10.5px; font-weight:700; padding:3px 8px; border-radius:999px; }
   .paid { color:#17803d; background:#e3f4e8; }
   .sent { color:#b2441f; background:#fde9e1; }
-  .app .note { margin-top:auto; padding:10px 18px; font-size:12.5px; color:#8a8f8b; border-top:1px solid #efece5; }
+  .act { padding:10px 14px 0; font-size:12px; color:#3c403e; }
+  .act .t { display:block; font-size:10.5px; font-weight:600; color:#8a8f8b; margin-bottom:6px; }
+  .act div { display:flex; align-items:center; gap:8px; padding:5px 0; }
+  .act i { width:7px; height:7px; border-radius:50%; }
+  .act .g { background:#2fb463; } .act .o { background:var(--orange); }
+  .act small { margin-left:auto; color:#8a8f8b; font-size:11px; }
+  .toast { position:absolute; right:12px; bottom:12px; background:#1b1d1c; color:#fff; font-size:11.5px; padding:9px 12px; border-radius:10px; display:flex; gap:8px; align-items:center; box-shadow:0 10px 24px rgba(0,0,0,.25); }
+  .toast b { width:16px; height:16px; border-radius:50%; background:#2fb463; display:grid; place-items:center; font-size:10px; }
 
   .link { display:grid; place-items:center; padding-top:34px; }
-  .link span { width:56px; height:56px; border-radius:50%; background:var(--orange); display:grid; place-items:center; box-shadow:0 0 0 10px rgba(246,97,53,.12), 0 14px 36px rgba(246,97,53,.35); }
+  .link span { width:52px; height:52px; border-radius:50%; background:var(--orange); display:grid; place-items:center; box-shadow:0 0 0 8px rgba(246,97,53,.12), 0 14px 36px rgba(246,97,53,.35); }
 
-  .foot { margin-top:auto; text-align:center; display:flex; flex-direction:column; align-items:center; gap:18px; }
-  .foot p { font-size:26px; color:var(--muted); }
-  .foot p b { color:var(--ink); font-weight:700; }
+  .foot { margin-top:auto; display:flex; justify-content:center; }
   .cta { display:inline-flex; align-items:center; gap:14px; font-size:26px; font-weight:700; color:#fff; background:var(--orange); padding:20px 38px; border-radius:999px; box-shadow:0 18px 40px rgba(246,97,53,.35); }
 </style>
 </head>
@@ -77,13 +98,10 @@
   <div class="grid"></div>
   <div class="glow"></div>
   <div class="wrap">
-    <div class="top">
-      <div class="brand">
-        <svg width="56" height="42" viewBox="0 0 16 12.5"><defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#FF9C6E"/><stop offset="1" stop-color="#F66135"/></linearGradient></defs>
-          <rect x="0" y="7.5" width="4" height="4.5" fill="url(#g)"/><rect x="4" y="1.25" width="4" height="6.25" fill="url(#g)"/><rect x="8" y="7.5" width="4" height="4.5" fill="url(#g)"/><rect x="12" y="0" width="4" height="7.5" fill="url(#g)"/></svg>
-        Growbytes
-      </div>
-      
+    <div class="brand">
+      <svg width="56" height="42" viewBox="0 0 16 12.5"><defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#FF9C6E"/><stop offset="1" stop-color="#F66135"/></linearGradient></defs>
+        <rect x="0" y="7.5" width="4" height="4.5" fill="url(#g)"/><rect x="4" y="1.25" width="4" height="6.25" fill="url(#g)"/><rect x="8" y="7.5" width="4" height="4.5" fill="url(#g)"/><rect x="12" y="0" width="4" height="7.5" fill="url(#g)"/></svg>
+      Growbytes
     </div>
 
     <h1>Your business<br>outgrew the<br><span>spreadsheet.</span></h1>
@@ -93,40 +111,52 @@
       <div>
         <div class="label before">Before</div>
         <div class="card xl">
-          <div class="title">orders_final_FINAL_2.xlsx</div>
-          <div class="fx"><b>C3</b><span>=VLOOKUP(A3,Clients!A:D,4,FALSE)</span></div>
+          <div class="title">orders_final_FINAL_2.xlsx &nbsp;-&nbsp; Read-only</div>
+          <div class="ribbon"><span>File</span><span class="on">Home</span><span>Insert</span><span>Formulas</span><span>Data</span><span>Review</span></div>
+          <div class="fx"><b>D4</b><i>fx</i><span>=SUMIF(Orders!A:A,A4,Orders!F:F)*1.2</span></div>
           <table>
-            <tr><th></th><th>A</th><th>B</th><th>C</th></tr>
-            <tr><td class="n">1</td><td class="h">Client</td><td class="h">Status</td><td class="h">Total</td></tr>
-            <tr><td class="n">2</td><td>Brightline Co</td><td>sent?</td><td class="err">#REF!</td></tr>
-            <tr><td class="n">3</td><td>Brightline Co.</td><td>paid</td><td class="err sel">#N/A</td></tr>
-            <tr><td class="n">4</td><td>BRIGHTLINE</td><td>??</td><td></td></tr>
-            <tr><td class="n">5</td><td>Harbor &amp; Finch</td><td>pending</td><td class="err">#VALUE!</td></tr>
-            
+            <tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr>
+            <tr><td class="n">1</td><td class="h">Client</td><td class="h">Order</td><td class="h">Status</td><td class="h">Total</td></tr>
+            <tr><td class="n">2</td><td>Brightline Co</td><td>1041</td><td class="y">sent??</td><td class="err">#REF!</td></tr>
+            <tr><td class="n">3</td><td>Brightline Co.</td><td>1042</td><td>paid</td><td>$1,200</td></tr>
+            <tr><td class="n">4</td><td>BRIGHTLINE</td><td>1042</td><td class="c">paid?</td><td class="err sel">#N/A</td></tr>
+            <tr><td class="n">5</td><td>Harbor &amp; Finch</td><td>1043</td><td>pending</td><td class="err">#VALUE!</td></tr>
+            <tr><td class="n">6</td><td class="x">Harbor Finch</td><td>1043</td><td class="y">ask Sara</td><td>1150</td></tr>
+            <tr><td class="n">7</td><td></td><td></td><td></td><td></td></tr>
           </table>
-          <div class="tabs"><span class="on">Orders</span><span>Orders (old)</span><span>Copy of Clients</span></div>
+          <div class="tabs"><span class="on">Orders</span><span>Orders (old)</span><span>Copy of Clients</span><span>+</span></div>
         </div>
       </div>
 
-      <div class="link"><span><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="link"><span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
 
       <div>
         <div class="label after">After</div>
         <div class="card app">
-          <div class="top2"><b>Orders</b><span class="search">Search clients</span></div>
-          <div class="sum"><div><strong>2 clients</strong>duplicates merged</div><div><strong>$3,550</strong>total, no errors</div></div>
-          <table>
-            <tr><th>Client</th><th>Orders</th><th>Total</th><th>Status</th></tr>
-            <tr><td>Brightline Co</td><td>3</td><td>$2,400</td><td><span class="pill paid">Paid</span></td></tr>
-            <tr><td>Harbor &amp; Finch</td><td>1</td><td>$1,150</td><td><span class="pill sent">Invoice sent</span></td></tr>
-          </table>
-          <div class="note">Same orders as the sheet. One record per client, totals that add up.</div>
+          <div class="side"><span class="logo"></span><i class="on"></i><i></i><i></i><i></i></div>
+          <div class="main">
+            <div class="top2"><b>Orders</b><span class="r"><span class="search">Search clients</span><span class="av" style="background:#6b7f99">JM</span></span></div>
+            <div class="sum">
+              <div><strong>$3,550</strong>billed</div>
+              <div><strong>$2,400</strong>paid <em>68%</em><div class="bar2"><span></span></div></div>
+              <div><strong>0</strong>errors</div>
+            </div>
+            <table>
+              <tr><th>Client</th><th>Orders</th><th>Total</th><th>Status</th></tr>
+              <tr><td><span class="who"><span class="av" style="background:#4f7cac">B</span>Brightline Co</span></td><td>2</td><td>$2,400</td><td><span class="pill paid">Paid</span></td></tr>
+              <tr><td><span class="who"><span class="av" style="background:#c0793f">H</span>Harbor &amp; Finch</span></td><td>1</td><td>$1,150</td><td><span class="pill sent">Invoice sent</span></td></tr>
+            </table>
+            <div class="act"><span class="t">Recent activity</span>
+              <div><i class="g"></i>Brightline Co paid $2,400<small>Mon</small></div>
+              <div><i class="o"></i>Invoice #1043 sent to Harbor &amp; Finch<small>Today</small></div>
+            </div>
+            <div class="toast"><b>&#10003;</b>Payment reminder sent to Harbor &amp; Finch</div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="foot">
-      
       <div class="cta">Let&rsquo;s build yours <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> growbytes.co</div>
     </div>
   </div>
