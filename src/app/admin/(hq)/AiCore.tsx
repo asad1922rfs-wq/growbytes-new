@@ -21,7 +21,7 @@ export function AiCore({ pending, lines }: { pending: number; lines: string[] })
   );
 }
 
-type P = { a: number; r: number; v: number; life: number; max: number; size: number; hue: number };
+type P = { a: number; r: number; v: number; life: number; max: number; size: number; hue: number; phase: number; speed: number };
 
 function Corona({ active }: { active: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -57,6 +57,9 @@ function Corona({ active }: { active: boolean }) {
         max,
         size: 0.5 + Math.random() * 1.6,
         hue: Math.random(),
+        // Each particle twinkles on its own clock, so no pattern travels round the ring
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.05 + Math.random() * 0.12,
         ...p,
       };
     };
@@ -76,13 +79,12 @@ function Corona({ active }: { active: boolean }) {
         if (!still) {
           p.life += 1;
           p.r += p.v;
-          p.a += 0.0006;
           if (p.life > p.max || p.r > 1.5) Object.assign(p, spawn({ life: 0 }));
         }
         const fadeIn = Math.min(1, p.life / 12);
         const fadeOut = 1 - p.life / p.max;
         const edge = 1 - Math.min(1, (p.r - 1) / 0.5);
-        const flicker = 0.85 + Math.sin(t * 0.2 + p.a * 40) * 0.25;
+        const flicker = 0.85 + Math.sin(t * p.speed + p.phase) * 0.25;
         const alpha = Math.max(0, fadeIn * fadeOut * edge * flicker);
         if (alpha < 0.02) continue;
         const x = c + Math.cos(p.a) * p.r * R;
