@@ -153,20 +153,6 @@ function Corona({ active }: { active: boolean }) {
       ctx.fill();
       ctx.restore();
 
-      // A thin, soft crescent of light along the upper-left edge (no hard spot)
-      ctx.save();
-      ctx.filter = `blur(${Math.max(1, R * 0.012)}px)`;
-      const arc = ctx.createLinearGradient(c - R, c - R, c, c);
-      arc.addColorStop(0, "rgba(255,240,230,0)");
-      arc.addColorStop(0.45, "rgba(255,240,230,0.22)");
-      arc.addColorStop(1, "rgba(255,240,230,0)");
-      ctx.strokeStyle = arc;
-      ctx.lineWidth = R * 0.035;
-      ctx.lineCap = "round";
-      ctx.beginPath();
-      ctx.arc(c, c, R * 0.9, Math.PI * 1.05, Math.PI * 1.45);
-      ctx.stroke();
-      ctx.restore();
       ctx.restore();
 
       t += 1;
