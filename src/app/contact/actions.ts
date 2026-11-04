@@ -3,6 +3,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { saveInquiryLead } from "@/lib/admin/data";
 import { getInquiryAdapter } from "@/lib/inquiry/adapters";
 import { processInquiry, type InquiryState } from "@/lib/inquiry/process";
 import { inquiryRateLimiter } from "@/lib/inquiry/rate-limit";
@@ -22,6 +23,7 @@ export async function submitInquiry(_prev: InquiryState, formData: FormData): Pr
     rateLimitAllowed: inquiryRateLimiter(key, now).allowed,
     allowDemo: process.env.NODE_ENV !== "production" || process.env.INQUIRY_DEMO_MODE === "true",
     log: (msg) => console.warn(`[inquiry] ${msg}`),
+    onDelivered: (inquiry) => saveInquiryLead(inquiry, (msg) => console.warn(`[inquiry] ${msg}`)),
   });
 
   if (state.status === "sent") {

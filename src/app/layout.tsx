@@ -6,6 +6,7 @@ import { CookieConsent } from "@/components/layout/CookieConsent";
 import { MetaPixel } from "@/components/layout/MetaPixel";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { Header } from "@/components/layout/Header";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { siteConfig } from "@/config/site";
 import { robotsFor } from "@/lib/seo";
 import { JsonLd, organizationSchema, websiteSchema } from "@/lib/structured-data";
@@ -41,16 +42,21 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={manrope.variable}>
       <body className="min-h-dvh">
-        <Header />
-        <main id="main" tabIndex={-1} className="outline-none">
+        <SiteChrome
+          header={<Header />}
+          footer={<Footer />}
+          extras={
+            <>
+              <BackToTop />
+              <JsonLd data={[organizationSchema(), websiteSchema()]} />
+              <Analytics />
+              <MetaPixel />
+              <CookieConsent />
+            </>
+          }
+        >
           {children}
-        </main>
-        <Footer />
-        <BackToTop />
-        <JsonLd data={[organizationSchema(), websiteSchema()]} />
-        <Analytics />
-        <MetaPixel />
-        <CookieConsent />
+        </SiteChrome>
       </body>
     </html>
   );

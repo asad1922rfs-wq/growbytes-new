@@ -1,5 +1,5 @@
 import type { InquiryAdapter } from "./adapters";
-import { inquiryFields, inquirySchema, type InquiryField } from "./schema";
+import { inquiryFields, inquirySchema, type Inquiry, type InquiryField } from "./schema";
 
 export type InquiryStatus = "idle" | "invalid" | "rate_limited" | "error" | "demo" | "sent";
 
@@ -23,6 +23,8 @@ type Context = {
   /** Demo mode is only allowed outside production. */
   allowDemo: boolean;
   log?: (msg: string) => void;
+  /** Runs after a successful delivery, e.g. to store the lead. Must not throw. */
+  onDelivered?: (inquiry: Inquiry) => Promise<void>;
 };
 
 /** Pure, testable core of the inquiry action. No PII is logged. */
@@ -101,5 +103,6 @@ export async function processInquiry(formData: FormData, ctx: Context): Promise<
     };
   }
 
+  await ctx.onDelivered?.(parsed.data);
   return { status: "sent" };
 }

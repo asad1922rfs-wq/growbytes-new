@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
   }
   return {
     // Draft/utility pages stay crawlable so their noindex tag is seen.
-    rules: { userAgent: "*", allow: "/" },
+    rules: { userAgent: "*", allow: "/", disallow: "/admin/" },
     sitemap: absoluteUrl("/sitemap.xml"),
   };
 }
