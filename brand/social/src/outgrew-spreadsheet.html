@@ -57,7 +57,7 @@
   .app .sum strong { display:block; font-size:20px; color:#1b1d1c; }
   .app table { border-collapse:collapse; width:100%; font-size:15px; }
   .app th { text-align:left; font-size:12px; font-weight:600; color:#8a8f8b; padding:10px 18px 6px; }
-  .app td { padding:9px 18px; border-top:1px solid #efece5; }
+  .app td { padding:12px 18px; white-space:nowrap; border-top:1px solid #efece5; }
   .app td:first-child { font-weight:600; }
   .pill { font-size:12px; font-weight:700; padding:4px 10px; border-radius:999px; }
   .paid { color:#17803d; background:#e3f4e8; }
@@ -114,15 +114,13 @@
         <div class="label after">After</div>
         <div class="card app">
           <div class="top2"><b>Orders</b><span class="search">Search clients</span></div>
-          <div class="sum"><div><strong>Paid</strong>up to date</div><div><strong>Invoices</strong>sent on time</div></div>
+          <div class="sum"><div><strong>2 clients</strong>duplicates merged</div><div><strong>$3,550</strong>total, no errors</div></div>
           <table>
-            <tr><th>Client</th><th>Status</th></tr>
-            <tr><td>Brightline Co</td><td><span class="pill paid">Paid</span></td></tr>
-            <tr><td>Harbor &amp; Finch</td><td><span class="pill sent">Invoice sent</span></td></tr>
-            <tr><td>Nordvik Studio</td><td><span class="pill paid">Paid</span></td></tr>
-            <tr><td>Calder Supply</td><td><span class="pill sent">Invoice sent</span></td></tr>
+            <tr><th>Client</th><th>Orders</th><th>Total</th><th>Status</th></tr>
+            <tr><td>Brightline Co</td><td>3</td><td>$2,400</td><td><span class="pill paid">Paid</span></td></tr>
+            <tr><td>Harbor &amp; Finch</td><td>1</td><td>$1,150</td><td><span class="pill sent">Invoice sent</span></td></tr>
           </table>
-          <div class="note">One record per client. Everyone sees the same thing.</div>
+          <div class="note">Same orders as the sheet. One record per client, totals that add up.</div>
         </div>
       </div>
     </div>
