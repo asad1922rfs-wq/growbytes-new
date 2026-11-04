@@ -46,12 +46,12 @@ function Corona({ active }: { active: boolean }) {
     ro.observe(canvas);
 
     // Particles live in units of the core radius (1 = the edge of the dark disc).
-    const COUNT = active ? 6000 : 4500;
+    const COUNT = active ? 9000 : 7000;
     const spawn = (p: Partial<P> = {}): P => {
-      const max = 60 + Math.random() * 140;
+      const max = 80 + Math.random() * 200;
       return {
         a: Math.random() * Math.PI * 2,
-        r: 1 + Math.pow(Math.random(), 2.2) * 0.4,
+        r: 1 + Math.pow(Math.random(), 1.8) * 0.62,
         v: (0.0004 + Math.random() * 0.0016) * (active ? 1.7 : 1),
         life: Math.random() * max,
         max,
@@ -77,11 +77,11 @@ function Corona({ active }: { active: boolean }) {
           p.life += 1;
           p.r += p.v;
           p.a += 0.0006;
-          if (p.life > p.max || p.r > 1.5) Object.assign(p, spawn({ life: 0 }));
+          if (p.life > p.max || p.r > 1.72) Object.assign(p, spawn({ life: 0 }));
         }
         const fadeIn = Math.min(1, p.life / 12);
         const fadeOut = 1 - p.life / p.max;
-        const edge = 1 - Math.min(1, (p.r - 1) / 0.5);
+        const edge = 1 - Math.min(1, (p.r - 1) / 0.72);
         const flicker = 0.85 + Math.sin(t * 0.2 + p.a * 40) * 0.25;
         const alpha = Math.max(0, fadeIn * fadeOut * edge * flicker);
         if (alpha < 0.02) continue;
@@ -144,8 +144,8 @@ function Corona({ active }: { active: boolean }) {
       ctx.rotate(-0.6);
       ctx.scale(1, 0.55);
       const spec = ctx.createRadialGradient(0, 0, 0, 0, 0, R * 0.52);
-      spec.addColorStop(0, "rgba(255,255,255,0.16)");
-      spec.addColorStop(0.5, "rgba(255,255,255,0.05)");
+      spec.addColorStop(0, "rgba(255,255,255,0.1)");
+      spec.addColorStop(0.5, "rgba(255,255,255,0.035)");
       spec.addColorStop(1, "rgba(255,255,255,0)");
       ctx.fillStyle = spec;
       ctx.beginPath();
@@ -153,12 +153,20 @@ function Corona({ active }: { active: boolean }) {
       ctx.fill();
       ctx.restore();
 
-      // A small sharp highlight
-      const dot = ctx.createRadialGradient(c - R * 0.5, c - R * 0.55, 0, c - R * 0.5, c - R * 0.55, R * 0.09);
-      dot.addColorStop(0, "rgba(255,255,255,0.55)");
-      dot.addColorStop(1, "rgba(255,255,255,0)");
-      ctx.fillStyle = dot;
-      ctx.fillRect(c - R, c - R, R * 2, R * 2);
+      // A thin, soft crescent of light along the upper-left edge (no hard spot)
+      ctx.save();
+      ctx.filter = `blur(${Math.max(1, R * 0.012)}px)`;
+      const arc = ctx.createLinearGradient(c - R, c - R, c, c);
+      arc.addColorStop(0, "rgba(255,240,230,0)");
+      arc.addColorStop(0.45, "rgba(255,240,230,0.22)");
+      arc.addColorStop(1, "rgba(255,240,230,0)");
+      ctx.strokeStyle = arc;
+      ctx.lineWidth = R * 0.035;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.arc(c, c, R * 0.9, Math.PI * 1.05, Math.PI * 1.45);
+      ctx.stroke();
+      ctx.restore();
       ctx.restore();
 
       t += 1;
