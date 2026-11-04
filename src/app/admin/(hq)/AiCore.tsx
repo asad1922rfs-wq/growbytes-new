@@ -133,8 +133,8 @@ function Corona({ active }: { active: boolean }) {
       // Fresnel: the edge of the glass catches a little light all the way round
       const fres = ctx.createRadialGradient(c, c, R * 0.78, c, c, R);
       fres.addColorStop(0, "rgba(255,255,255,0)");
-      fres.addColorStop(0.85, "rgba(255,236,224,0.04)");
-      fres.addColorStop(1, "rgba(255,236,224,0.13)");
+      fres.addColorStop(0.86, "rgba(255,255,255,0.05)");
+      fres.addColorStop(1, "rgba(255,255,255,0.3)");
       ctx.fillStyle = fres;
       ctx.fillRect(c - R, c - R, R * 2, R * 2);
 
