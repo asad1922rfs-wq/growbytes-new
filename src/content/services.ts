@@ -26,9 +26,9 @@ export const services: Service[] = [
     group: "design",
     menuBlurb: "Responsive websites built around your business.",
     summary: "Fast, accessible websites that explain your offer clearly and turn interest into inquiries.",
-    metaTitle: "Web Design and Development Services",
+    metaTitle: "Web Design and Development Agency",
     metaDescription:
-      "Website design and development for established businesses: content structure, UX, accessible front ends, CMS setup, and technical SEO foundations.",
+      "Web design and development agency for growing businesses. Fast, mobile-friendly websites with clear structure, easy editing and SEO built in.",
     h1: "Websites that explain what you do and make the next step obvious",
     intro:
       "We plan, design, and build websites for businesses that have outgrown their current site. The work starts with what visitors need to understand and what you need them to do, then carries through to a fast, accessible build your team can edit.",
@@ -166,7 +166,7 @@ export const services: Service[] = [
     group: "design",
     menuBlurb: "Custom storefronts, theme development, and integrations.",
     summary: "Shopify storefronts, theme work, integrations, and migrations focused on removing buying friction.",
-    metaTitle: "Shopify Development Agency: Build & Grow",
+    metaTitle: "Shopify Development Agency: Stores & Themes",
     metaDescription:
       "Shopify development agency for ecommerce brands: store builds, theme customisation, migrations, app and ERP integrations, and speed fixes.",
     h1: "Shopify stores that make products easy to find, understand, and buy",
@@ -306,9 +306,9 @@ export const services: Service[] = [
     group: "software",
     menuBlurb: "Applications, portals, and tools for your workflows.",
     summary: "Internal tools, portals, and integrations designed around your workflows rather than generic software.",
-    metaTitle: "Custom Software Development",
+    metaTitle: "Custom Software Development Company",
     metaDescription:
-      "Custom software for businesses: discovery, workflow design, web applications, dashboards, portals, integrations, testing, and long-term maintenance.",
+      "Custom software development company building web apps, internal tools, client portals and dashboards that replace spreadsheets and manual work.",
     h1: "Custom software built around the way your business actually works",
     intro:
       "When spreadsheets, email threads, and disconnected tools limit how your team operates, we design and build web applications that fit the workflow. That includes internal tools, client portals, dashboards, and integrations, with testing and maintenance planned from the start.",
@@ -446,7 +446,7 @@ export const services: Service[] = [
     group: "marketing",
     menuBlurb: "Technical SEO and content that support discoverability.",
     summary: "Technical foundations, intent-led content, and site structure that help the right buyers find you.",
-    metaTitle: "SEO Services: Technical, Content & Structure",
+    metaTitle: "SEO Services: Technical SEO and Content",
     metaDescription:
       "SEO for businesses: technical audits, search intent research, content planning, internal linking, and measurement focused on qualified traffic.",
     h1: "SEO that makes your expertise easy for search engines and buyers to understand",
@@ -855,9 +855,9 @@ export const services: Service[] = [
     group: "software",
     menuBlurb: "Connected workflows with practical human oversight.",
     summary: "Workflow automation and AI-assisted processes with human review, error handling, and careful data use.",
-    metaTitle: "AI Automation and Business Integrations",
+    metaTitle: "AI Automation Agency for Business Workflows",
     metaDescription:
-      "AI automation for businesses: workflow assessment, system integrations, AI-assisted document and inquiry processing, human review steps, and monitoring.",
+      "AI automation agency for businesses. We automate repetitive workflows, connect your tools and add AI for documents and inquiries, with human review.",
     h1: "Automation that removes repetitive work while keeping people in control",
     intro:
       "We identify workflows that are worth automating, connect the systems involved, and use AI where it is genuinely useful, such as classifying requests, extracting details from documents, or drafting responses. Every automation has a defined owner, review step where needed, and a plan for when something fails.",
