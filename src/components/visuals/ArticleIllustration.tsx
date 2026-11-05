@@ -7,6 +7,13 @@ const alt: Record<Article["illustration"], string> = {
   workflow: "Illustration: a sequence of task steps where repetitive steps are highlighted as candidates for automation and one step remains with a person.",
   brief: "Illustration: a project brief document with a prioritized checklist, the top item highlighted.",
   marketing: "Illustration: two paths, a gradually rising line for search and a quick step-up for paid ads, meeting at a website.",
+  buildbuy: "Illustration: a ready-made boxed product on one side and a custom-built set of connected modules on the other.",
+  versus: "Illustration: two online store windows side by side with a versus badge between them.",
+  softwarecost: "Illustration: stacked software layers next to a cost bar that grows with each layer.",
+  sitecost: "Illustration: a website in a browser window with a price tag attached.",
+  storecost: "Illustration: a shopping bag next to a receipt listing monthly and one-time costs.",
+  migration: "Illustration: pages moving from an old site to a new store, each link redirected with a 301.",
+  agency: "Illustration: a magnifying glass over three agency cards, one of them checked.",
 };
 
 /** Each topic gets its own ground color so cards are distinguishable at a glance. */
@@ -16,6 +23,13 @@ const ground: Record<Article["illustration"], string> = {
   workflow: "bg-[#1f3b33]",
   brief: "bg-[#2b2f3a]",
   marketing: "bg-[#3a2f1f]",
+  buildbuy: "bg-[#1e2a3a]",
+  versus: "bg-[#3a1f2c]",
+  softwarecost: "bg-[#24331f]",
+  sitecost: "bg-[#2f2440]",
+  storecost: "bg-[#1f3438]",
+  migration: "bg-[#382a1a]",
+  agency: "bg-[#222a2f]",
 };
 
 /** Branded article art: geometric shapes with the accent color. */
@@ -34,6 +48,13 @@ export function ArticleIllustration({ kind, className }: { kind: Article["illust
         {kind === "workflow" && <Workflow />}
         {kind === "brief" && <Brief />}
         {kind === "marketing" && <Marketing />}
+        {kind === "buildbuy" && <BuildBuy />}
+        {kind === "versus" && <Versus />}
+        {kind === "softwarecost" && <SoftwareCost />}
+        {kind === "sitecost" && <SiteCost />}
+        {kind === "storecost" && <StoreCost />}
+        {kind === "migration" && <Migration />}
+        {kind === "agency" && <Agency />}
       </svg>
     </div>
   );
@@ -148,6 +169,163 @@ function Marketing() {
       <circle cx="270" cy="86" r="5" fill="#F66135" />
       <text x="56" y="132" fontSize="10" fontWeight="700" fill="#F66135">Ads</text>
       <text x="196" y="72" fontSize="10" fontWeight="700" fill="#DDE2DC">SEO</text>
+    </g>
+  );
+}
+
+const L = "#F7F7F2";
+const A = "#F66135";
+const G = "#A3ABA5";
+const D = "#DDE2DC";
+const K = "#171918";
+
+function BuildBuy() {
+  return (
+    <g>
+      {/* Boxed product */}
+      <path d="M44 82l46-20 46 20v62l-46 20-46-20z" fill="#2a3442" stroke={G} strokeWidth="1.5" />
+      <path d="M44 82l46 20 46-20M90 102v62" stroke={G} strokeWidth="1.5" fill="none" />
+      <path d="M67 72l46 20v14" stroke={A} strokeWidth="3" fill="none" />
+      {/* Custom modules */}
+      <circle cx="160" cy="100" r="13" fill={A} />
+      <text x="160" y="104" textAnchor="middle" fontSize="10" fontWeight="800" fill={K}>or</text>
+      <rect x="192" y="48" width="40" height="40" rx="7" fill={L} />
+      <rect x="244" y="48" width="40" height="40" rx="7" fill={A} />
+      <rect x="192" y="100" width="92" height="40" rx="7" fill={L} />
+      <rect x="192" y="152" width="40" height="18" rx="5" fill="none" stroke={L} strokeWidth="1.5" strokeDasharray="3 3" />
+      <path d="M232 68h12M212 88v12M264 88v12" stroke={G} strokeWidth="2" />
+      <rect x="202" y="112" width="44" height="6" rx="2" fill={K} />
+      <rect x="202" y="124" width="66" height="5" rx="2" fill={G} />
+    </g>
+  );
+}
+
+function Shop({ x, accent }: { x: number; accent: boolean }) {
+  return (
+    <g>
+      <rect x={x} y="44" width="104" height="116" rx="8" fill={L} />
+      <path d={`M${x} 64h104`} stroke={D} />
+      <circle cx={x + 10} cy="54" r="2.5" fill={G} />
+      <circle cx={x + 18} cy="54" r="2.5" fill={G} />
+      <rect x={x + 10} y="74" width="84" height="30" rx="4" fill={accent ? A : "#7f54b3"} opacity="0.9" />
+      {[0, 1].map((i) => (
+        <g key={i}>
+          <rect x={x + 10 + i * 44} y="112" width="40" height="26" rx="3" fill={D} />
+          <rect x={x + 10 + i * 44} y="142" width="26" height="5" rx="2" fill={K} />
+        </g>
+      ))}
+    </g>
+  );
+}
+
+function Versus() {
+  return (
+    <g>
+      <Shop x={32} accent />
+      <Shop x={184} accent={false} />
+      <circle cx="160" cy="102" r="20" fill={K} stroke={A} strokeWidth="2.5" />
+      <text x="160" y="107" textAnchor="middle" fontSize="13" fontWeight="800" fill={L}>VS</text>
+    </g>
+  );
+}
+
+function SoftwareCost() {
+  const layers = ["Interface", "Logic", "Data", "Integrations"];
+  return (
+    <g>
+      {layers.map((t, i) => (
+        <g key={t}>
+          <rect x={44 + i * 8} y={44 + i * 30} width={150 - i * 16} height="24" rx="5" fill={i === 0 ? A : L} opacity={1 - i * 0.12} />
+          <text x={56 + i * 8} y={60 + i * 30} fontSize="10" fontWeight="700" fill={K}>{t}</text>
+        </g>
+      ))}
+      <path d="M226 164V60" stroke="#5D645F" strokeWidth="2" />
+      {[0, 1, 2, 3].map((i) => (
+        <rect key={i} x={238 + i * 12} y={150 - i * 24} width="8" height={14 + i * 24} rx="2" fill={i === 3 ? A : G} />
+      ))}
+      <circle cx="270" cy="56" r="14" fill={A} />
+      <text x="270" y="61" textAnchor="middle" fontSize="14" fontWeight="800" fill={K}>$</text>
+    </g>
+  );
+}
+
+function SiteCost() {
+  return (
+    <g>
+      <rect x="40" y="36" width="190" height="130" rx="8" fill={L} />
+      <path d="M40 56h190" stroke={D} />
+      {[0, 1, 2].map((i) => <circle key={i} cx={52 + i * 9} cy="46" r="2.5" fill={G} />)}
+      <rect x="54" y="70" width="90" height="10" rx="2" fill={K} />
+      <rect x="54" y="86" width="120" height="5" rx="2" fill={G} />
+      <rect x="54" y="96" width="100" height="5" rx="2" fill={G} />
+      <rect x="54" y="110" width="44" height="12" rx="3" fill={A} />
+      {[0, 1, 2].map((i) => <rect key={i} x={54 + i * 56} y="132" width="50" height="22" rx="3" fill={D} />)}
+      {/* Price tag */}
+      <path d="M228 72l14-14 46 0 0 46-14 14z" fill={A} transform="rotate(12 258 88)" />
+      <circle cx="252" cy="70" r="4" fill={K} />
+      <path d="M230 50c-10-10-24-6-26 6" stroke={L} strokeWidth="1.5" fill="none" />
+      <text x="262" y="98" textAnchor="middle" fontSize="18" fontWeight="800" fill={K}>$</text>
+    </g>
+  );
+}
+
+function StoreCost() {
+  return (
+    <g>
+      {/* Bag */}
+      <path d="M50 80h80l-6 86H56z" fill={A} />
+      <path d="M72 80v-12a18 18 0 0136 0v12" stroke={L} strokeWidth="3" fill="none" />
+      <circle cx="72" cy="94" r="3" fill={K} />
+      <circle cx="108" cy="94" r="3" fill={K} />
+      {/* Receipt */}
+      <path d="M170 32h112v136l-8-6-8 6-8-6-8 6-8-6-8 6-8-6-8 6-8-6-8 6-8-6-8 6-8-6z" fill={L} />
+      <rect x="182" y="46" width="56" height="8" rx="2" fill={K} />
+      {[0, 1, 2, 3].map((i) => (
+        <g key={i}>
+          <rect x="182" y={66 + i * 16} width={50 - i * 6} height="5" rx="2" fill={G} />
+          <rect x="250" y={66 + i * 16} width="20" height="5" rx="2" fill={i === 0 ? A : G} />
+        </g>
+      ))}
+      <path d="M182 134h88" stroke={K} strokeDasharray="3 2" />
+      <rect x="182" y="142" width="30" height="7" rx="2" fill={K} />
+      <rect x="244" y="142" width="26" height="7" rx="2" fill={A} />
+    </g>
+  );
+}
+
+function Migration() {
+  return (
+    <g>
+      <rect x="30" y="50" width="86" height="104" rx="7" fill="#2a2d2b" stroke="#5D645F" />
+      <rect x="204" y="50" width="86" height="104" rx="7" fill={L} />
+      {[0, 1, 2].map((i) => (
+        <g key={i}>
+          <rect x="42" y={64 + i * 28} width="62" height="16" rx="3" fill="#5D645F" />
+          <rect x="216" y={64 + i * 28} width="62" height="16" rx="3" fill={i === 0 ? A : D} />
+          <path d={`M110 ${72 + i * 28}C150 ${72 + i * 28} 170 ${72 + i * 28} 210 ${72 + i * 28}`} stroke={A} strokeWidth="1.8" strokeDasharray="4 3" fill="none" />
+        </g>
+      ))}
+      <rect x="140" y="30" width="40" height="18" rx="9" fill={A} />
+      <text x="160" y="43" textAnchor="middle" fontSize="10" fontWeight="800" fill={K}>301</text>
+      <path d="M202 128l8 4-8 4" stroke={A} strokeWidth="1.8" fill="none" />
+    </g>
+  );
+}
+
+function Agency() {
+  return (
+    <g>
+      {[0, 1, 2].map((i) => (
+        <g key={i}>
+          <rect x={36 + i * 86} y="56" width="74" height="96" rx="7" fill={i === 1 ? L : "#2f383e"} stroke={i === 1 ? "none" : "#5D645F"} />
+          <circle cx={73 + i * 86} cy="84" r="12" fill={i === 1 ? A : "#5D645F"} />
+          <rect x={50 + i * 86} y="106" width="46" height="6" rx="2" fill={i === 1 ? K : "#5D645F"} />
+          <rect x={56 + i * 86} y="118" width="34" height="5" rx="2" fill={i === 1 ? G : "#454d52"} />
+        </g>
+      ))}
+      <path d="M152 136l6 6 12-12" stroke={K} strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="226" cy="74" r="30" fill="none" stroke={A} strokeWidth="4" />
+      <path d="M248 96l22 22" stroke={A} strokeWidth="7" strokeLinecap="round" />
     </g>
   );
 }

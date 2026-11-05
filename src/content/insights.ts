@@ -14,7 +14,7 @@ export const articles: Article[] = [
     published: "2026-11-05",
     readingMinutes: 6,
     services: ["custom-software-development", "ai-automation", "crm-integrations"],
-    illustration: "workflow",
+    illustration: "buildbuy",
   },
   {
     slug: "shopify-vs-woocommerce",
@@ -26,7 +26,7 @@ export const articles: Article[] = [
     published: "2026-11-05",
     readingMinutes: 7,
     services: ["shopify-development", "web-design-development", "seo"],
-    illustration: "storefront",
+    illustration: "versus",
   },
   {
     slug: "custom-software-development-cost",
@@ -38,7 +38,7 @@ export const articles: Article[] = [
     published: "2026-11-05",
     readingMinutes: 7,
     services: ["custom-software-development", "ai-automation", "crm-integrations"],
-    illustration: "workflow",
+    illustration: "softwarecost",
   },
   {
     slug: "small-business-website-cost",
@@ -50,7 +50,7 @@ export const articles: Article[] = [
     published: "2026-11-05",
     readingMinutes: 7,
     services: ["web-design-development", "seo", "conversion-optimization"],
-    illustration: "redesign",
+    illustration: "sitecost",
   },
   {
     slug: "shopify-store-cost",
@@ -62,7 +62,7 @@ export const articles: Article[] = [
     published: "2026-11-05",
     readingMinutes: 7,
     services: ["shopify-development", "web-design-development", "conversion-optimization"],
-    illustration: "storefront",
+    illustration: "storecost",
   },
   {
     slug: "migrate-to-shopify-without-losing-seo",
@@ -74,7 +74,7 @@ export const articles: Article[] = [
     published: "2026-11-03",
     readingMinutes: 9,
     services: ["shopify-development", "seo", "web-design-development"],
-    illustration: "redesign",
+    illustration: "migration",
   },
   {
     slug: "how-to-choose-a-shopify-development-agency",
@@ -86,7 +86,7 @@ export const articles: Article[] = [
     published: "2026-11-02",
     readingMinutes: 8,
     services: ["shopify-development", "conversion-optimization", "seo"],
-    illustration: "storefront",
+    illustration: "agency",
   },
   {
     slug: "prepare-before-redesigning-your-business-website",

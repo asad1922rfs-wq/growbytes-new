@@ -94,5 +94,7 @@ export type Article = {
   updated?: string;
   readingMinutes: number;
   services: ServiceSlug[];
-  illustration: "redesign" | "storefront" | "workflow" | "brief" | "marketing";
+  illustration:
+    | "redesign" | "storefront" | "workflow" | "brief" | "marketing"
+    | "buildbuy" | "versus" | "softwarecost" | "sitecost" | "storecost" | "migration" | "agency";
 };
