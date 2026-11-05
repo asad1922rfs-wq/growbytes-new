@@ -29,9 +29,9 @@ export const services: Service[] = [
     metaTitle: "Web Design and Development Agency",
     metaDescription:
       "Web design and development agency for growing businesses. Fast, mobile-friendly websites with clear structure, easy editing and SEO built in.",
-    h1: "Websites that explain what you do and make the next step obvious",
+    h1: "A web design and development agency for websites that bring in inquiries",
     intro:
-      "We plan, design, and build websites for businesses that have outgrown their current site. The work starts with what visitors need to understand and what you need them to do, then carries through to a fast, accessible build your team can edit.",
+      "Growbytes is a web design and development agency for businesses that have outgrown their current site. We plan, design, and build websites The work starts with what visitors need to understand and what you need them to do, then carries through to a fast, accessible build your team can edit.",
     audience: [
       "Established businesses whose website no longer reflects their services or quality",
       "Service companies that rely on the site to generate qualified inquiries",
@@ -123,6 +123,14 @@ export const services: Service[] = [
     ],
     faqs: [
       {
+        q: "What does a web design and development agency do?",
+        a: "We plan what the site needs to say, design how it looks and works, build it, and set it up so your team can edit it. Design and development are done by the same team, so nothing gets lost between the two.",
+      },
+      {
+        q: "How long does it take to build a business website?",
+        a: "It depends on the number of pages, the content, and any integrations. After a short discovery call we give you a clear timeline before any work starts.",
+      },
+      {
         q: "Do you redesign existing sites or only build new ones?",
         a: "Both. Many projects are redesigns. We start by auditing what exists so useful content and search history are kept, and we map old URLs to new ones before launch.",
       },
@@ -169,9 +177,9 @@ export const services: Service[] = [
     metaTitle: "Shopify Development Agency: Stores & Themes",
     metaDescription:
       "Shopify development agency for ecommerce brands: store builds, theme customisation, migrations, app and ERP integrations, and speed fixes.",
-    h1: "Shopify stores that make products easy to find, understand, and buy",
+    h1: "A Shopify development agency for stores that are easy to shop and easy to run",
     intro:
-      "We design and develop Shopify storefronts, extend themes, connect the systems behind your store, and migrate catalogs from other platforms. Our focus is the path from first visit to checkout, and the operations that support it.",
+      "As a Shopify development agency, we design and develop Shopify storefronts, extend themes, connect the systems behind your store, and migrate catalogs from other platforms. Our focus is the path from first visit to checkout, and the operations that support it.",
     audience: [
       "Ecommerce brands moving to Shopify from another platform",
       "Shopify merchants whose theme has become hard to change",
@@ -263,6 +271,18 @@ export const services: Service[] = [
     ],
     faqs: [
       {
+        q: "What does a Shopify development agency do?",
+        a: "We build new Shopify stores, customise and speed up existing themes, move stores from other platforms, and connect Shopify to the tools you use for stock, shipping, and accounting.",
+      },
+      {
+        q: "Can you work on my existing Shopify store?",
+        a: "Yes. Many projects start with an existing store. We review the theme, apps, and speed first, then fix what holds sales back without rebuilding what already works.",
+      },
+      {
+        q: "Can you move my store to Shopify without losing Google traffic?",
+        a: "That is the main goal of a migration. We map every old URL to its new page, keep product content and images, and check Search Console after launch.",
+      },
+      {
         q: "Should we customize a theme or build a custom storefront?",
         a: "Most stores are well served by a customized Online Store 2.0 theme. A headless storefront makes sense for specific content, performance, or integration needs, and it costs more to build and maintain. We explain this trade-off in detail in our article on the decision.",
       },
@@ -309,9 +329,9 @@ export const services: Service[] = [
     metaTitle: "Custom Software Development Company",
     metaDescription:
       "Custom software development company building web apps, internal tools, client portals and dashboards that replace spreadsheets and manual work.",
-    h1: "Custom software built around the way your business actually works",
+    h1: "A custom software development company that builds around how you work",
     intro:
-      "When spreadsheets, email threads, and disconnected tools limit how your team operates, we design and build web applications that fit the workflow. That includes internal tools, client portals, dashboards, and integrations, with testing and maintenance planned from the start.",
+      "Growbytes is a custom software development company. When spreadsheets, email threads, and disconnected tools limit how your team operates, we design and build web applications that fit the workflow. That includes internal tools, client portals, dashboards, and integrations, with testing and maintenance planned from the start.",
     audience: [
       "Operations teams managing critical work in spreadsheets and email",
       "Businesses that need a customer or partner portal",
@@ -403,6 +423,18 @@ export const services: Service[] = [
     ],
     faqs: [
       {
+        q: "When is custom software better than a ready-made tool?",
+        a: "When ready-made tools force workarounds, your team copies data between systems, or the process is what makes your business different. If an off-the-shelf tool fits well, we will tell you.",
+      },
+      {
+        q: "Do we own the software you build?",
+        a: "Yes. You own the code and the data. We document the system and can hand it to your own team or keep supporting it.",
+      },
+      {
+        q: "Can you replace our spreadsheets with a web app?",
+        a: "Yes, that is one of the most common projects. We start with the sheet that causes the most trouble and turn it into a simple tool with one source of truth.",
+      },
+      {
         q: "Should we buy software or build it?",
         a: "Buy whenever an existing product fits your process well enough. Custom software is justified when the workflow is a competitive advantage, existing tools force costly workarounds, or integration needs aren't met. Discovery helps answer this before you commit to a build.",
       },
@@ -449,9 +481,9 @@ export const services: Service[] = [
     metaTitle: "SEO Services: Technical SEO and Content",
     metaDescription:
       "SEO for businesses: technical audits, search intent research, content planning, internal linking, and measurement focused on qualified traffic.",
-    h1: "SEO that makes your expertise easy for search engines and buyers to understand",
+    h1: "SEO services that help the right buyers find your business",
     intro:
-      "We improve how search engines crawl, understand, and present your site, and we plan content that answers what your buyers search for. The work connects technical fixes, page structure, and content to the commercial pages that matter.",
+      "Our SEO services improve how search engines crawl, understand, and present your site, and we plan content that answers what your buyers search for. The work connects technical fixes, page structure, and content to the commercial pages that matter.",
     audience: [
       "Service businesses that depend on people finding them through search",
       "Ecommerce brands with collection and product pages that underperform",
@@ -540,6 +572,14 @@ export const services: Service[] = [
       { label: "Tools", items: ["Google Search Console", "Google Analytics 4", "Site crawlers", "Lighthouse and PageSpeed Insights"] },
     ],
     faqs: [
+      {
+        q: "What is included in your SEO services?",
+        a: "A technical audit, keyword and search intent research, fixes to page structure and internal links, content plans and briefs, and monthly reporting from Search Console and analytics.",
+      },
+      {
+        q: "How long does SEO take to show results?",
+        a: "Technical fixes can show up within weeks once Google recrawls the site. New content and rankings for competitive terms usually take a few months. We report progress honestly and never promise positions.",
+      },
       {
         q: "How long does SEO take?",
         a: "Technical fixes can be completed quickly, but search engines take time to recrawl pages and rankings shift gradually. Most businesses should plan for a sustained effort over several months before judging results.",
@@ -858,9 +898,9 @@ export const services: Service[] = [
     metaTitle: "AI Automation Agency for Business Workflows",
     metaDescription:
       "AI automation agency for businesses. We automate repetitive workflows, connect your tools and add AI for documents and inquiries, with human review.",
-    h1: "Automation that removes repetitive work while keeping people in control",
+    h1: "An AI automation agency that removes repetitive work and keeps people in control",
     intro:
-      "We identify workflows that are worth automating, connect the systems involved, and use AI where it is genuinely useful, such as classifying requests, extracting details from documents, or drafting responses. Every automation has a defined owner, review step where needed, and a plan for when something fails.",
+      "As an AI automation agency, we identify workflows that are worth automating, connect the systems involved, and use AI where it is genuinely useful, such as classifying requests, extracting details from documents, or drafting responses. Every automation has a defined owner, review step where needed, and a plan for when something fails.",
     audience: [
       "Teams spending hours on repetitive data entry or copying between tools",
       "Businesses handling high volumes of inquiries, documents, or support requests",
@@ -950,6 +990,14 @@ export const services: Service[] = [
       { label: "AI", items: ["Large language model APIs", "Structured output and evaluation", "Document extraction"] },
     ],
     faqs: [
+      {
+        q: "What does an AI automation agency do?",
+        a: "We find repetitive tasks in your business, connect the tools involved, and add AI where it helps, such as sorting inquiries, reading documents, or drafting replies. People stay in charge of the important decisions.",
+      },
+      {
+        q: "Which tasks can be automated with AI?",
+        a: "Common examples are lead and inquiry handling, data entry between tools, invoice and document processing, report preparation, and first drafts of emails. We start with one task that saves real time.",
+      },
       {
         q: "Which processes are good candidates for automation?",
         a: "Repetitive, frequent tasks with clear inputs and rules are usually the best starting point. Our article on identifying workflows worth automating explains how to assess them.",
