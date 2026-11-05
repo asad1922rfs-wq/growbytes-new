@@ -7,6 +7,8 @@
  *   npm run meta -- fb "text" [link]              text post on the Facebook Page
  *   npm run meta -- fb-image <image-url> "text"   image post on the Facebook Page
  *   npm run meta -- ig <image-url> "caption"      image post on Instagram (JPEG at a public URL)
+ *   npm run meta -- fb-carousel <url,url,...> "text"     multi-photo post on the Facebook Page
+ *   npm run meta -- ig-carousel <url,url,...> "caption"  carousel post on Instagram (2-10 JPEGs)
  * Add --dry to print what would be sent without posting.
  *
  * .env.local:
@@ -119,6 +121,49 @@ async function igPost(imageUrl, caption = "") {
   console.log(`Posted on Instagram: ${media.permalink}`);
 }
 
+async function fbCarousel(list, caption = "") {
+  const urls = (list || "").split(",").filter(Boolean);
+  if (urls.length < 2) fail('Usage: npm run meta -- fb-carousel <url,url,...> "text"');
+  const { id, token } = pageAuth();
+  if (DRY) return console.log("Would post carousel to Facebook:", { urls, caption });
+  // Upload each photo unpublished, then attach them all to one feed post.
+  const params = { message: caption, access_token: token };
+  for (const [i, url] of urls.entries()) {
+    const p = await graph("POST", `${id}/photos`, { url, published: "false", access_token: token });
+    params[`attached_media[${i}]`] = JSON.stringify({ media_fbid: p.id });
+  }
+  const r = await graph("POST", `${id}/feed`, params);
+  console.log(`Posted on Facebook: https://www.facebook.com/${r.id}`);
+}
+
+async function igReady(containerId, token) {
+  for (let i = 0; i < 20; i++) {
+    const s = await graph("GET", containerId, { fields: "status_code", access_token: token });
+    if (s.status_code === "FINISHED") return;
+    if (s.status_code === "ERROR") fail("Instagram could not process an image (use public JPEG URLs).");
+    await new Promise((r) => setTimeout(r, 3000));
+  }
+}
+
+async function igCarousel(list, caption = "") {
+  const urls = (list || "").split(",").filter(Boolean);
+  if (urls.length < 2 || urls.length > 10) fail('Usage: npm run meta -- ig-carousel <url,url,...> "caption" (2-10 images)');
+  const { token } = pageAuth();
+  const ig = env.META_IG_ID || fail("No Instagram account linked. Link it to the Page, then run connect again.");
+  if (DRY) return console.log("Would post carousel to Instagram:", { urls, caption });
+  const children = [];
+  for (const url of urls) {
+    const c = await graph("POST", `${ig}/media`, { image_url: url, is_carousel_item: "true", access_token: token });
+    await igReady(c.id, token);
+    children.push(c.id);
+  }
+  const container = await graph("POST", `${ig}/media`, { media_type: "CAROUSEL", children: children.join(","), caption, access_token: token });
+  await igReady(container.id, token);
+  const r = await graph("POST", `${ig}/media_publish`, { creation_id: container.id, access_token: token });
+  const media = await graph("GET", r.id, { fields: "permalink", access_token: token });
+  console.log(`Posted on Instagram: ${media.permalink}`);
+}
+
 const [cmd, a1, a2] = process.argv.slice(2).filter((x) => x !== "--dry");
 const commands = {
   connect: () => connect(),
@@ -126,6 +171,8 @@ const commands = {
   fb: () => fbPost(a1, a2),
   "fb-image": () => fbImage(a1, a2),
   ig: () => igPost(a1, a2),
+  "fb-carousel": () => fbCarousel(a1, a2),
+  "ig-carousel": () => igCarousel(a1, a2),
 };
-if (!commands[cmd]) fail("Commands: connect | whoami | fb | fb-image | ig   (see the top of scripts/meta.mjs)");
+if (!commands[cmd]) fail("Commands: connect | whoami | fb | fb-image | ig | fb-carousel | ig-carousel   (see the top of scripts/meta.mjs)");
 await commands[cmd]();

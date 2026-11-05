@@ -44,10 +44,17 @@ export function ApprovalCard({ action }: { action: AgentAction }) {
         </div>
       ) : action.kind === "social_post" ? (
         <div className="mt-5 grid gap-4 sm:grid-cols-[minmax(0,14rem)_1fr]">
-          {p.image && (
+          {Array.isArray(p.images) && p.images.length > 1 ? (
+            <div className="flex snap-x gap-2 overflow-x-auto pb-1" aria-label={`Carousel, ${p.images.length} slides`}>
+              {(p.images as string[]).map((src, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={src} src={src} alt={`Slide ${i + 1}`} className="aspect-[4/5] w-full shrink-0 snap-start rounded-xl border border-[var(--hq-line)] object-cover" />
+              ))}
+            </div>
+          ) : p.image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={p.image} alt="The post image" className="aspect-[4/5] w-full rounded-xl border border-[var(--hq-line)] object-cover" />
-          )}
+          ) : null}
           <div className="space-y-2">
             <textarea name="text" defaultValue={p.text} disabled={!pending} rows={8} aria-label="Caption" className={`${field} leading-relaxed`} />
             <p className="text-[0.8125rem] text-[var(--hq-dim)]">Goes to the Facebook Page and Instagram{p.when ? `, planned for ${p.when}` : ""}.</p>
