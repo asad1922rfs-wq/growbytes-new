@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" font-family="Manrope, Segoe UI, Arial, sans-serif">
+  <rect width="1200" height="500" rx="28" fill="#F4F1EA"/>
+  <text x="60" y="80" font-size="34" font-weight="800" fill="#171918">Three ways to get a business website</text>
+  <text x="60" y="118" font-size="20" fill="#5B5F63">Cost rises with how much is done for you</text>
+  <g font-size="20">
+    <rect x="60" y="160" width="340" height="280" rx="20" fill="#fff" stroke="#E3DED3"/>
+    <text x="88" y="210" font-size="26" font-weight="800" fill="#171918">DIY builder</text>
+    <text x="88" y="252" fill="#5B5F63">Lowest cost, your time</text>
+    <text x="88" y="286" fill="#5B5F63">Templates, limited control</text>
+    <text x="88" y="320" fill="#5B5F63">Good to test an idea</text>
+    <rect x="430" y="160" width="340" height="280" rx="20" fill="#fff" stroke="#E3DED3"/>
+    <text x="458" y="210" font-size="26" font-weight="800" fill="#171918">Freelancer</text>
+    <text x="458" y="252" fill="#5B5F63">Mid-range cost</text>
+    <text x="458" y="286" fill="#5B5F63">Depends on one person</text>
+    <text x="458" y="320" fill="#5B5F63">Good for simple sites</text>
+    <rect x="800" y="160" width="340" height="280" rx="20" fill="#171918"/>
+    <text x="828" y="210" font-size="26" font-weight="800" fill="#fff">Agency</text>
+    <text x="828" y="252" fill="#C9CFC9">Higher cost, full team</text>
+    <text x="828" y="286" fill="#C9CFC9">Strategy, design, build, SEO</text>
+    <text x="828" y="320" fill="#C9CFC9">Good when the site must sell</text>
+  </g>
+</svg>

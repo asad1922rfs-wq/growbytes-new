@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" font-family="Manrope, Segoe UI, Arial, sans-serif">
+  <rect width="1200" height="520" rx="28" fill="#F4F1EA"/>
+  <text x="60" y="80" font-size="34" font-weight="800" fill="#171918">What drives custom software cost</text>
+  <text x="60" y="118" font-size="20" fill="#5B5F63">The more of each, the bigger the project</text>
+  <g font-size="21" fill="#171918">
+    <text x="60" y="190">Screens and user roles</text><rect x="520" y="172" width="620" height="22" rx="11" fill="#E3DED3"/><rect x="520" y="172" width="440" height="22" rx="11" fill="#F66135"/>
+    <text x="60" y="250">Integrations with other systems</text><rect x="520" y="232" width="620" height="22" rx="11" fill="#E3DED3"/><rect x="520" y="232" width="380" height="22" rx="11" fill="#F66135"/>
+    <text x="60" y="310">Business rules and edge cases</text><rect x="520" y="292" width="620" height="22" rx="11" fill="#E3DED3"/><rect x="520" y="292" width="500" height="22" rx="11" fill="#F66135"/>
+    <text x="60" y="370">Data moved from old tools</text><rect x="520" y="352" width="620" height="22" rx="11" fill="#E3DED3"/><rect x="520" y="352" width="300" height="22" rx="11" fill="#F66135"/>
+    <text x="60" y="430">Security and compliance</text><rect x="520" y="412" width="620" height="22" rx="11" fill="#E3DED3"/><rect x="520" y="412" width="340" height="22" rx="11" fill="#F66135"/>
+  </g>
+  <text x="60" y="488" font-size="17" fill="#5B5F63">Illustration only: bars compare factors in a typical project, not prices.</text>
+</svg>

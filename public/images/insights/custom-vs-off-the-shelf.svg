@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" font-family="Manrope, Segoe UI, Arial, sans-serif">
+  <rect width="1200" height="500" rx="28" fill="#F4F1EA"/>
+  <text x="60" y="80" font-size="34" font-weight="800" fill="#171918">A quick way to decide</text>
+  <g font-size="21">
+    <rect x="60" y="120" width="520" height="320" rx="20" fill="#fff" stroke="#E3DED3"/>
+    <text x="90" y="172" font-size="26" font-weight="800" fill="#171918">Ready-made tool</text>
+    <text x="90" y="222" fill="#5B5F63">✓ Your process is common</text>
+    <text x="90" y="262" fill="#5B5F63">✓ You need it this month</text>
+    <text x="90" y="302" fill="#5B5F63">✓ Few systems to connect</text>
+    <text x="90" y="342" fill="#5B5F63">✓ Small team, simple rules</text>
+    <rect x="620" y="120" width="520" height="320" rx="20" fill="#171918"/>
+    <text x="650" y="172" font-size="26" font-weight="800" fill="#fff">Custom software</text>
+    <text x="650" y="222" fill="#C9CFC9">✓ Your process is your edge</text>
+    <text x="650" y="262" fill="#C9CFC9">✓ Data copied between tools</text>
+    <text x="650" y="302" fill="#C9CFC9">✓ Workarounds everywhere</text>
+    <text x="650" y="342" fill="#C9CFC9">✓ Per-user fees keep rising</text>
+  </g>
+</svg>

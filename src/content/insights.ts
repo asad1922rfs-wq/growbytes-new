@@ -5,6 +5,54 @@ export const ARTICLE_AUTHOR = "Growbytes editorial team";
 
 export const articles: Article[] = [
   {
+    slug: "custom-software-vs-off-the-shelf",
+    seoTitle: "Custom Software vs Off-the-Shelf: How to Choose",
+    title: "Custom software vs off-the-shelf tools: how to choose",
+    description:
+      "Custom software vs off-the-shelf tools: when each one makes sense, how the real costs compare, and a five-question test to help you decide.",
+    category: "Software",
+    published: "2026-11-05",
+    readingMinutes: 6,
+    services: ["custom-software-development", "ai-automation", "crm-integrations"],
+    illustration: "workflow",
+  },
+  {
+    slug: "shopify-vs-woocommerce",
+    seoTitle: "Shopify vs WooCommerce: Which Should You Pick?",
+    title: "Shopify vs WooCommerce: which is right for your store?",
+    description:
+      "Shopify vs WooCommerce compared on cost, ease of use, flexibility, upkeep and SEO, with a simple table to help you pick the right platform for your store.",
+    category: "Ecommerce",
+    published: "2026-11-05",
+    readingMinutes: 7,
+    services: ["shopify-development", "web-design-development", "seo"],
+    illustration: "storefront",
+  },
+  {
+    slug: "custom-software-development-cost",
+    seoTitle: "Custom Software Development Cost Explained",
+    title: "How much does custom software development cost?",
+    description:
+      "What drives custom software development cost, how pricing models work, what you pay after launch, and how to start small and keep the budget under control.",
+    category: "Software",
+    published: "2026-11-05",
+    readingMinutes: 7,
+    services: ["custom-software-development", "ai-automation", "crm-integrations"],
+    illustration: "workflow",
+  },
+  {
+    slug: "small-business-website-cost",
+    seoTitle: "Small Business Website Cost: What You Pay For",
+    title: "How much does a small business website cost?",
+    description:
+      "Small business website cost explained: DIY, freelancer or agency, what changes the price, running costs after launch, and the questions to ask before you hire.",
+    category: "Web design",
+    published: "2026-11-05",
+    readingMinutes: 7,
+    services: ["web-design-development", "seo", "conversion-optimization"],
+    illustration: "redesign",
+  },
+  {
     slug: "shopify-store-cost",
     seoTitle: "Shopify Store Cost in 2026: Full Breakdown",
     title: "How much does a Shopify store cost?",

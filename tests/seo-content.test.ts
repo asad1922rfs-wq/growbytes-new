@@ -89,8 +89,12 @@ describe("content integrity", () => {
       ...articles.map((a) => `src/content/insights/${a.slug}.mdx`),
     ];
     for (const f of files) {
-      const links = [...readFileSync(f, "utf8").matchAll(/\]\((\/[^)]*)\)/g)].map((m) => m[1]);
+      const text = readFileSync(f, "utf8");
+      // Page links must point to real routes; image paths must point to real files in public/.
+      const links = [...text.matchAll(/(?<!!)\[[^\]]*\]\((\/[^)]*)\)/g)].map((m) => m[1]);
       for (const l of links) expect(valid.has(l), `${f} links to ${l}`).toBe(true);
+      const images = [...text.matchAll(/!\[[^\]]*\]\((\/[^)]*)\)/g)].map((m) => m[1]);
+      for (const i of images) expect(existsSync(`public${i}`), `${f} shows missing image ${i}`).toBe(true);
     }
   });
 
