@@ -5,6 +5,18 @@ export const ARTICLE_AUTHOR = "Growbytes editorial team";
 
 export const articles: Article[] = [
   {
+    slug: "shopify-store-cost",
+    seoTitle: "Shopify Store Cost in 2026: Full Breakdown",
+    title: "How much does a Shopify store cost?",
+    description:
+      "Shopify store cost explained: monthly plans, payment fees, themes, apps, and setup. A clear breakdown and checklist to plan your budget before you start.",
+    category: "Ecommerce",
+    published: "2026-11-05",
+    readingMinutes: 7,
+    services: ["shopify-development", "web-design-development", "conversion-optimization"],
+    illustration: "storefront",
+  },
+  {
     slug: "migrate-to-shopify-without-losing-seo",
     seoTitle: "Migrate to Shopify Without Losing SEO",
     title: "How to migrate to Shopify without losing SEO",
