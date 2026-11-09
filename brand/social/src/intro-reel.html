@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* 35s Reel, 1080x1920. Every animation is timed from t=0 so frames can be scrubbed.
+  /* 61s Reel, 1080x1920. Every animation is timed from t=0 so frames can be scrubbed.
      Scenes: logo 0–2.5 · growth 2.5–7 · web 7–12.5 · CRM 12.5–17 · AI 17–21.5 · values 21.5–23.5 · CTA 23.5–26 */
   @property --n { syntax:'<integer>'; inherits:false; initial-value:0; }
   :root { --night:#0d0f0e; --ink:#f4f1ea; --muted:#a3a8a4; --orange:#f66135; --peach:#ffb38f; --cream:#f4f1ea; --green:#17803d; }
@@ -13,7 +13,7 @@
   ::-webkit-scrollbar { display:none; }
   body { font-family:Manrope, sans-serif; background:var(--night); color:var(--ink); position:relative; }
   .grid { position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size:60px 60px; }
-  .glow { position:absolute; width:1300px; height:1300px; border-radius:50%; left:50%; top:50%; margin:-650px; background:radial-gradient(circle, rgba(246,97,53,.26), rgba(246,97,53,0) 62%); animation:glow 35s linear both; }
+  .glow { position:absolute; width:1300px; height:1300px; border-radius:50%; left:50%; top:50%; margin:-650px; background:radial-gradient(circle, rgba(246,97,53,.26), rgba(246,97,53,0) 62%); animation:glow 61s linear both; }
   @keyframes glow { 0%{transform:translate(-200px,-500px) scale(.7)} 30%{transform:translate(250px,100px)} 60%{transform:translate(-250px,300px)} 100%{transform:translate(100px,-200px) scale(.9)} }
 
   .scene { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 80px; opacity:0; }
@@ -92,7 +92,7 @@
   .pscr { height:560px; border-radius:36px; overflow:hidden; background:#fff; position:relative; }
   .pscr .island { position:absolute; top:10px; left:50%; transform:translateX(-50%); width:80px; height:22px; border-radius:12px; background:#111; z-index:2; }
   .msite { position:absolute; inset:0 0 auto; padding-top:40px; animation:scrollm 3.2s 8.9s cubic-bezier(.5,0,.3,1) both; color:#171918; text-align:left; }
-  @keyframes scrollm { to{transform:translateY(-250px)} }
+  @keyframes scrollm { to{transform:translateY(-170px)} }
   .msite .nav { height:44px; font-size:13px; padding:0 16px; }
   .msite .mh { padding:18px 16px; background:#f6f3ee; }
   .msite .mh h3 { font-size:24px; line-height:1.05; letter-spacing:-.6px; }
@@ -179,20 +179,131 @@
   .who span:nth-child(1){animation-delay:29.5s} .who span:nth-child(2){animation-delay:29.65s} .who span:nth-child(3){animation-delay:29.8s} .who span:nth-child(4){animation-delay:29.95s}
   .who span:nth-child(5){animation-delay:30.1s} .who span:nth-child(6){animation-delay:30.25s} .who span:nth-child(7){animation-delay:30.4s} .who span:nth-child(8){animation-delay:30.55s}
   .whosub { margin-top:60px; font-size:38px; color:var(--muted); line-height:1.4; animation:up .6s 30.9s both; }
+  /* Solid scenes cover the grid and glow */
+  .scene.solid { background:#0d0f0e; }
+  /* Problem boxes */
+  .pgrid { margin-top:56px; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:22px; text-align:left; }
+  .pb { background:#17191a; border:1px solid #2a2e2c; border-radius:30px; padding:22px; animation:rise .6s cubic-bezier(.2,.9,.3,1) both; }
+  .pb.wide { grid-column:span 2; display:grid; grid-template-columns:1.2fr 1fr; gap:24px; align-items:center; }
+  .pb p { margin-top:18px; font-size:30px; font-weight:800; line-height:1.2; }
+  .pb.wide p { margin-top:0; }
+  .g { position:relative; height:220px; border-radius:20px; background:#fff; overflow:hidden; color:#171918; }
+  .g-site .bar3 { height:34px; background:#e9e9e9; display:flex; gap:7px; align-items:center; padding:0 12px; }
+  .g-site .bar3 i { width:10px; height:10px; border-radius:50%; background:#bbb; }
+  .g-site .bar3 span { margin-left:auto; font-size:15px; font-weight:800; color:#e5484d; }
+  .g-site .old { padding:14px; display:grid; grid-template-columns:1fr 1fr; gap:10px; filter:grayscale(1); }
+  .g-site .old b { height:44px; background:#ddd; border-radius:4px; }
+  .g-site .old b:nth-child(2){ transform:rotate(3deg) translateX(14px); }
+  .g-site .old em { grid-column:span 2; height:22px; background:repeating-linear-gradient(90deg,#ccc 0 20px,#e5e5e5 20px 40px); }
+  .spin2 { position:absolute; left:50%; top:58%; width:56px; height:56px; margin:-28px; border-radius:50%; border:7px solid rgba(0,0,0,.1); border-top-color:#e5484d; animation:rot .9s linear 12; animation-delay:3.9s; }
+  @keyframes rot { to{transform:rotate(360deg)} }
+  .g-ads { padding:18px; }
+  .g-ads small { font-size:17px; color:#6c726e; font-weight:700; display:block; }
+  .meter .m { height:16px; border-radius:99px; background:#f1e1e1; margin-top:8px; overflow:hidden; }
+  .meter .m span { display:block; height:100%; width:0; background:#e5484d; animation:fillw 3s 5s ease-out forwards; }
+  @keyframes fillw { to{width:92%} }
+  .spend { display:block; margin-top:6px; font-size:28px; color:#e5484d; counter-reset:n var(--n); animation:count2 3s 5s ease-out both; }
+  .spend::after { content:"$" counter(n) "0 spent"; }
+  @keyframes count2 { from{--n:5} to{--n:184} }
+  .cust { margin-top:14px; } .cust b { font-size:40px; }
+  .coin { position:absolute; right:30px; top:-40px; width:40px; height:40px; border-radius:50%; background:#f5c542; color:#7a5a00; font-style:normal; font-weight:800; display:grid; place-items:center; font-size:22px; animation:drop 1.2s ease-in 3 both; }
+  .c1 { animation-delay:5s; } .c2 { right:80px; animation-delay:5.4s; } .c3 { right:130px; animation-delay:5.8s; }
+  @keyframes drop { 0%{transform:translateY(0); opacity:1} 100%{transform:translateY(300px) rotate(200deg); opacity:0} }
+  .g-dm { background:#f5f5f5; padding:16px; }
+  .bub { background:#fff; border-radius:18px 18px 18px 4px; padding:10px 14px; font-size:18px; font-weight:600; width:max-content; max-width:90%; margin-bottom:10px; box-shadow:0 2px 6px rgba(0,0,0,.06); animation:lost 3.6s both; }
+  .b1 { animation-delay:5.8s; } .b2 { animation-delay:6.2s; margin-left:20px; } .b3 { animation-delay:6.6s; }
+  @keyframes lost { 0%{opacity:0; transform:translateY(20px)} 15%{opacity:1; transform:none} 70%{opacity:1; filter:none} 100%{opacity:.25; filter:blur(2px)} }
+  .unread { position:absolute; right:14px; bottom:14px; background:#e5484d; color:#fff; font-size:17px; font-weight:800; padding:6px 12px; border-radius:99px; animation:pop .4s 7s both; }
+  .g-tools { background:#f5f5f5; }
+  .g-tools svg { position:absolute; inset:0; width:100%; height:100%; }
+  .g-tools .dl { stroke:#c9c9c9; stroke-width:4; stroke-dasharray:8 8; fill:none; }
+  .g-tools span { position:absolute; width:76px; height:76px; border-radius:20px; background:#fff; display:grid; place-items:center; font-size:38px; box-shadow:0 6px 16px rgba(0,0,0,.08); }
+  .t1 { left:22px; top:22px; } .t2 { right:22px; top:22px; } .t3 { left:50%; margin-left:-38px; bottom:14px; }
+  .g-tools b { position:absolute; width:40px; height:40px; border-radius:50%; background:#e5484d; color:#fff; display:grid; place-items:center; font-size:20px; animation:blink .8s 6.8s 5 both; }
+  .x1 { left:30%; top:44%; } .x2 { right:30%; top:44%; }
+  @keyframes blink { 0%,100%{opacity:1; transform:scale(1)} 50%{opacity:.4; transform:scale(.8)} }
+  .g-goog { padding:16px; height:auto; }
+  .sbar { border:2px solid #e5e5e5; border-radius:99px; padding:10px 18px; font-size:19px; font-weight:600; }
+  .res i { display:block; height:16px; border-radius:6px; background:#e9e9e9; margin-top:14px; width:90%; }
+  .res i:nth-child(2){ width:75%; } .res i:nth-child(3){ width:82%; }
+  .you { margin-top:16px; font-size:20px; font-weight:800; color:#6c726e; }
+  .you b { color:#e5484d; }
+  /* Feature points row */
+  .feats { margin-top:44px; width:100%; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; text-align:left; }
+  .feats div { background:#fff; color:#171918; border-radius:26px; padding:22px; animation:up .5s both; }
+  .feats div:nth-child(1){ animation-delay:calc(var(--d, 22s) + 0s); } .feats div:nth-child(2){ animation-delay:calc(var(--d, 22s) + .35s); } .feats div:nth-child(3){ animation-delay:calc(var(--d, 22s) + .7s); }
+  .feats i { font-style:normal; font-size:36px; }
+  .feats b { display:block; font-size:27px; margin-top:8px; letter-spacing:-.5px; }
+  .feats small { display:block; font-size:20px; color:#6c726e; margin-top:4px; line-height:1.3; }
+  /* SEO */
+  .serp { margin-top:60px; width:100%; background:#fff; color:#171918; border-radius:36px; padding:30px; text-align:left; box-shadow:0 40px 90px rgba(0,0,0,.5); animation:rise .7s 25.5s cubic-bezier(.2,.9,.3,1) both; }
+  .gbar { display:flex; gap:16px; align-items:center; }
+  .gbar > b { font-size:48px; color:#4285f4; }
+  .gbar .q { flex:1; border:2px solid #e5e5e5; border-radius:99px; padding:16px 24px; font-size:26px; font-weight:600; white-space:nowrap; overflow:hidden; }
+  .gbar .q span { display:inline-block; overflow:hidden; vertical-align:bottom; width:0; animation:typew 1.4s 25.9s steps(26) forwards; }
+  @keyframes typew { to{width:100%} }
+  .rlist { margin-top:22px; display:grid; position:relative; }
+  .r { padding:18px 20px; border-radius:18px; animation:fadeR .4s both; }
+  .r small { font-size:19px; color:#188038; display:block; } .r b { font-size:25px; color:#1a0dab; }
+  .r:nth-child(1){animation-delay:26.6s} .r:nth-child(2){animation-delay:26.75s} .r:nth-child(3){animation-delay:26.9s}
+  @keyframes fadeR { from{opacity:0} to{opacity:1} }
+  .r.me { position:relative; background:#fff4ee; outline:3px solid var(--orange); animation:fadeR .4s 27s both, climb 1.2s 27.6s cubic-bezier(.6,0,.3,1) both; z-index:2; }
+  @keyframes climb { from{transform:none} to{transform:translateY(-300%)} }
+  .rlist .r:not(.me) { animation:fadeR .4s both, push 1.2s 27.6s cubic-bezier(.6,0,.3,1) both; }
+  .rlist .r:nth-child(1){animation-delay:26.6s,27.6s} .rlist .r:nth-child(2){animation-delay:26.75s,27.6s} .rlist .r:nth-child(3){animation-delay:26.9s,27.6s}
+  @keyframes push { from{transform:none} to{transform:translateY(100%)} }
+  .rank { position:absolute; right:18px; top:50%; margin-top:-26px; background:var(--orange); color:#fff; font-weight:800; font-size:26px; border-radius:14px; padding:8px 14px; animation:pop .4s 28.8s both; }
+  /* Marketing */
+  .mk { margin-top:60px; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:22px; text-align:left; }
+  .ig, .adcard { background:#fff; color:#171918; border-radius:32px; overflow:hidden; box-shadow:0 40px 90px rgba(0,0,0,.5); animation:rise .7s cubic-bezier(.2,.9,.3,1) both; }
+  .ig { animation-delay:31s; } .adcard { animation-delay:31.4s; padding:26px; }
+  .igh { display:flex; gap:12px; align-items:center; padding:16px 18px; }
+  .igh .av2 { width:40px; height:40px; border-radius:50%; background:conic-gradient(#f66135,#e1306c,#833ab4,#f66135); }
+  .igh b { font-size:20px; } .igh small { font-size:16px; color:#8a8f8b; margin-left:auto; }
+  .ig img { width:100%; height:300px; object-fit:cover; background:#f3f3f3; }
+  .igf { padding:16px 18px; font-size:22px; }
+  .likes { counter-reset:n var(--n); animation:count3 2.5s 31.6s ease-out both; }
+  .likes::after { content:counter(n); }
+  @keyframes count3 { from{--n:12} to{--n:1248} }
+  .adcard .hd { display:flex; justify-content:space-between; font-size:24px; } .adcard .hd small { color:#8a8f8b; font-size:18px; }
+  .bars { margin-top:20px; height:200px; display:flex; gap:10px; align-items:flex-end; }
+  .bars i { flex:1; border-radius:8px 8px 0 0; background:linear-gradient(#ff9c6e,#f66135); height:0; animation:barh .9s cubic-bezier(.3,.7,.3,1) forwards; }
+  .bars i:nth-child(1){animation-delay:31.8s} .bars i:nth-child(2){animation-delay:31.9s} .bars i:nth-child(3){animation-delay:32s} .bars i:nth-child(4){animation-delay:32.1s} .bars i:nth-child(5){animation-delay:32.2s} .bars i:nth-child(6){animation-delay:32.3s} .bars i:nth-child(7){animation-delay:32.4s}
+  @keyframes barh { to{height:var(--h)} }
+  .kp { margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .kp div { background:#f6f5f1; border-radius:16px; padding:14px; } .kp small { font-size:17px; color:#6c726e; } .kp b { display:block; font-size:32px; } .kp .g2 { color:var(--green); }
+  /* Email */
+  .em { margin-top:60px; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:22px; text-align:left; }
+  .news, .estats { background:#fff; color:#171918; border-radius:32px; padding:24px; box-shadow:0 40px 90px rgba(0,0,0,.5); animation:rise .7s cubic-bezier(.2,.9,.3,1) both; }
+  .news { animation-delay:47.5s; } .estats { animation-delay:47.9s; }
+  .nh { display:flex; justify-content:space-between; align-items:baseline; } .nh b { letter-spacing:3px; font-size:22px; } .nh small { font-size:16px; color:#8a8f8b; }
+  .news img { margin-top:14px; width:100%; height:230px; object-fit:cover; border-radius:18px; background:#f3f3f3; }
+  .nt { display:block; margin-top:14px; font-size:25px; line-height:1.2; }
+  .nb { display:inline-block; margin-top:14px; background:#171918; color:#fff; font-weight:800; font-size:19px; padding:12px 20px; border-radius:12px; }
+  .st { margin-bottom:22px; } .st small { font-size:19px; color:#6c726e; font-weight:700; } .st b { font-size:34px; }
+  .m2 { height:16px; border-radius:99px; background:#eee; margin:8px 0 4px; overflow:hidden; }
+  .m2 span { display:block; height:100%; width:0; background:var(--green); animation:fill2 1.6s 48.6s ease-out forwards; }
+  @keyframes fill2 { to{width:var(--w)} }
+  .flowx { display:flex; align-items:center; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .flowx .n { font-size:19px; font-weight:800; padding:10px 14px; border-radius:12px; background:#f0eee8; color:#8a8f8b; animation:lit .4s both; }
+  .flowx em { font-style:normal; color:#bbb; font-weight:800; }
+  .n1 { animation-delay:49.6s; } .n2 { animation-delay:50.2s; } .n3 { animation-delay:50.8s; }
+  @keyframes lit { to{background:var(--orange); color:#fff} }
+  .auto { display:block; margin-top:14px; font-size:18px; color:var(--green); font-weight:800; animation:up .4s 51.2s both; }
 </style>
 </head>
 <body>
 <div class="grid"></div><div class="glow"></div>
 
 <!-- 1 · Logo -->
-<section class="scene center" style="animation:show 2.5s 0s both">
+<section class="scene center solid" style="animation:show 3s 0s both">
   <div class="logo"><i></i><i></i><i></i><i></i></div>
   <div class="word">Growbytes</div>
   <div class="tag">Helping businesses grow online.</div>
 </section>
 
 <!-- 2 · Growth -->
-<section class="scene top" data-shift="7.5" style="animation:show 4.5s 2.5s both">
+<section class="scene top" data-shift="11.5" style="animation:show 5s 2.5s both">
   <span class="pill" style="animation:up .5s 2.6s both"><i></i>Here&rsquo;s how we help</span>
   <h2 style="animation:up .6s 2.7s both">Get the right setup.<br><span>Watch it grow.</span></h2>
   <div class="dash">
@@ -214,7 +325,7 @@
 </section>
 
 <!-- 3 · Websites & Shopify -->
-<section class="scene top" data-shift="7.5" style="animation:show 5.5s 7s both">
+<section class="scene top" data-shift="12" style="animation:show 6s 7s both">
   <span class="pill" style="animation:up .5s 7.1s both"><i></i>Websites &amp; Shopify</span>
   <h2 style="animation:up .6s 7.2s both">Sites that look great<br><span>on every screen.</span></h2>
   <div class="devices">
@@ -243,12 +354,17 @@
         <div class="mp"><div><img src="img/white-sneakers.jpg">Leather Sneakers</div><div><img src="img/hoodie.jpg">Cotton Hoodie</div><div><img src="img/frontpack.jpg">Frontpack</div><div><img src="img/puffer.jpg">Puffer Jacket</div></div>
       </div>
     </div></div>
-    <div class="badge"><i>⚡</i><div><b>Fast on mobile</b><small>Designed for phones first</small></div></div>
+    
+  </div>
+  <div class="feats" style="--d:10.4s; margin-top:110px">
+    <div><i>⚡</i><b>Fast on mobile</b><small>Loads quickly on any phone</small></div>
+    <div><i>🛒</i><b>Built to convert</b><small>Clear steps to buy or book</small></div>
+    <div><i>✏️</i><b>Easy to update</b><small>Change content yourself</small></div>
   </div>
 </section>
 
 <!-- 4 · CRM -->
-<section class="scene top" data-shift="7.5" style="animation:show 4.5s 12.5s both">
+<section class="scene top" data-shift="29" style="animation:show 5.5s 12.5s both">
   <span class="pill" style="animation:up .5s 12.6s both"><i></i>CRM &amp; integrations</span>
   <h2 style="animation:up .6s 12.7s both">All your leads,<br><span>one simple board.</span></h2>
   <div class="crm">
@@ -274,7 +390,7 @@
 </section>
 
 <!-- 5 · AI automation -->
-<section class="scene top" data-shift="7.5" style="animation:show 4.5s 17s both">
+<section class="scene top" data-shift="19" style="animation:show 5.5s 17s both">
   <span class="pill" style="animation:up .5s 17.1s both"><i></i>AI automation</span>
   <h2 style="animation:up .6s 17.2s both">Let AI handle<br><span>the busywork.</span></h2>
   <div class="flow">
@@ -291,32 +407,103 @@
 </section>
 
 <!-- 2 · Problem -->
-<section class="scene top" style="animation:show 5.5s 2.5s both">
-  <span class="pill bad" style="animation:up .5s 2.6s both"><i></i>Sound familiar?</span>
-  <h2 style="animation:up .6s 2.75s both">Working hard, but<br><span class="red">not growing online?</span></h2>
-  <div class="sad">
-    <div class="hd"><b>Sales</b><small>Last 6 months</small></div>
-    <svg class="chart2" viewBox="0 0 960 220" preserveAspectRatio="none">
-      <g stroke="#eeebe4" stroke-width="2"><path d="M0 60H960M0 130H960M0 200H960"/></g>
-      <path class="line2" d="M10 70 C120 90 200 60 290 95 S430 110 520 120 S690 150 760 140 S880 175 940 190" fill="none" stroke="#e5484d" stroke-width="7" stroke-linecap="round"/>
-    </svg>
+<section class="scene top solid" style="animation:show 8s 3s both">
+  <span class="pill bad" style="animation:up .5s 3.1s both"><i></i>Sound familiar?</span>
+  <h2 style="animation:up .6s 3.25s both">Working hard, but<br><span class="red">not growing online?</span></h2>
+  <div class="pgrid">
+    <div class="pb" style="animation-delay:3.9s">
+      <div class="g g-site"><div class="bar3"><i></i><i></i><i></i><span>⚠ Not secure</span></div><div class="old"><b></b><b></b><b></b><em></em></div><div class="spin2"></div></div>
+      <p>Website looks outdated and slow</p></div>
+    <div class="pb" style="animation-delay:4.7s">
+      <div class="g g-ads"><div class="meter"><small>Ad spend</small><div class="m"><span></span></div><b class="spend"></b></div><div class="cust"><small>New customers</small><b>0</b></div><i class="coin c1">$</i><i class="coin c2">$</i><i class="coin c3">$</i></div>
+      <p>Ads cost money, bring few customers</p></div>
+    <div class="pb" style="animation-delay:5.5s">
+      <div class="g g-dm"><div class="bub b1">Hi, is this available?</div><div class="bub b2">What's the price?</div><div class="bub b3">Hello?? 👋</div><span class="unread">27 unread</span></div>
+      <p>Leads get lost in DMs and spreadsheets</p></div>
+    <div class="pb" style="animation-delay:6.3s">
+      <div class="g g-tools"><span class="t1">📊</span><span class="t2">📧</span><span class="t3">🤖</span><svg viewBox="0 0 300 150"><path d="M70 50 L150 100" class="dl"/><path d="M230 50 L150 100" class="dl"/></svg><b class="x1">✕</b><b class="x2">✕</b></div>
+      <p>Tools and AI don&rsquo;t talk to each other</p></div>
+    <div class="pb wide" style="animation-delay:7.1s">
+      <div class="g g-goog"><div class="sbar">🔍 <span>best salon near me</span></div><div class="res"><i></i><i></i><i></i></div><div class="you">Your business &rarr; <b>Page 5</b></div></div>
+      <p>Customers can&rsquo;t find you on Google</p></div>
   </div>
-  <ul class="probs">
-    <li><i>✕</i>Website looks outdated and slow</li>
-    <li><i>✕</i>Ads cost money, bring few customers</li>
-    <li><i>✕</i>Leads get lost in DMs and spreadsheets</li>
-    <li><i>✕</i>Tools and AI don&rsquo;t talk to each other</li>
-    <li><i>✕</i>Customers can&rsquo;t find you on Google</li>
-  </ul>
 </section>
 
 <!-- 3 · Turn -->
-<section class="scene center s6" style="animation:show 2s 8s both">
+<section class="scene center s6" data-shift="3" style="animation:show 3s 8s both">
   <div><div class="line" style="animation-delay:8.1s">It&rsquo;s not you.</div><div class="line" style="animation-delay:8.45s">It&rsquo;s your setup.</div><div class="line" style="animation-delay:9s;color:var(--orange)">We fix that.</div></div>
 </section>
 
+<!-- SEO 25–30.5 -->
+<section class="scene top" style="animation:show 5.5s 25s both">
+  <span class="pill" style="animation:up .5s 25.1s both"><i></i>SEO</span>
+  <h2 style="animation:up .6s 25.2s both">Get found when<br><span>customers search.</span></h2>
+  <div class="serp">
+    <div class="gbar"><b>G</b><div class="q"><span>web design agency near me</span></div></div>
+    <div class="rlist">
+      <div class="r"><small>competitor-one.com</small><b>Web Design Studio | Websites</b></div>
+      <div class="r"><small>another-agency.com</small><b>Affordable Website Design</b></div>
+      <div class="r"><small>directory-site.com</small><b>Top 10 Web Designers Near You</b></div>
+      <div class="r me"><small>yourbusiness.com</small><b>Your Business &mdash; Websites That Grow</b><span class="rank">#1</span></div>
+    </div>
+  </div>
+  <div class="feats" style="--d:27.6s">
+    <div><i>📍</i><b>Local SEO</b><small>Show up in Maps</small></div>
+    <div><i>🔧</i><b>Technical fixes</b><small>Fast, clean pages</small></div>
+    <div><i>✍️</i><b>Helpful content</b><small>Answers buyers want</small></div>
+  </div>
+</section>
+
+<!-- Marketing 30.5–36 -->
+<section class="scene top" style="animation:show 5.5s 30.5s both">
+  <span class="pill" style="animation:up .5s 30.6s both"><i></i>Social media &amp; ads</span>
+  <h2 style="animation:up .6s 30.7s both">Marketing that<br><span>brings customers.</span></h2>
+  <div class="mk">
+    <div class="ig">
+      <div class="igh"><span class="av2"></span><b>yourbusiness</b><small>Sponsored</small></div>
+      <img src="img/sneakers.jpg">
+      <div class="igf">♥ <b class="likes"></b> likes &nbsp; 💬 86</div>
+    </div>
+    <div class="adcard">
+      <div class="hd"><b>Ads results</b><small>This week</small></div>
+      <div class="bars"><i style="--h:30%"></i><i style="--h:42%"></i><i style="--h:38%"></i><i style="--h:56%"></i><i style="--h:64%"></i><i style="--h:78%"></i><i style="--h:92%"></i></div>
+      <div class="kp"><div><small>Clicks</small><b>2,410</b></div><div><small>Leads</small><b class="g2">146</b></div></div>
+    </div>
+  </div>
+  <div class="feats" style="--d:33.2s">
+    <div><i>📱</i><b>Social media</b><small>Posts people stop for</small></div>
+    <div><i>🎯</i><b>Google &amp; Meta ads</b><small>Aimed at real buyers</small></div>
+    <div><i>📊</i><b>Clear reports</b><small>See what works</small></div>
+  </div>
+</section>
+
+<!-- Email 47–52.5 -->
+<section class="scene top" style="animation:show 5.5s 47s both">
+  <span class="pill" style="animation:up .5s 47.1s both"><i></i>Email marketing</span>
+  <h2 style="animation:up .6s 47.2s both">Emails that bring<br><span>customers back.</span></h2>
+  <div class="em">
+    <div class="news">
+      <div class="nh"><b>STRIDE</b><small>To: 4,820 subscribers</small></div>
+      <img src="img/white-sneakers.jpg">
+      <b class="nt">New season, 15% off for you</b>
+      <span class="nb">Shop now</span>
+    </div>
+    <div class="estats">
+      <div class="st"><small>Open rate</small><div class="m2"><span style="--w:48%"></span></div><b>48%</b></div>
+      <div class="st"><small>Clicks</small><div class="m2"><span style="--w:22%"></span></div><b>22%</b></div>
+      <div class="flowx"><span class="n n1">Welcome</span><em>→</em><span class="n n2">Offer</span><em>→</em><span class="n n3">Review</span></div>
+      <small class="auto">Sends automatically</small>
+    </div>
+  </div>
+  <div class="feats" style="--d:50.4s">
+    <div><i>📰</i><b>Newsletters</b><small>Designed in your brand</small></div>
+    <div><i>🔁</i><b>Automated flows</b><small>Welcome, follow-up, reviews</small></div>
+    <div><i>💌</i><b>Repeat sales</b><small>Bring past buyers back</small></div>
+  </div>
+</section>
+
 <!-- 8 · Who we help -->
-<section class="scene top" style="animation:show 3s 29s both">
+<section class="scene top" data-shift="23.5" style="animation:show 4.5s 29s both">
   <span class="pill" style="animation:up .5s 29.1s both"><i></i>Who we help</span>
   <h2 style="animation:up .6s 29.2s both">For every business<br><span>ready to grow.</span></h2>
   <div class="who">
@@ -327,7 +514,7 @@
 </section>
 
 <!-- 7 · CTA -->
-<section class="scene center s7" data-shift="8.5" style="animation:showlast 2.5s 23.5s both">
+<section class="scene center s7" data-shift="33.5" style="animation:showlast 4s 23.5s both">
   <div class="q">Ready to<br>grow <span>online?</span></div>
   <div class="cta">Let&rsquo;s talk <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> growbytes.co</div>
   <div class="mini"><svg width="64" height="50" viewBox="0 0 16 12.5"><rect x="0" y="7.5" width="4" height="4.5"/><rect x="4" y="1.25" width="4" height="6.25"/><rect x="8" y="7.5" width="4" height="4.5"/><rect x="12" y="0" width="4" height="7.5"/></svg>Growbytes</div>
