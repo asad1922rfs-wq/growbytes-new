@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* 26s Reel, 1080x1920. Every animation is timed from t=0 so frames can be scrubbed.
+  /* 35s Reel, 1080x1920. Every animation is timed from t=0 so frames can be scrubbed.
      Scenes: logo 0–2.5 · growth 2.5–7 · web 7–12.5 · CRM 12.5–17 · AI 17–21.5 · values 21.5–23.5 · CTA 23.5–26 */
   @property --n { syntax:'<integer>'; inherits:false; initial-value:0; }
   :root { --night:#0d0f0e; --ink:#f4f1ea; --muted:#a3a8a4; --orange:#f66135; --peach:#ffb38f; --cream:#f4f1ea; --green:#17803d; }
@@ -13,7 +13,7 @@
   ::-webkit-scrollbar { display:none; }
   body { font-family:Manrope, sans-serif; background:var(--night); color:var(--ink); position:relative; }
   .grid { position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size:60px 60px; }
-  .glow { position:absolute; width:1300px; height:1300px; border-radius:50%; left:50%; top:50%; margin:-650px; background:radial-gradient(circle, rgba(246,97,53,.26), rgba(246,97,53,0) 62%); animation:glow 26s linear both; }
+  .glow { position:absolute; width:1300px; height:1300px; border-radius:50%; left:50%; top:50%; margin:-650px; background:radial-gradient(circle, rgba(246,97,53,.26), rgba(246,97,53,0) 62%); animation:glow 35s linear both; }
   @keyframes glow { 0%{transform:translate(-200px,-500px) scale(.7)} 30%{transform:translate(250px,100px)} 60%{transform:translate(-250px,300px)} 100%{transform:translate(100px,-200px) scale(.9)} }
 
   .scene { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 80px; opacity:0; }
@@ -32,14 +32,15 @@
 
   /* 1 · Logo */
   .logo { display:flex; align-items:flex-end; height:250px; }
-  .logo i { width:80px; display:block; background:linear-gradient(#ff9c6e,#f66135); transform-origin:bottom; animation:grow .6s cubic-bezier(.2,.9,.3,1.3) both; }
-  .logo i:nth-child(1){height:90px; animation-delay:.15s}
-  .logo i:nth-child(2){height:125px; margin-bottom:90px; animation-delay:.3s}
-  .logo i:nth-child(3){height:90px; animation-delay:.45s}
-  .logo i:nth-child(4){height:150px; margin-bottom:90px; animation-delay:.6s}
-  @keyframes grow { from{transform:scaleY(0)} to{transform:scaleY(1)} }
-  .word { margin-top:56px; font-size:110px; font-weight:800; letter-spacing:-4px; animation:up .7s 1s both; }
-  .tag { margin-top:26px; font-size:38px; color:var(--muted); animation:up .7s 1.3s both; }
+  .logo i { width:80px; display:block; background:linear-gradient(#ff9c6e,#f66135); animation:soft .9s cubic-bezier(.25,.8,.25,1) both; }
+  .logo i:nth-child(1){height:90px; animation-delay:.1s}
+  .logo i:nth-child(2){height:125px; margin-bottom:90px; animation-delay:.22s}
+  .logo i:nth-child(3){height:90px; animation-delay:.34s}
+  .logo i:nth-child(4){height:150px; margin-bottom:90px; animation-delay:.46s}
+  @keyframes soft { from{opacity:0; transform:translateY(40px)} to{opacity:1; transform:none} }
+  .word { margin-top:56px; font-size:110px; font-weight:800; letter-spacing:-4px; animation:fadeup 1s .9s cubic-bezier(.25,.8,.25,1) both; }
+  @keyframes fadeup { from{opacity:0; transform:translateY(24px)} to{opacity:1; transform:none} }
+  .tag { margin-top:26px; font-size:40px; color:var(--muted); animation:fadeup 1s 1.3s cubic-bezier(.25,.8,.25,1) both; }
 
   /* 2 · Growth dashboard */
   .dash { margin-top:80px; width:100%; background:#fff; color:#171918; border-radius:40px; padding:44px; text-align:left; box-shadow:0 50px 110px rgba(0,0,0,.55); animation:rise .8s 2.8s cubic-bezier(.2,.9,.3,1) both; }
@@ -150,7 +151,7 @@
   /* 6 · Values (light) */
   .s6 { background:var(--cream); color:#171918; }
   .s6 .line { font-size:120px; font-weight:800; letter-spacing:-5px; line-height:1.05; animation:up .5s both; }
-  .s6 .line:nth-child(1){animation-delay:21.6s} .s6 .line:nth-child(2){animation-delay:21.95s} .s6 .line:nth-child(3){animation-delay:22.3s; color:var(--orange)}
+  
 
   /* 7 · CTA (orange) */
   .s7 { background:var(--orange); color:#fff; }
@@ -159,6 +160,25 @@
   .cta { margin-top:80px; display:inline-flex; align-items:center; gap:22px; font-size:52px; font-weight:800; background:#171918; color:#fff; padding:40px 64px; border-radius:999px; animation:pop .6s 24.1s cubic-bezier(.2,.9,.3,1.4) both; }
   .mini { margin-top:110px; display:flex; align-items:center; gap:18px; font-size:44px; font-weight:800; animation:up .6s 24.5s both; }
   .mini svg rect { fill:#fff; }
+  /* Problem scene */
+  .pill.bad { background:#e5484d; }
+  h2 .red { color:#ff6b6f; }
+  .sad { margin-top:60px; width:100%; background:#fff; color:#171918; border-radius:36px; padding:32px 36px 20px; text-align:left; box-shadow:0 40px 90px rgba(0,0,0,.5); animation:rise .7s 3s cubic-bezier(.2,.9,.3,1) both; }
+  .sad .hd { display:flex; justify-content:space-between; font-size:28px; }
+  .sad .hd small { font-size:22px; color:#8a8f8b; }
+  .chart2 { width:100%; height:200px; display:block; margin-top:10px; }
+  .line2 { stroke-dasharray:1200; stroke-dashoffset:1200; animation:draw 2s 3.4s ease-out forwards; }
+  .probs { list-style:none; margin-top:34px; width:100%; display:grid; gap:16px; text-align:left; }
+  .probs li { display:flex; gap:20px; align-items:center; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:24px; padding:22px 26px; font-size:34px; font-weight:700; animation:shake .6s both; }
+  .probs li i { width:50px; height:50px; border-radius:50%; background:#e5484d; color:#fff; display:grid; place-items:center; font-style:normal; font-size:24px; font-weight:800; flex-shrink:0; }
+  .probs li:nth-child(1){animation-delay:4.2s} .probs li:nth-child(2){animation-delay:4.85s} .probs li:nth-child(3){animation-delay:5.5s} .probs li:nth-child(4){animation-delay:6.15s} .probs li:nth-child(5){animation-delay:6.8s}
+  @keyframes shake { 0%{opacity:0; transform:translateX(-60px)} 60%{opacity:1; transform:translateX(8px)} 80%{transform:translateX(-4px)} 100%{opacity:1; transform:none} }
+  /* Who we help */
+  .who { margin-top:70px; display:flex; flex-wrap:wrap; gap:18px; justify-content:center; }
+  .who span { background:#fff; color:#171918; border-radius:99px; padding:22px 32px; font-size:34px; font-weight:800; animation:pop .45s cubic-bezier(.2,.9,.3,1.3) both; }
+  .who span:nth-child(1){animation-delay:29.5s} .who span:nth-child(2){animation-delay:29.65s} .who span:nth-child(3){animation-delay:29.8s} .who span:nth-child(4){animation-delay:29.95s}
+  .who span:nth-child(5){animation-delay:30.1s} .who span:nth-child(6){animation-delay:30.25s} .who span:nth-child(7){animation-delay:30.4s} .who span:nth-child(8){animation-delay:30.55s}
+  .whosub { margin-top:60px; font-size:38px; color:var(--muted); line-height:1.4; animation:up .6s 30.9s both; }
 </style>
 </head>
 <body>
@@ -168,13 +188,13 @@
 <section class="scene center" style="animation:show 2.5s 0s both">
   <div class="logo"><i></i><i></i><i></i><i></i></div>
   <div class="word">Growbytes</div>
-  <div class="tag">Websites · Shopify · CRM · AI</div>
+  <div class="tag">Helping businesses grow online.</div>
 </section>
 
 <!-- 2 · Growth -->
-<section class="scene top" style="animation:show 4.5s 2.5s both">
-  <span class="pill" style="animation:up .5s 2.6s both"><i></i>Grow your business</span>
-  <h2 style="animation:up .6s 2.7s both">Watch your numbers<br><span>go up.</span></h2>
+<section class="scene top" data-shift="7.5" style="animation:show 4.5s 2.5s both">
+  <span class="pill" style="animation:up .5s 2.6s both"><i></i>Here&rsquo;s how we help</span>
+  <h2 style="animation:up .6s 2.7s both">Get the right setup.<br><span>Watch it grow.</span></h2>
   <div class="dash">
     <div class="hd"><b>Revenue</b><small>Last 6 months</small></div>
     <div class="rev"><div class="num"></div><span class="up">▲ growing</span></div>
@@ -194,7 +214,7 @@
 </section>
 
 <!-- 3 · Websites & Shopify -->
-<section class="scene top" style="animation:show 5.5s 7s both">
+<section class="scene top" data-shift="7.5" style="animation:show 5.5s 7s both">
   <span class="pill" style="animation:up .5s 7.1s both"><i></i>Websites &amp; Shopify</span>
   <h2 style="animation:up .6s 7.2s both">Sites that look great<br><span>on every screen.</span></h2>
   <div class="devices">
@@ -228,7 +248,7 @@
 </section>
 
 <!-- 4 · CRM -->
-<section class="scene top" style="animation:show 4.5s 12.5s both">
+<section class="scene top" data-shift="7.5" style="animation:show 4.5s 12.5s both">
   <span class="pill" style="animation:up .5s 12.6s both"><i></i>CRM &amp; integrations</span>
   <h2 style="animation:up .6s 12.7s both">All your leads,<br><span>one simple board.</span></h2>
   <div class="crm">
@@ -254,7 +274,7 @@
 </section>
 
 <!-- 5 · AI automation -->
-<section class="scene top" style="animation:show 4.5s 17s both">
+<section class="scene top" data-shift="7.5" style="animation:show 4.5s 17s both">
   <span class="pill" style="animation:up .5s 17.1s both"><i></i>AI automation</span>
   <h2 style="animation:up .6s 17.2s both">Let AI handle<br><span>the busywork.</span></h2>
   <div class="flow">
@@ -270,16 +290,57 @@
   </div>
 </section>
 
-<!-- 6 · Values -->
-<section class="scene center s6" style="animation:show 2s 21.5s both">
-  <div><div class="line">Plain advice.</div><div class="line">Clear plans.</div><div class="line">Work you own.</div></div>
+<!-- 2 · Problem -->
+<section class="scene top" style="animation:show 5.5s 2.5s both">
+  <span class="pill bad" style="animation:up .5s 2.6s both"><i></i>Sound familiar?</span>
+  <h2 style="animation:up .6s 2.75s both">Working hard, but<br><span class="red">not growing online?</span></h2>
+  <div class="sad">
+    <div class="hd"><b>Sales</b><small>Last 6 months</small></div>
+    <svg class="chart2" viewBox="0 0 960 220" preserveAspectRatio="none">
+      <g stroke="#eeebe4" stroke-width="2"><path d="M0 60H960M0 130H960M0 200H960"/></g>
+      <path class="line2" d="M10 70 C120 90 200 60 290 95 S430 110 520 120 S690 150 760 140 S880 175 940 190" fill="none" stroke="#e5484d" stroke-width="7" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <ul class="probs">
+    <li><i>✕</i>Website looks outdated and slow</li>
+    <li><i>✕</i>Ads cost money, bring few customers</li>
+    <li><i>✕</i>Leads get lost in DMs and spreadsheets</li>
+    <li><i>✕</i>Tools and AI don&rsquo;t talk to each other</li>
+    <li><i>✕</i>Customers can&rsquo;t find you on Google</li>
+  </ul>
+</section>
+
+<!-- 3 · Turn -->
+<section class="scene center s6" style="animation:show 2s 8s both">
+  <div><div class="line" style="animation-delay:8.1s">It&rsquo;s not you.</div><div class="line" style="animation-delay:8.45s">It&rsquo;s your setup.</div><div class="line" style="animation-delay:9s;color:var(--orange)">We fix that.</div></div>
+</section>
+
+<!-- 8 · Who we help -->
+<section class="scene top" style="animation:show 3s 29s both">
+  <span class="pill" style="animation:up .5s 29.1s both"><i></i>Who we help</span>
+  <h2 style="animation:up .6s 29.2s both">For every business<br><span>ready to grow.</span></h2>
+  <div class="who">
+    <span>🛍️ Retail &amp; ecommerce</span><span>🍽️ Restaurants &amp; cafés</span><span>🦷 Clinics &amp; healthcare</span><span>💇 Salons &amp; beauty</span>
+    <span>🏠 Real estate</span><span>🧰 Trades &amp; services</span><span>🎓 Coaches &amp; education</span><span>🚀 Startups</span>
+  </div>
+  <p class="whosub">Working hard but not growing online?<br>We can help.</p>
 </section>
 
 <!-- 7 · CTA -->
-<section class="scene center s7" style="animation:showlast 2.5s 23.5s both">
+<section class="scene center s7" data-shift="8.5" style="animation:showlast 2.5s 23.5s both">
   <div class="q">Ready to<br>grow <span>online?</span></div>
   <div class="cta">Let&rsquo;s talk <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> growbytes.co</div>
   <div class="mini"><svg width="64" height="50" viewBox="0 0 16 12.5"><rect x="0" y="7.5" width="4" height="4.5"/><rect x="4" y="1.25" width="4" height="6.25"/><rect x="8" y="7.5" width="4" height="4.5"/><rect x="12" y="0" width="4" height="7.5"/></svg>Growbytes</div>
 </section>
+<script>
+  window.seek = (ms) => {
+    for (const a of document.getAnimations()) {
+      const el = a.effect && a.effect.target;
+      const s = el && el.closest ? el.closest("[data-shift]") : null;
+      a.pause();
+      a.currentTime = ms - (s ? parseFloat(s.dataset.shift) * 1000 : 0);
+    }
+  };
+</script>
 </body>
 </html>
