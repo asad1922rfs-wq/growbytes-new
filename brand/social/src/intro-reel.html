@@ -4,442 +4,359 @@
 <meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* 61s Reel, 1080x1920. Every animation is timed from t=0 so frames can be scrubbed.
-     Scenes: logo 0–2.5 · growth 2.5–7 · web 7–12.5 · CRM 12.5–17 · AI 17–21.5 · values 21.5–23.5 · CTA 23.5–26 */
+  /* Growbytes intro Reel · 1080x1920 · 71s.
+     Each scene sets --t (start) and --len (length); inner animations use calc(var(--t) + offset).
+     Backgrounds rotate dark → light → orange. Brand names appear as plain text only (no third-party logos). */
   @property --n { syntax:'<integer>'; inherits:false; initial-value:0; }
-  :root { --night:#0d0f0e; --ink:#f4f1ea; --muted:#a3a8a4; --orange:#f66135; --peach:#ffb38f; --cream:#f4f1ea; --green:#17803d; }
+  :root { --dark:#0d0f0e; --light:#f4f1ea; --orange:#f66135; --ink:#171918; --muted:#6c726e; --green:#17803d; --red:#e5484d; }
   * { box-sizing:border-box; margin:0; padding:0; }
-  html, body { width:1080px; height:1920px; overflow:hidden; }
+  html, body { width:1080px; height:1920px; overflow:hidden; background:#000; }
   ::-webkit-scrollbar { display:none; }
-  body { font-family:Manrope, sans-serif; background:var(--night); color:var(--ink); position:relative; }
-  .grid { position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size:60px 60px; }
-  .glow { position:absolute; width:1300px; height:1300px; border-radius:50%; left:50%; top:50%; margin:-650px; background:radial-gradient(circle, rgba(246,97,53,.26), rgba(246,97,53,0) 62%); animation:glow 61s linear both; }
-  @keyframes glow { 0%{transform:translate(-200px,-500px) scale(.7)} 30%{transform:translate(250px,100px)} 60%{transform:translate(-250px,300px)} 100%{transform:translate(100px,-200px) scale(.9)} }
+  body { font-family:Manrope, sans-serif; position:relative; }
+  img { display:block; }
 
-  .scene { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 80px; opacity:0; }
-  .center { justify-content:center; }
-  .top { justify-content:center; padding-bottom:40px; }
-  @keyframes show { 0%{opacity:0} 6%{opacity:1} 93%{opacity:1} 100%{opacity:0} }
-  @keyframes showlast { 0%{opacity:0} 10%{opacity:1} 100%{opacity:1} }
-  @keyframes up { from{opacity:0; transform:translateY(60px)} to{opacity:1; transform:none} }
-  @keyframes rise { from{opacity:0; transform:translateY(140px) scale(.94)} to{opacity:1; transform:none} }
-  @keyframes pop { from{opacity:0; transform:scale(.6)} to{opacity:1; transform:none} }
-
-  .pill { display:inline-flex; align-items:center; gap:12px; font-size:30px; font-weight:800; color:#fff; background:var(--orange); padding:12px 26px; border-radius:99px; }
-  .pill i { width:12px; height:12px; border-radius:50%; background:#fff; }
-  h2 { margin-top:30px; font-size:92px; font-weight:800; letter-spacing:-3.5px; line-height:1.0; }
-  h2 span { color:var(--orange); }
-
-  /* 1 · Logo */
-  .logo { display:flex; align-items:flex-end; height:250px; }
-  .logo i { width:80px; display:block; background:linear-gradient(#ff9c6e,#f66135); animation:soft .9s cubic-bezier(.25,.8,.25,1) both; }
-  .logo i:nth-child(1){height:90px; animation-delay:.1s}
-  .logo i:nth-child(2){height:125px; margin-bottom:90px; animation-delay:.22s}
-  .logo i:nth-child(3){height:90px; animation-delay:.34s}
-  .logo i:nth-child(4){height:150px; margin-bottom:90px; animation-delay:.46s}
-  @keyframes soft { from{opacity:0; transform:translateY(40px)} to{opacity:1; transform:none} }
-  .word { margin-top:56px; font-size:110px; font-weight:800; letter-spacing:-4px; animation:fadeup 1s .9s cubic-bezier(.25,.8,.25,1) both; }
-  @keyframes fadeup { from{opacity:0; transform:translateY(24px)} to{opacity:1; transform:none} }
-  .tag { margin-top:26px; font-size:40px; color:var(--muted); animation:fadeup 1s 1.3s cubic-bezier(.25,.8,.25,1) both; }
-
-  /* 2 · Growth dashboard */
-  .dash { margin-top:80px; width:100%; background:#fff; color:#171918; border-radius:40px; padding:44px; text-align:left; box-shadow:0 50px 110px rgba(0,0,0,.55); animation:rise .8s 2.8s cubic-bezier(.2,.9,.3,1) both; }
-  .dash .hd { display:flex; justify-content:space-between; align-items:center; }
-  .dash .hd b { font-size:32px; }
-  .dash .hd small { font-size:24px; color:#8a8f8b; background:#f3f1ec; border-radius:12px; padding:8px 16px; font-weight:700; }
-  .rev { margin-top:22px; display:flex; align-items:baseline; gap:20px; }
-  .rev .num { font-size:96px; font-weight:800; letter-spacing:-3px; counter-reset:n var(--n); animation:count 2.6s 3.3s cubic-bezier(.3,.7,.3,1) both; }
-  .rev .num::after { content:"$" counter(n) ",900"; }
-  @keyframes count { from{--n:12} to{--n:48} }
-  .up { font-size:30px; font-weight:800; color:var(--green); background:#e8f6ed; border-radius:14px; padding:8px 16px; animation:pop .5s 5.6s both; }
-  .chart { margin-top:16px; width:100%; height:430px; display:block; }
-  .chart .line { stroke-dasharray:1600; stroke-dashoffset:1600; animation:draw 2.6s 3.3s cubic-bezier(.3,.7,.3,1) forwards; }
-  .chart .area { opacity:0; animation:fade 1s 4.6s forwards; }
-  .chart .dot { opacity:0; animation:pop .4s 5.7s forwards; transform-origin:930px 70px; }
+  .scene { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:150px 70px 70px; opacity:0; animation:show var(--len) var(--t) both; }
+  .dark { background:var(--dark); color:#f4f1ea; --hl:var(--orange); --sub:#a3a8a4; }
+  .light { background:var(--light); color:var(--ink); --hl:var(--orange); --sub:#5d645f; }
+  .orange { background:var(--orange); color:#fff; --hl:var(--ink); --sub:rgba(255,255,255,.88); }
+  .dark::before { content:""; position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px); background-size:60px 60px; }
+  .scene > * { position:relative; }
+  @keyframes show { 0%{opacity:0} 5%{opacity:1} 95%{opacity:1} 100%{opacity:0} }
+  @keyframes showlast { 0%{opacity:0} 8%{opacity:1} 100%{opacity:1} }
+  @keyframes up { from{opacity:0; transform:translateY(50px)} to{opacity:1; transform:none} }
+  @keyframes rise { from{opacity:0; transform:translateY(120px) scale(.95)} to{opacity:1; transform:none} }
+  @keyframes pop { from{opacity:0; transform:scale(.5)} to{opacity:1; transform:none} }
+  @keyframes fade { from{opacity:0} to{opacity:1} }
   @keyframes draw { to{stroke-dashoffset:0} }
-  @keyframes fade { to{opacity:1} }
-  .kpis { margin-top:26px; display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
-  .kpis div { background:#f6f5f1; border-radius:22px; padding:22px 24px; animation:up .5s both; }
-  .kpis div:nth-child(1){animation-delay:4.2s} .kpis div:nth-child(2){animation-delay:4.45s} .kpis div:nth-child(3){animation-delay:4.7s}
-  .kpis small { font-size:22px; color:#6c726e; font-weight:600; }
-  .kpis b { display:block; font-size:42px; margin-top:4px; }
-  .kpis em { font-style:normal; font-size:22px; color:var(--green); font-weight:800; }
+  @keyframes float { 0%,100%{translate:0 0} 50%{translate:0 -10px} }
 
-  /* 3 · Laptop + phone */
-  .devices { position:relative; margin-top:110px; width:940px; height:820px; transform:scale(1.04); transform-origin:top center; }
-  .laptop { position:absolute; right:0; top:40px; width:860px; animation:rise .8s 7.3s cubic-bezier(.2,.9,.3,1) both; }
-  .lid { background:#1c1e1d; border-radius:30px 30px 8px 8px; padding:22px 22px 30px; box-shadow:0 50px 110px rgba(0,0,0,.55), inset 0 0 0 2px #3a3e3c; }
-  .lid .cam { width:10px; height:10px; border-radius:50%; background:#3a3e3c; margin:-12px auto 10px; }
+  .mark { position:absolute !important; top:70px; left:50%; transform:translateX(-50%); width:64px; height:50px; }
+  .orange .mark rect { fill:#fff; }
+
+  h2 { font-size:100px; font-weight:800; letter-spacing:-4px; line-height:.98; animation:up .6s calc(var(--t) + .15s) both; }
+  h2 span { color:var(--hl); }
+  .card { background:#fff; color:var(--ink); border-radius:36px; box-shadow:0 40px 90px rgba(0,0,0,.28); text-align:left; }
+  .dark .card { box-shadow:0 40px 90px rgba(0,0,0,.55); }
+
+  .chips { position:absolute !important; inset:0; pointer-events:none; }
+  .chip { position:absolute; font-size:34px; font-weight:800; padding:20px 30px; border-radius:99px; white-space:nowrap; box-shadow:0 20px 40px rgba(0,0,0,.25); animation:pop .5s cubic-bezier(.2,.9,.3,1.3) both, float 3s ease-in-out 3 both; }
+  .chip b { color:var(--orange); }
+  .c-w { background:#fff; color:var(--ink); } .c-d { background:var(--ink); color:#fff; } .c-o { background:var(--orange); color:#fff; } .c-o b, .c-d b { color:#ffd3bf; }
+  .num { counter-reset:n var(--n); }
+  .num::after { content:counter(n) var(--suf, ""); }
+
+  .logo { display:flex; align-items:flex-end; height:250px; }
+  .logo i { width:80px; display:block; background:linear-gradient(#ff9c6e,#f66135); animation:soft 1s cubic-bezier(.25,.8,.25,1) both; }
+  .logo i:nth-child(1){height:90px; animation-delay:.1s} .logo i:nth-child(2){height:125px; margin-bottom:90px; animation-delay:.25s}
+  .logo i:nth-child(3){height:90px; animation-delay:.4s} .logo i:nth-child(4){height:150px; margin-bottom:90px; animation-delay:.55s}
+  @keyframes soft { from{opacity:0; transform:translateY(40px)} to{opacity:1; transform:none} }
+  .word { margin-top:56px; font-size:116px; font-weight:800; letter-spacing:-4px; animation:soft 1s 1s cubic-bezier(.25,.8,.25,1) both; }
+  .tag { margin-top:24px; font-size:42px; color:#a3a8a4; animation:soft 1s 1.4s cubic-bezier(.25,.8,.25,1) both; }
+
+  .pgrid { margin-top:70px; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+  .pb { background:#fff; border-radius:34px; padding:22px; box-shadow:0 30px 60px rgba(23,25,24,.12); animation:rise .6s cubic-bezier(.2,.9,.3,1) both; text-align:left; }
+  .pb p { margin:22px 6px 6px; font-size:44px; font-weight:800; letter-spacing:-1.2px; line-height:1.05; color:var(--ink); }
+  .pb p span { color:var(--red); }
+  .gx { position:relative; height:330px; border-radius:24px; overflow:hidden; background:#f3f3f3; color:var(--ink); }
+  .site .bar3 { height:40px; background:#e3e3e3; display:flex; gap:8px; align-items:center; padding:0 14px; }
+  .site .bar3 i { width:12px; height:12px; border-radius:50%; background:#bbb; }
+  .site .bar3 span { margin-left:auto; font-size:17px; font-weight:800; color:var(--red); }
+  .site .old { padding:16px; filter:grayscale(1) contrast(.9); }
+  .site .old .hd { font-family:"Times New Roman",serif; font-size:30px; color:#555; border-bottom:3px double #aaa; padding-bottom:6px; }
+  .site .old .row { display:flex; gap:12px; margin-top:12px; }
+  .site .old img { width:120px; height:120px; object-fit:cover; opacity:.55; }
+  .site .old .tx i { display:block; height:12px; background:#ccc; margin-bottom:10px; width:180px; }
+  .site .old .blink { font-family:"Comic Sans MS",cursive; color:#0000ee; text-decoration:underline; font-size:20px; margin-top:10px; display:block; }
+  .spin2 { position:absolute; left:50%; top:55%; width:80px; height:80px; margin:-40px; border-radius:50%; border:9px solid rgba(0,0,0,.08); border-top-color:var(--red); animation:rot .9s linear 9 calc(var(--t) + .8s) both; }
+  @keyframes rot { to{transform:rotate(360deg)} }
+  .ads { background:#fff; padding:24px; }
+  .ads small { font-size:20px; color:var(--muted); font-weight:700; display:block; }
+  .ads .m { height:20px; border-radius:99px; background:#f6e1e1; margin-top:10px; overflow:hidden; }
+  .ads .m span { display:block; height:100%; width:0; background:var(--red); animation:fillw 3.4s calc(var(--t) + 1.4s) ease-out forwards; }
+  @keyframes fillw { to{width:94%} }
+  .spend { display:block; margin-top:8px; font-size:44px; color:var(--red); font-weight:800; counter-reset:n var(--n); animation:count2 3.4s calc(var(--t) + 1.4s) ease-out both; }
+  .spend::after { content:"$" counter(n) " spent"; }
+  @keyframes count2 { from{--n:40} to{--n:2860} }
+  .ads .cu { margin-top:18px; display:flex; align-items:baseline; gap:14px; } .ads .cu b { font-size:64px; }
+  .coin { position:absolute; right:30px; top:-50px; width:50px; height:50px; border-radius:50%; background:#f5c542; color:#7a5a00; font-style:normal; font-weight:800; display:grid; place-items:center; font-size:26px; animation:drop 1.3s ease-in 3 both; }
+  .k1 { animation-delay:calc(var(--t) + 1.5s); } .k2 { right:90px; animation-delay:calc(var(--t) + 1.9s); } .k3 { right:150px; animation-delay:calc(var(--t) + 2.3s); }
+  @keyframes drop { from{transform:none; opacity:1} to{transform:translateY(420px) rotate(220deg); opacity:0} }
+  .dm { padding:20px; background:#efeae2; }
+  .dm .who { display:flex; gap:12px; align-items:center; font-weight:800; font-size:20px; margin-bottom:14px; }
+  .dm .who i { width:40px; height:40px; border-radius:50%; background:conic-gradient(#f66135,#e1306c,#833ab4,#f66135); }
+  .bub { background:#fff; border-radius:20px 20px 20px 6px; padding:12px 16px; font-size:22px; font-weight:600; width:max-content; margin-bottom:12px; box-shadow:0 2px 6px rgba(0,0,0,.06); animation:lost 4.6s both; }
+  .b1 { animation-delay:calc(var(--t) + 2.2s); } .b2 { animation-delay:calc(var(--t) + 2.6s); margin-left:24px; } .b3 { animation-delay:calc(var(--t) + 3s); }
+  @keyframes lost { 0%{opacity:0; transform:translateY(20px)} 12%{opacity:1; transform:none} 65%{opacity:1; filter:none} 100%{opacity:.2; filter:blur(3px)} }
+  .unread { position:absolute; right:18px; bottom:18px; background:var(--red); color:#fff; font-size:22px; font-weight:800; padding:8px 16px; border-radius:99px; animation:pop .4s calc(var(--t) + 3.6s) both; }
+  .goog { background:#fff; padding:22px; }
+  .gl { font-size:44px; font-weight:800; letter-spacing:-1px; }
+  .gl b:nth-child(1){color:#4285f4} .gl b:nth-child(2){color:#ea4335} .gl b:nth-child(3){color:#fbbc05} .gl b:nth-child(4){color:#4285f4} .gl b:nth-child(5){color:#34a853} .gl b:nth-child(6){color:#ea4335}
+  .goog .sb { margin-top:10px; border:2px solid #e5e5e5; border-radius:99px; padding:12px 20px; font-size:22px; font-weight:600; }
+  .goog .rs i { display:block; height:14px; border-radius:6px; background:#e9e9e9; margin-top:16px; }
+  .goog .pg { margin-top:18px; display:flex; gap:10px; font-size:22px; font-weight:800; color:#4285f4; align-items:center; }
+  .goog .pg span { padding:4px 10px; } .goog .pg .you { background:var(--red); color:#fff; border-radius:10px; animation:pop .4s calc(var(--t) + 4.4s) both; }
+
+  .turn .line { font-size:130px; font-weight:800; letter-spacing:-5px; line-height:1.04; animation:up .6s both; }
+  .turn .line:nth-child(3) { color:var(--ink); }
+
+  .dash { margin-top:70px; width:100%; padding:44px; animation:rise .8s calc(var(--t) + .4s) cubic-bezier(.2,.9,.3,1) both; }
+  .dash .hd { display:flex; justify-content:space-between; align-items:center; font-size:32px; font-weight:800; }
+  .dash .hd small { font-size:24px; color:#8a8f8b; background:#f3f1ec; border-radius:12px; padding:8px 16px; font-weight:700; }
+  .rev { margin-top:20px; font-size:100px; font-weight:800; letter-spacing:-3px; counter-reset:n var(--n); animation:count 3s calc(var(--t) + .9s) cubic-bezier(.3,.7,.3,1) both; }
+  .rev::after { content:"$" counter(n) ",900"; }
+  @keyframes count { from{--n:12} to{--n:48} }
+  .chart { margin-top:10px; width:100%; height:460px; }
+  .chart .line { stroke-dasharray:1600; stroke-dashoffset:1600; animation:draw 3s calc(var(--t) + .9s) cubic-bezier(.3,.7,.3,1) forwards; }
+  .chart .area { opacity:0; animation:fade 1s calc(var(--t) + 2.4s) forwards; }
+
+  .devices { position:relative; margin-top:80px; width:940px; height:860px; }
+  .laptop { position:absolute; right:0; top:30px; width:860px; animation:rise .8s calc(var(--t) + .3s) cubic-bezier(.2,.9,.3,1) both; }
+  .lid { background:#1c1e1d; border-radius:30px 30px 8px 8px; padding:22px 22px 30px; box-shadow:0 50px 110px rgba(23,25,24,.35), inset 0 0 0 2px #3a3e3c; }
   .screen { height:540px; border-radius:8px; overflow:hidden; background:#fff; position:relative; }
-  .base { height:28px; margin:0 -48px; background:linear-gradient(#d9dcda,#9da19f); border-radius:0 0 30px 30px; position:relative; }
-  .base:before { content:""; position:absolute; left:50%; top:0; transform:translateX(-50%); width:150px; height:10px; border-radius:0 0 12px 12px; background:#a9adab; }
-  .site { position:absolute; inset:0 0 auto; animation:scrollsite 3.2s 8.6s cubic-bezier(.5,0,.3,1) both; color:#171918; text-align:left; }
-  @keyframes scrollsite { to{transform:translateY(-330px)} }
+  .base { height:28px; margin:0 -48px; background:linear-gradient(#d9dcda,#9da19f); border-radius:0 0 30px 30px; }
+  .site2 { position:absolute; inset:0 0 auto; animation:sc 3.6s calc(var(--t) + 1.6s) cubic-bezier(.5,0,.3,1) both; color:var(--ink); text-align:left; }
+  @keyframes sc { to{transform:translateY(-330px)} }
   .nav { height:56px; display:flex; align-items:center; justify-content:space-between; padding:0 26px; font-size:17px; font-weight:800; letter-spacing:2px; border-bottom:1px solid #eee; }
-  .nav span { font-size:13px; letter-spacing:0; color:#6c726e; font-weight:600; display:flex; gap:18px; }
+  .nav span { font-size:13px; letter-spacing:0; color:var(--muted); font-weight:600; display:flex; gap:18px; }
   .hero { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:20px; padding:30px 26px; background:#f6f3ee; }
-  .hero h3 { font-size:38px; line-height:1.05; letter-spacing:-1.2px; }
-  .hero p { font-size:14px; color:#6c726e; margin-top:10px; }
-  .hero .b { margin-top:16px; display:inline-block; background:#171918; color:#fff; font-size:14px; font-weight:800; padding:12px 20px; border-radius:10px; }
-  .hero img { width:100%; height:220px; object-fit:cover; border-radius:16px; background:#eee; }
+  .hero h3 { font-size:38px; line-height:1.05; letter-spacing:-1.2px; } .hero p { font-size:14px; color:var(--muted); margin-top:10px; }
+  .hero .b { margin-top:16px; display:inline-block; background:var(--ink); color:#fff; font-size:14px; font-weight:800; padding:12px 20px; border-radius:10px; }
+  .hero img { width:100%; height:220px; object-fit:cover; border-radius:16px; }
   .prods { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; padding:26px; }
-  .prods div { font-size:13px; font-weight:700; }
-  .prods img { width:100%; height:150px; object-fit:cover; border-radius:12px; background:#f2f2f2; margin-bottom:8px; }
-  .prods span { display:block; color:#6c726e; font-weight:600; }
-  .band { margin:0 26px 26px; border-radius:16px; background:#171918; color:#fff; padding:26px; font-size:24px; font-weight:800; }
-  .band small { display:block; font-size:13px; color:#a3a8a4; font-weight:600; margin-top:6px; }
-  .phone { position:absolute; left:0; top:260px; width:280px; border-radius:46px; padding:11px; background:#1c1e1d; box-shadow:0 40px 90px rgba(0,0,0,.6), inset 0 0 0 2px #3a3e3c; animation:rise .8s 7.8s cubic-bezier(.2,.9,.3,1) both; z-index:2; }
+  .prods div { font-size:13px; font-weight:700; } .prods img { width:100%; height:150px; object-fit:cover; border-radius:12px; background:#f2f2f2; margin-bottom:8px; } .prods span { display:block; color:var(--muted); }
+  .phone { position:absolute; left:0; top:250px; width:280px; border-radius:46px; padding:11px; background:#1c1e1d; box-shadow:0 40px 90px rgba(23,25,24,.4), inset 0 0 0 2px #3a3e3c; animation:rise .8s calc(var(--t) + .7s) cubic-bezier(.2,.9,.3,1) both; z-index:2; }
   .pscr { height:560px; border-radius:36px; overflow:hidden; background:#fff; position:relative; }
   .pscr .island { position:absolute; top:10px; left:50%; transform:translateX(-50%); width:80px; height:22px; border-radius:12px; background:#111; z-index:2; }
-  .msite { position:absolute; inset:0 0 auto; padding-top:40px; animation:scrollm 3.2s 8.9s cubic-bezier(.5,0,.3,1) both; color:#171918; text-align:left; }
-  @keyframes scrollm { to{transform:translateY(-170px)} }
+  .msite { position:absolute; inset:0 0 auto; padding-top:40px; animation:scm 3.6s calc(var(--t) + 1.9s) cubic-bezier(.5,0,.3,1) both; color:var(--ink); text-align:left; }
+  @keyframes scm { to{transform:translateY(-170px)} }
   .msite .nav { height:44px; font-size:13px; padding:0 16px; }
-  .msite .mh { padding:18px 16px; background:#f6f3ee; }
-  .msite .mh h3 { font-size:24px; line-height:1.05; letter-spacing:-.6px; }
-  .msite .mh img { width:100%; height:170px; object-fit:cover; border-radius:12px; margin-top:12px; }
-  .msite .mh .b { margin-top:12px; background:#171918; color:#fff; font-size:13px; font-weight:800; padding:11px; border-radius:10px; text-align:center; }
-  .msite .mp { padding:14px 16px; display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:11px; font-weight:700; }
-  .msite .mp img { width:100%; height:100px; object-fit:cover; border-radius:10px; background:#f2f2f2; }
-  .badge { position:absolute; right:40px; bottom:40px; z-index:3; background:#fff; color:#171918; border-radius:24px; padding:20px 26px; display:flex; gap:16px; align-items:center; box-shadow:0 30px 60px rgba(0,0,0,.45); animation:pop .5s 10.6s cubic-bezier(.2,.9,.3,1.4) both; text-align:left; }
-  .badge i { width:56px; height:56px; border-radius:16px; background:#e8f6ed; display:grid; place-items:center; font-style:normal; font-size:30px; }
-  .badge b { font-size:28px; display:block; }
-  .badge small { font-size:20px; color:#6c726e; }
+  .mh { padding:18px 16px; background:#f6f3ee; } .mh h3 { font-size:24px; line-height:1.05; } .mh img { width:100%; height:170px; object-fit:cover; border-radius:12px; margin-top:12px; }
+  .mh .b { margin-top:12px; background:var(--ink); color:#fff; font-size:13px; font-weight:800; padding:11px; border-radius:10px; text-align:center; }
+  .mp { padding:14px 16px; display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:11px; font-weight:700; } .mp img { width:100%; height:100px; object-fit:cover; border-radius:10px; background:#f2f2f2; }
 
-  /* 4 · CRM */
-  .crm { margin-top:90px; width:100%; background:#fff; color:#171918; border-radius:40px; padding:36px; text-align:left; box-shadow:0 50px 110px rgba(0,0,0,.55); animation:rise .8s 12.8s cubic-bezier(.2,.9,.3,1) both; position:relative; }
-  .crm .hd { display:flex; justify-content:space-between; align-items:center; font-size:30px; font-weight:800; }
-  .crm .hd small { font-size:22px; color:#6c726e; font-weight:600; }
-  .cols { margin-top:26px; display:grid; grid-template-columns:repeat(3,1fr); gap:18px; position:relative; }
-  .col { background:#f6f5f1; border-radius:24px; padding:18px; min-height:540px; }
-  .col h4 { font-size:22px; display:flex; justify-content:space-between; color:#4f5652; margin-bottom:14px; }
-  .col h4 span { background:#fff; border-radius:10px; padding:2px 10px; font-size:18px; }
-  .deal { background:#fff; border-radius:18px; padding:18px; margin-bottom:14px; box-shadow:0 4px 14px rgba(23,25,24,.06); }
-  .deal b { font-size:22px; display:block; }
-  .deal small { font-size:18px; color:#6c726e; display:block; margin-top:4px; }
-  .deal .row { display:flex; justify-content:space-between; align-items:center; margin-top:12px; }
-  .deal .av { width:36px; height:36px; border-radius:50%; display:grid; place-items:center; font-size:15px; font-weight:800; color:#fff; }
-  .deal .amt { font-size:20px; font-weight:800; }
-  .mover { position:absolute; left:18px; top:58px; width:calc((100% - 36px)/3 - 36px); z-index:3; outline:3px solid var(--orange); animation:move 3s 13.8s cubic-bezier(.6,0,.3,1) both; }
-  @keyframes move { 0%{transform:none} 40%{transform:translateX(calc(100% + 54px)) rotate(-2deg)} 55%{transform:translateX(calc(100% + 54px))} 95%,100%{transform:translateX(calc(200% + 108px))} }
-  .won { position:absolute; right:30px; top:-40px; z-index:4; background:var(--green); color:#fff; border-radius:22px; padding:18px 26px; font-size:28px; font-weight:800; box-shadow:0 24px 50px rgba(23,128,61,.4); animation:pop .5s 16.4s cubic-bezier(.2,.9,.3,1.4) both; }
-
-  /* 5 · AI automation */
-  .flow { margin-top:90px; width:100%; display:grid; gap:26px; text-align:left; }
-  .box { background:#fff; color:#171918; border-radius:34px; padding:32px 36px; box-shadow:0 40px 90px rgba(0,0,0,.5); animation:rise .7s both; }
-  .mail { animation-delay:17.4s; }
-  .mail .from { display:flex; gap:16px; align-items:center; }
-  .mail .av { width:56px; height:56px; border-radius:50%; background:#5a8dee; color:#fff; display:grid; place-items:center; font-weight:800; font-size:24px; }
-  .mail b { font-size:26px; } .mail small { font-size:20px; color:#6c726e; display:block; }
-  .mail p { margin-top:18px; font-size:28px; line-height:1.4; }
-  .ai { animation-delay:18.3s; background:#171918; color:#fff; border:2px solid #f66135; }
-  .ai .hd { display:flex; gap:14px; align-items:center; font-size:26px; font-weight:800; color:var(--peach); }
-  .ai .hd i { width:46px; height:46px; border-radius:14px; background:var(--orange); display:grid; place-items:center; font-style:normal; color:#fff; font-size:24px; }
-  .typing { margin-top:18px; font-size:28px; line-height:1.4; white-space:nowrap; overflow:hidden; }
-  .typing span { display:block; overflow:hidden; width:0; animation:type 1s steps(30) both; }
-  .typing span:nth-child(1){animation-delay:18.9s} .typing span:nth-child(2){animation-delay:19.8s} .typing span:nth-child(3){animation-delay:20.5s}
-  @keyframes type { to{width:100%} }
-  .tasks { animation-delay:19.2s; }
-  .tasks h4 { font-size:24px; color:#6c726e; }
-  .tasks li { list-style:none; display:flex; gap:16px; align-items:center; font-size:28px; font-weight:700; margin-top:16px; }
-  .tasks li i { width:40px; height:40px; border-radius:12px; border:3px solid #ddd8cc; display:grid; place-items:center; flex-shrink:0; animation:tick .3s both; }
-  .tasks li i:after { content:"✓"; color:#fff; font-style:normal; font-size:22px; font-weight:800; opacity:0; animation:fade .2s inherit both; }
-  .tasks li:nth-child(2) i{animation-delay:19.9s} .tasks li:nth-child(3) i{animation-delay:20.4s} .tasks li:nth-child(4) i{animation-delay:20.9s}
-  @keyframes tick { to{background:var(--green); border-color:var(--green)} }
-  .tasks li i:after { animation:fade .2s both; }
-  .tasks li:nth-child(2) i:after{animation-delay:19.9s} .tasks li:nth-child(3) i:after{animation-delay:20.4s} .tasks li:nth-child(4) i:after{animation-delay:20.9s}
-
-  /* 6 · Values (light) */
-  .s6 { background:var(--cream); color:#171918; }
-  .s6 .line { font-size:120px; font-weight:800; letter-spacing:-5px; line-height:1.05; animation:up .5s both; }
-  
-
-  /* 7 · CTA (orange) */
-  .s7 { background:var(--orange); color:#fff; }
-  .s7 .q { font-size:110px; font-weight:800; letter-spacing:-4.5px; line-height:1.0; animation:up .6s 23.6s both; }
-  .s7 .q span { color:#171918; }
-  .cta { margin-top:80px; display:inline-flex; align-items:center; gap:22px; font-size:52px; font-weight:800; background:#171918; color:#fff; padding:40px 64px; border-radius:999px; animation:pop .6s 24.1s cubic-bezier(.2,.9,.3,1.4) both; }
-  .mini { margin-top:110px; display:flex; align-items:center; gap:18px; font-size:44px; font-weight:800; animation:up .6s 24.5s both; }
-  .mini svg rect { fill:#fff; }
-  /* Problem scene */
-  .pill.bad { background:#e5484d; }
-  h2 .red { color:#ff6b6f; }
-  .sad { margin-top:60px; width:100%; background:#fff; color:#171918; border-radius:36px; padding:32px 36px 20px; text-align:left; box-shadow:0 40px 90px rgba(0,0,0,.5); animation:rise .7s 3s cubic-bezier(.2,.9,.3,1) both; }
-  .sad .hd { display:flex; justify-content:space-between; font-size:28px; }
-  .sad .hd small { font-size:22px; color:#8a8f8b; }
-  .chart2 { width:100%; height:200px; display:block; margin-top:10px; }
-  .line2 { stroke-dasharray:1200; stroke-dashoffset:1200; animation:draw 2s 3.4s ease-out forwards; }
-  .probs { list-style:none; margin-top:34px; width:100%; display:grid; gap:16px; text-align:left; }
-  .probs li { display:flex; gap:20px; align-items:center; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:24px; padding:22px 26px; font-size:34px; font-weight:700; animation:shake .6s both; }
-  .probs li i { width:50px; height:50px; border-radius:50%; background:#e5484d; color:#fff; display:grid; place-items:center; font-style:normal; font-size:24px; font-weight:800; flex-shrink:0; }
-  .probs li:nth-child(1){animation-delay:4.2s} .probs li:nth-child(2){animation-delay:4.85s} .probs li:nth-child(3){animation-delay:5.5s} .probs li:nth-child(4){animation-delay:6.15s} .probs li:nth-child(5){animation-delay:6.8s}
-  @keyframes shake { 0%{opacity:0; transform:translateX(-60px)} 60%{opacity:1; transform:translateX(8px)} 80%{transform:translateX(-4px)} 100%{opacity:1; transform:none} }
-  /* Who we help */
-  .who { margin-top:70px; display:flex; flex-wrap:wrap; gap:18px; justify-content:center; }
-  .who span { background:#fff; color:#171918; border-radius:99px; padding:22px 32px; font-size:34px; font-weight:800; animation:pop .45s cubic-bezier(.2,.9,.3,1.3) both; }
-  .who span:nth-child(1){animation-delay:29.5s} .who span:nth-child(2){animation-delay:29.65s} .who span:nth-child(3){animation-delay:29.8s} .who span:nth-child(4){animation-delay:29.95s}
-  .who span:nth-child(5){animation-delay:30.1s} .who span:nth-child(6){animation-delay:30.25s} .who span:nth-child(7){animation-delay:30.4s} .who span:nth-child(8){animation-delay:30.55s}
-  .whosub { margin-top:60px; font-size:38px; color:var(--muted); line-height:1.4; animation:up .6s 30.9s both; }
-  /* Solid scenes cover the grid and glow */
-  .scene.solid { background:#0d0f0e; }
-  /* Problem boxes */
-  .pgrid { margin-top:56px; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:22px; text-align:left; }
-  .pb { background:#17191a; border:1px solid #2a2e2c; border-radius:30px; padding:22px; animation:rise .6s cubic-bezier(.2,.9,.3,1) both; }
-  .pb.wide { grid-column:span 2; display:grid; grid-template-columns:1.2fr 1fr; gap:24px; align-items:center; }
-  .pb p { margin-top:18px; font-size:30px; font-weight:800; line-height:1.2; }
-  .pb.wide p { margin-top:0; }
-  .g { position:relative; height:220px; border-radius:20px; background:#fff; overflow:hidden; color:#171918; }
-  .g-site .bar3 { height:34px; background:#e9e9e9; display:flex; gap:7px; align-items:center; padding:0 12px; }
-  .g-site .bar3 i { width:10px; height:10px; border-radius:50%; background:#bbb; }
-  .g-site .bar3 span { margin-left:auto; font-size:15px; font-weight:800; color:#e5484d; }
-  .g-site .old { padding:14px; display:grid; grid-template-columns:1fr 1fr; gap:10px; filter:grayscale(1); }
-  .g-site .old b { height:44px; background:#ddd; border-radius:4px; }
-  .g-site .old b:nth-child(2){ transform:rotate(3deg) translateX(14px); }
-  .g-site .old em { grid-column:span 2; height:22px; background:repeating-linear-gradient(90deg,#ccc 0 20px,#e5e5e5 20px 40px); }
-  .spin2 { position:absolute; left:50%; top:58%; width:56px; height:56px; margin:-28px; border-radius:50%; border:7px solid rgba(0,0,0,.1); border-top-color:#e5484d; animation:rot .9s linear 12; animation-delay:3.9s; }
-  @keyframes rot { to{transform:rotate(360deg)} }
-  .g-ads { padding:18px; }
-  .g-ads small { font-size:17px; color:#6c726e; font-weight:700; display:block; }
-  .meter .m { height:16px; border-radius:99px; background:#f1e1e1; margin-top:8px; overflow:hidden; }
-  .meter .m span { display:block; height:100%; width:0; background:#e5484d; animation:fillw 3s 5s ease-out forwards; }
-  @keyframes fillw { to{width:92%} }
-  .spend { display:block; margin-top:6px; font-size:28px; color:#e5484d; counter-reset:n var(--n); animation:count2 3s 5s ease-out both; }
-  .spend::after { content:"$" counter(n) "0 spent"; }
-  @keyframes count2 { from{--n:5} to{--n:184} }
-  .cust { margin-top:14px; } .cust b { font-size:40px; }
-  .coin { position:absolute; right:30px; top:-40px; width:40px; height:40px; border-radius:50%; background:#f5c542; color:#7a5a00; font-style:normal; font-weight:800; display:grid; place-items:center; font-size:22px; animation:drop 1.2s ease-in 3 both; }
-  .c1 { animation-delay:5s; } .c2 { right:80px; animation-delay:5.4s; } .c3 { right:130px; animation-delay:5.8s; }
-  @keyframes drop { 0%{transform:translateY(0); opacity:1} 100%{transform:translateY(300px) rotate(200deg); opacity:0} }
-  .g-dm { background:#f5f5f5; padding:16px; }
-  .bub { background:#fff; border-radius:18px 18px 18px 4px; padding:10px 14px; font-size:18px; font-weight:600; width:max-content; max-width:90%; margin-bottom:10px; box-shadow:0 2px 6px rgba(0,0,0,.06); animation:lost 3.6s both; }
-  .b1 { animation-delay:5.8s; } .b2 { animation-delay:6.2s; margin-left:20px; } .b3 { animation-delay:6.6s; }
-  @keyframes lost { 0%{opacity:0; transform:translateY(20px)} 15%{opacity:1; transform:none} 70%{opacity:1; filter:none} 100%{opacity:.25; filter:blur(2px)} }
-  .unread { position:absolute; right:14px; bottom:14px; background:#e5484d; color:#fff; font-size:17px; font-weight:800; padding:6px 12px; border-radius:99px; animation:pop .4s 7s both; }
-  .g-tools { background:#f5f5f5; }
-  .g-tools svg { position:absolute; inset:0; width:100%; height:100%; }
-  .g-tools .dl { stroke:#c9c9c9; stroke-width:4; stroke-dasharray:8 8; fill:none; }
-  .g-tools span { position:absolute; width:76px; height:76px; border-radius:20px; background:#fff; display:grid; place-items:center; font-size:38px; box-shadow:0 6px 16px rgba(0,0,0,.08); }
-  .t1 { left:22px; top:22px; } .t2 { right:22px; top:22px; } .t3 { left:50%; margin-left:-38px; bottom:14px; }
-  .g-tools b { position:absolute; width:40px; height:40px; border-radius:50%; background:#e5484d; color:#fff; display:grid; place-items:center; font-size:20px; animation:blink .8s 6.8s 5 both; }
-  .x1 { left:30%; top:44%; } .x2 { right:30%; top:44%; }
-  @keyframes blink { 0%,100%{opacity:1; transform:scale(1)} 50%{opacity:.4; transform:scale(.8)} }
-  .g-goog { padding:16px; height:auto; }
-  .sbar { border:2px solid #e5e5e5; border-radius:99px; padding:10px 18px; font-size:19px; font-weight:600; }
-  .res i { display:block; height:16px; border-radius:6px; background:#e9e9e9; margin-top:14px; width:90%; }
-  .res i:nth-child(2){ width:75%; } .res i:nth-child(3){ width:82%; }
-  .you { margin-top:16px; font-size:20px; font-weight:800; color:#6c726e; }
-  .you b { color:#e5484d; }
-  /* Feature points row */
-  .feats { margin-top:44px; width:100%; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; text-align:left; }
-  .feats div { background:#fff; color:#171918; border-radius:26px; padding:22px; animation:up .5s both; }
-  .feats div:nth-child(1){ animation-delay:calc(var(--d, 22s) + 0s); } .feats div:nth-child(2){ animation-delay:calc(var(--d, 22s) + .35s); } .feats div:nth-child(3){ animation-delay:calc(var(--d, 22s) + .7s); }
-  .feats i { font-style:normal; font-size:36px; }
-  .feats b { display:block; font-size:27px; margin-top:8px; letter-spacing:-.5px; }
-  .feats small { display:block; font-size:20px; color:#6c726e; margin-top:4px; line-height:1.3; }
-  /* SEO */
-  .serp { margin-top:60px; width:100%; background:#fff; color:#171918; border-radius:36px; padding:30px; text-align:left; box-shadow:0 40px 90px rgba(0,0,0,.5); animation:rise .7s 25.5s cubic-bezier(.2,.9,.3,1) both; }
+  .serp { margin-top:56px; width:100%; padding:30px; animation:rise .7s calc(var(--t) + .3s) cubic-bezier(.2,.9,.3,1) both; }
   .gbar { display:flex; gap:16px; align-items:center; }
-  .gbar > b { font-size:48px; color:#4285f4; }
-  .gbar .q { flex:1; border:2px solid #e5e5e5; border-radius:99px; padding:16px 24px; font-size:26px; font-weight:600; white-space:nowrap; overflow:hidden; }
-  .gbar .q span { display:inline-block; overflow:hidden; vertical-align:bottom; width:0; animation:typew 1.4s 25.9s steps(26) forwards; }
-  @keyframes typew { to{width:100%} }
-  .rlist { margin-top:22px; display:grid; position:relative; }
-  .r { padding:18px 20px; border-radius:18px; animation:fadeR .4s both; }
-  .r small { font-size:19px; color:#188038; display:block; } .r b { font-size:25px; color:#1a0dab; }
-  .r:nth-child(1){animation-delay:26.6s} .r:nth-child(2){animation-delay:26.75s} .r:nth-child(3){animation-delay:26.9s}
-  @keyframes fadeR { from{opacity:0} to{opacity:1} }
-  .r.me { position:relative; background:#fff4ee; outline:3px solid var(--orange); animation:fadeR .4s 27s both, climb 1.2s 27.6s cubic-bezier(.6,0,.3,1) both; z-index:2; }
-  @keyframes climb { from{transform:none} to{transform:translateY(-300%)} }
-  .rlist .r:not(.me) { animation:fadeR .4s both, push 1.2s 27.6s cubic-bezier(.6,0,.3,1) both; }
-  .rlist .r:nth-child(1){animation-delay:26.6s,27.6s} .rlist .r:nth-child(2){animation-delay:26.75s,27.6s} .rlist .r:nth-child(3){animation-delay:26.9s,27.6s}
-  @keyframes push { from{transform:none} to{transform:translateY(100%)} }
-  .rank { position:absolute; right:18px; top:50%; margin-top:-26px; background:var(--orange); color:#fff; font-weight:800; font-size:26px; border-radius:14px; padding:8px 14px; animation:pop .4s 28.8s both; }
-  /* Marketing */
+  .gbar .q { flex:1; border:2px solid #e5e5e5; border-radius:99px; padding:14px 22px; font-size:24px; font-weight:600; white-space:nowrap; overflow:hidden; }
+  .gbar .q span { display:inline-block; white-space:nowrap; clip-path:inset(0 100% 0 0); animation:typew 1.3s calc(var(--t) + .8s) steps(26) forwards; }
+  @keyframes typew { to{clip-path:inset(0 0 0 0)} }
+  .rlist { margin-top:16px; display:grid; }
+  .r { padding:12px 18px; border-radius:16px; position:relative; }
+  .r small { font-size:18px; color:#188038; display:block; } .r b { font-size:23px; color:#1a0dab; }
+  .rlist .r:not(.me) { animation:fade .4s calc(var(--t) + 2.1s) both, push 1.1s calc(var(--t) + 2.8s) cubic-bezier(.6,0,.3,1) both; }
+  .r.me { background:#fff4ee; outline:3px solid var(--orange); z-index:2; animation:fade .4s calc(var(--t) + 2.3s) both, climb 1.1s calc(var(--t) + 2.8s) cubic-bezier(.6,0,.3,1) both; }
+  @keyframes climb { to{transform:translateY(-300%)} } @keyframes push { to{transform:translateY(100%)} }
+  .rank { position:absolute; right:16px; top:50%; margin-top:-24px; background:var(--orange); color:#fff; font-weight:800; font-size:24px; border-radius:12px; padding:8px 14px; animation:pop .4s calc(var(--t) + 3.9s) both; }
+  .gsc { margin-top:28px; width:100%; padding:30px; animation:rise .7s calc(var(--t) + 3.2s) cubic-bezier(.2,.9,.3,1) both; }
+  .gsc .hd { display:flex; justify-content:space-between; align-items:center; font-size:26px; font-weight:800; }
+  .gsc .hd small { font-size:19px; color:#5f6368; font-weight:600; }
+  .tiles { margin-top:18px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .tiles div { border-radius:16px; padding:16px; color:#fff; }
+  .tiles small { font-size:16px; font-weight:700; opacity:.9; display:block; } .tiles b { font-size:36px; display:block; margin-top:4px; }
+  .tiles .t1 { background:#4285f4; } .tiles .t2 { background:#5e35b1; } .tiles .t3 { background:#00897b; } .tiles .t4 { background:#e8710a; }
+  .clk { animation:c1 2.4s calc(var(--t) + 3.6s) ease-out both; --suf:"K"; } @keyframes c1 { from{--n:0} to{--n:12} }
+  .imp { animation:c2 2.4s calc(var(--t) + 3.6s) ease-out both; --suf:"K"; } @keyframes c2 { from{--n:0} to{--n:486} }
+  .gchart { margin-top:14px; width:100%; height:200px; }
+  .gchart path.ln { stroke-dasharray:1400; stroke-dashoffset:1400; animation:draw 2.6s calc(var(--t) + 3.7s) ease-out forwards; }
+
   .mk { margin-top:60px; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:22px; text-align:left; }
-  .ig, .adcard { background:#fff; color:#171918; border-radius:32px; overflow:hidden; box-shadow:0 40px 90px rgba(0,0,0,.5); animation:rise .7s cubic-bezier(.2,.9,.3,1) both; }
-  .ig { animation-delay:31s; } .adcard { animation-delay:31.4s; padding:26px; }
-  .igh { display:flex; gap:12px; align-items:center; padding:16px 18px; }
-  .igh .av2 { width:40px; height:40px; border-radius:50%; background:conic-gradient(#f66135,#e1306c,#833ab4,#f66135); }
-  .igh b { font-size:20px; } .igh small { font-size:16px; color:#8a8f8b; margin-left:auto; }
-  .ig img { width:100%; height:300px; object-fit:cover; background:#f3f3f3; }
-  .igf { padding:16px 18px; font-size:22px; }
-  .likes { counter-reset:n var(--n); animation:count3 2.5s 31.6s ease-out both; }
-  .likes::after { content:counter(n); }
-  @keyframes count3 { from{--n:12} to{--n:1248} }
-  .adcard .hd { display:flex; justify-content:space-between; font-size:24px; } .adcard .hd small { color:#8a8f8b; font-size:18px; }
-  .bars { margin-top:20px; height:200px; display:flex; gap:10px; align-items:flex-end; }
+  .mb { border-radius:34px; padding:22px; color:var(--ink); animation:rise .6s cubic-bezier(.2,.9,.3,1) both; box-shadow:0 30px 70px rgba(0,0,0,.4); }
+  .mb:nth-child(1){ background:#ffd9c9; animation-delay:calc(var(--t) + .4s); } .mb:nth-child(2){ background:#d6e4ff; animation-delay:calc(var(--t) + .7s); }
+  .mb:nth-child(3){ background:#fff1b8; animation-delay:calc(var(--t) + 1s); } .mb:nth-child(4){ background:#cdeedd; animation-delay:calc(var(--t) + 1.3s); }
+  .mb .lab { font-size:20px; font-weight:800; opacity:.7; }
+  .post { margin-top:12px; background:#fff; border-radius:22px; overflow:hidden; }
+  .post .ph { display:flex; gap:10px; align-items:center; padding:12px 14px; font-weight:800; font-size:17px; }
+  .post .ph i { width:34px; height:34px; border-radius:50%; background:conic-gradient(#f66135,#e1306c,#833ab4,#f66135); }
+  .post .ph small { margin-left:auto; color:#8a8f8b; font-weight:600; font-size:14px; }
+  .post img { width:100%; height:250px; object-fit:cover; background:#f3f3f3; }
+  .post .pf { padding:12px 14px; font-size:19px; font-weight:700; }
+  .likes { counter-reset:n var(--n); animation:c3 3s calc(var(--t) + 1.2s) ease-out both; } .likes::after { content:counter(n); }
+  @keyframes c3 { from{--n:12} to{--n:1248} }
+  .fbad .ft { padding:12px 14px; font-size:17px; } .fbad .ft b { display:block; font-size:20px; } .fbad .cta2 { margin:0 14px 14px; background:#1877f2; color:#fff; text-align:center; font-weight:800; border-radius:10px; padding:10px; font-size:17px; }
+  .bars { margin-top:12px; height:270px; display:flex; gap:10px; align-items:flex-end; background:#fff; border-radius:22px; padding:20px; }
   .bars i { flex:1; border-radius:8px 8px 0 0; background:linear-gradient(#ff9c6e,#f66135); height:0; animation:barh .9s cubic-bezier(.3,.7,.3,1) forwards; }
-  .bars i:nth-child(1){animation-delay:31.8s} .bars i:nth-child(2){animation-delay:31.9s} .bars i:nth-child(3){animation-delay:32s} .bars i:nth-child(4){animation-delay:32.1s} .bars i:nth-child(5){animation-delay:32.2s} .bars i:nth-child(6){animation-delay:32.3s} .bars i:nth-child(7){animation-delay:32.4s}
+  .bars i:nth-child(1){animation-delay:calc(var(--t) + 1.5s)} .bars i:nth-child(2){animation-delay:calc(var(--t) + 1.6s)} .bars i:nth-child(3){animation-delay:calc(var(--t) + 1.7s)} .bars i:nth-child(4){animation-delay:calc(var(--t) + 1.8s)} .bars i:nth-child(5){animation-delay:calc(var(--t) + 1.9s)} .bars i:nth-child(6){animation-delay:calc(var(--t) + 2s)}
   @keyframes barh { to{height:var(--h)} }
-  .kp { margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .kp div { background:#f6f5f1; border-radius:16px; padding:14px; } .kp small { font-size:17px; color:#6c726e; } .kp b { display:block; font-size:32px; } .kp .g2 { color:var(--green); }
-  /* Email */
-  .em { margin-top:60px; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:22px; text-align:left; }
-  .news, .estats { background:#fff; color:#171918; border-radius:32px; padding:24px; box-shadow:0 40px 90px rgba(0,0,0,.5); animation:rise .7s cubic-bezier(.2,.9,.3,1) both; }
-  .news { animation-delay:47.5s; } .estats { animation-delay:47.9s; }
-  .nh { display:flex; justify-content:space-between; align-items:baseline; } .nh b { letter-spacing:3px; font-size:22px; } .nh small { font-size:16px; color:#8a8f8b; }
-  .news img { margin-top:14px; width:100%; height:230px; object-fit:cover; border-radius:18px; background:#f3f3f3; }
-  .nt { display:block; margin-top:14px; font-size:25px; line-height:1.2; }
-  .nb { display:inline-block; margin-top:14px; background:#171918; color:#fff; font-weight:800; font-size:19px; padding:12px 20px; border-radius:12px; }
-  .st { margin-bottom:22px; } .st small { font-size:19px; color:#6c726e; font-weight:700; } .st b { font-size:34px; }
-  .m2 { height:16px; border-radius:99px; background:#eee; margin:8px 0 4px; overflow:hidden; }
-  .m2 span { display:block; height:100%; width:0; background:var(--green); animation:fill2 1.6s 48.6s ease-out forwards; }
-  @keyframes fill2 { to{width:var(--w)} }
-  .flowx { display:flex; align-items:center; gap:8px; margin-top:8px; flex-wrap:wrap; }
-  .flowx .n { font-size:19px; font-weight:800; padding:10px 14px; border-radius:12px; background:#f0eee8; color:#8a8f8b; animation:lit .4s both; }
-  .flowx em { font-style:normal; color:#bbb; font-weight:800; }
-  .n1 { animation-delay:49.6s; } .n2 { animation-delay:50.2s; } .n3 { animation-delay:50.8s; }
+  .kp { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:10px; } .kp div { background:#fff; border-radius:16px; padding:12px; } .kp small { font-size:16px; color:var(--muted); } .kp b { display:block; font-size:30px; }
+  .story { margin-top:12px; height:400px; border-radius:22px; overflow:hidden; position:relative; }
+  .story img { width:100%; height:100%; object-fit:cover; }
+  .story .sbar { position:absolute; top:12px; left:12px; right:12px; height:5px; border-radius:9px; background:rgba(0,0,0,.15); }
+  .story .sbar span { display:block; height:100%; width:0; background:var(--ink); border-radius:9px; animation:fillw2 4s calc(var(--t) + 1.5s) linear forwards; }
+  @keyframes fillw2 { to{width:100%} }
+  .story .sw { position:absolute; bottom:16px; left:50%; transform:translateX(-50%); background:#fff; font-weight:800; font-size:18px; padding:10px 18px; border-radius:99px; white-space:nowrap; }
+
+  .flow { margin-top:56px; width:100%; padding:30px; position:relative; animation:rise .7s calc(var(--t) + .3s) cubic-bezier(.2,.9,.3,1) both; }
+  .flow .hd { font-size:24px; font-weight:800; color:var(--muted); }
+  .nodes { position:relative; margin-top:16px; height:220px; }
+  .node { position:absolute; width:200px; padding:16px; border-radius:20px; background:#f6f5f1; border:2px solid #e8e4dc; font-size:20px; font-weight:800; text-align:center; animation:pop .4s both; }
+  .node small { display:block; font-size:15px; color:var(--muted); font-weight:600; margin-top:4px; }
+  .nd1 { left:0; top:60px; animation-delay:calc(var(--t) + .8s); } .nd2 { left:250px; top:60px; background:var(--ink); color:#fff; border-color:var(--orange); animation-delay:calc(var(--t) + 1.1s); } .nd2 small { color:#ffb38f; }
+  .nd3 { right:0; top:0; animation-delay:calc(var(--t) + 1.4s); } .nd4 { right:0; top:125px; animation-delay:calc(var(--t) + 1.6s); }
+  .wires { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .wires path { fill:none; stroke:#d8d3c8; stroke-width:4; }
+  .pulse { r:9px; fill:var(--orange); animation:runw 1.4s linear 3 calc(var(--t) + 1.8s) both; }
+  @keyframes runw { from{offset-distance:0%} to{offset-distance:100%} }
+  .names { margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .names span { font-size:20px; font-weight:800; padding:10px 18px; border-radius:99px; background:#f3f1ec; animation:pop .4s both; }
+  .names small { font-size:18px; color:var(--muted); font-weight:700; }
+  .chat { margin-top:24px; width:100%; padding:0; overflow:hidden; animation:rise .7s calc(var(--t) + 2.4s) cubic-bezier(.2,.9,.3,1) both; }
+  .chat .ch { background:var(--ink); color:#fff; padding:20px 26px; display:flex; gap:14px; align-items:center; font-size:24px; font-weight:800; }
+  .chat .ch i { width:44px; height:44px; border-radius:14px; background:var(--orange); display:grid; place-items:center; font-style:normal; }
+  .chat .ch small { margin-left:auto; color:#7fe0a5; font-size:18px; }
+  .msgs { padding:22px 26px; display:grid; gap:14px; background:#faf9f6; }
+  .msg { max-width:78%; padding:16px 20px; border-radius:22px; font-size:24px; line-height:1.35; animation:up .4s both; }
+  .msg.u { justify-self:end; background:var(--orange); color:#fff; border-bottom-right-radius:6px; }
+  .msg.a { background:#fff; border:1px solid #ebe7df; border-bottom-left-radius:6px; }
+
+  .crm { margin-top:56px; width:100%; display:grid; grid-template-columns:80px 1fr; overflow:hidden; padding:0; animation:rise .7s calc(var(--t) + .3s) cubic-bezier(.2,.9,.3,1) both; }
+  .crm .sb { background:#1f2a37; display:flex; flex-direction:column; align-items:center; gap:22px; padding:24px 0; }
+  .crm .sb i { width:34px; height:34px; border-radius:10px; background:#3b4a5c; } .crm .sb i:nth-child(2){ background:var(--orange); }
+  .crm .main { padding:26px; }
+  .contact { display:flex; gap:18px; align-items:center; }
+  .contact .av { width:76px; height:76px; border-radius:50%; background:#5a8dee; color:#fff; display:grid; place-items:center; font-size:30px; font-weight:800; flex-shrink:0; }
+  .contact b { font-size:30px; display:block; } .contact small { font-size:19px; color:var(--muted); }
+  .stages { margin-top:20px; display:flex; gap:6px; }
+  .stages span { flex:1; text-align:center; font-size:16px; font-weight:800; padding:10px 0; background:#eef0f3; color:#6b7280; clip-path:polygon(0 0,92% 0,100% 50%,92% 100%,0 100%,8% 50%); animation:stage .3s both; }
+  .stages span:nth-child(1){animation-delay:calc(var(--t) + 1.2s)} .stages span:nth-child(2){animation-delay:calc(var(--t) + 1.8s)} .stages span:nth-child(3){animation-delay:calc(var(--t) + 2.4s)} .stages span:nth-child(4){animation-delay:calc(var(--t) + 3s)}
+  @keyframes stage { to{background:var(--green); color:#fff} }
+  .info { margin-top:20px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .info div { background:#f6f7f9; border-radius:14px; padding:12px 14px; } .info small { font-size:15px; color:var(--muted); display:block; } .info b { font-size:22px; }
+  .auto { margin-top:24px; width:100%; padding:28px; animation:rise .7s calc(var(--t) + 1s) cubic-bezier(.2,.9,.3,1) both; }
+  .auto .hd { font-size:24px; font-weight:800; color:var(--muted); }
+  .steps { margin-top:14px; display:grid; gap:10px; }
+  .step { display:flex; gap:16px; align-items:center; padding:14px 18px; border-radius:18px; background:#f6f5f1; font-size:25px; font-weight:800; animation:up .4s both; }
+  .step i { width:42px; height:42px; border-radius:12px; border:3px solid #d8d3c8; flex-shrink:0; display:grid; place-items:center; font-style:normal; color:transparent; animation:tick .3s both; }
+  @keyframes tick { to{background:var(--green); border-color:var(--green); color:#fff} }
+  .step small { margin-left:auto; font-size:17px; color:var(--muted); font-weight:700; }
+  .tools { margin-top:22px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:center; }
+  .tools span { font-size:24px; font-weight:800; padding:14px 22px; border-radius:99px; background:#fff; color:var(--ink); animation:pop .4s both; }
+  .tools small { font-size:22px; font-weight:800; color:var(--sub); }
+
+  .mailwrap { margin-top:56px; width:100%; display:grid; grid-template-columns:1.15fr .85fr; gap:22px; align-items:start; }
+  .client { padding:0; overflow:hidden; animation:rise .7s calc(var(--t) + .3s) cubic-bezier(.2,.9,.3,1) both; }
+  .client .top { background:#f1f3f4; padding:14px 20px; font-size:17px; color:#5f6368; }
+  .client .top b { color:var(--ink); font-size:19px; display:block; }
+  .nl { padding:22px; }
+  .nl .brandh { text-align:center; letter-spacing:6px; font-weight:800; font-size:24px; padding-bottom:14px; border-bottom:1px solid #eee; }
+  .nl .heroimg { margin-top:16px; height:270px; border-radius:16px; overflow:hidden; background:#efe9df; position:relative; }
+  .nl .heroimg img { width:100%; height:100%; object-fit:cover; }
+  .nl .heroimg span { position:absolute; left:16px; top:16px; background:var(--orange); color:#fff; font-weight:800; font-size:18px; padding:8px 14px; border-radius:10px; }
+  .nl h4 { margin-top:16px; font-size:32px; letter-spacing:-1px; text-align:center; }
+  .nl p { text-align:center; font-size:18px; color:var(--muted); margin-top:6px; }
+  .nl .btn { margin:14px auto 0; width:max-content; background:var(--ink); color:#fff; font-weight:800; font-size:19px; padding:14px 28px; border-radius:12px; }
+  .nl .three { margin-top:18px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; font-size:14px; font-weight:700; text-align:center; }
+  .nl .three img { width:100%; height:110px; object-fit:cover; border-radius:12px; background:#f3f3f3; margin-bottom:6px; }
+  .nl .foot { margin-top:16px; text-align:center; font-size:13px; color:#9aa0a6; }
+  .side { display:grid; gap:18px; }
+  .stat { padding:24px; animation:rise .6s both; }
+  .stat small { font-size:20px; color:var(--muted); font-weight:700; } .stat b { display:block; font-size:56px; letter-spacing:-2px; }
+  .stat .m2 { height:14px; border-radius:99px; background:#eee; overflow:hidden; margin-top:8px; }
+  .stat .m2 span { display:block; height:100%; width:0; background:var(--green); animation:fw 1.8s calc(var(--t) + 1.6s) ease-out forwards; }
+  @keyframes fw { to{width:var(--w)} }
+  .opn { animation:c4 1.8s calc(var(--t) + 1.6s) ease-out both; --suf:"%"; } @keyframes c4 { from{--n:0} to{--n:48} }
+  .clc { animation:c5 1.8s calc(var(--t) + 1.6s) ease-out both; --suf:"%"; } @keyframes c5 { from{--n:0} to{--n:22} }
+  .seq { padding:22px; animation:rise .6s calc(var(--t) + 1.1s) both; }
+  .seq small { font-size:18px; color:var(--muted); font-weight:700; }
+  .seq div { margin-top:10px; display:grid; gap:8px; }
+  .seq span { font-size:20px; font-weight:800; padding:12px 14px; border-radius:12px; background:#f0eee8; color:#8a8f8b; animation:lit .3s both; }
   @keyframes lit { to{background:var(--orange); color:#fff} }
-  .auto { display:block; margin-top:14px; font-size:18px; color:var(--green); font-weight:800; animation:up .4s 51.2s both; }
+
+  .ind { margin-top:60px; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:18px; text-align:left; }
+  .it { border-radius:30px; padding:26px; color:var(--ink); display:flex; gap:20px; align-items:center; animation:pop .5s cubic-bezier(.2,.9,.3,1.2) both; }
+  .it i { font-style:normal; font-size:60px; width:96px; height:96px; border-radius:24px; background:rgba(255,255,255,.6); display:grid; place-items:center; flex-shrink:0; }
+  .it b { font-size:32px; letter-spacing:-.8px; display:block; line-height:1.1; } .it small { font-size:20px; color:#4f5652; display:block; margin-top:4px; }
+  .whosub { margin-top:44px; font-size:42px; font-weight:800; line-height:1.25; animation:up .6s calc(var(--t) + 2.6s) both; }
+  .whosub span { color:var(--orange); }
+
+  .qq { font-size:130px; font-weight:800; letter-spacing:-5px; line-height:.98; animation:up .6s calc(var(--t) + .1s) both; }
+  .qq span { color:var(--ink); }
+  .cta { margin-top:80px; display:inline-flex; align-items:center; gap:22px; font-size:56px; font-weight:800; background:var(--ink); color:#fff; padding:42px 66px; border-radius:999px; animation:pop .6s calc(var(--t) + .6s) cubic-bezier(.2,.9,.3,1.4) both; }
+  .mini { margin-top:110px; display:flex; align-items:center; gap:18px; font-size:46px; font-weight:800; animation:up .6s calc(var(--t) + 1s) both; }
+  .mini svg rect { fill:#fff; }
+  @keyframes cc1 { from{--n:3} to{--n:24} }
+  @keyframes cc2 { from{--n:40} to{--n:1284} }
 </style>
 </head>
 <body>
-<div class="grid"></div><div class="glow"></div>
 
-<!-- 1 · Logo -->
-<section class="scene center solid" style="animation:show 3s 0s both">
+<template id="mark"><svg class="mark" viewBox="0 0 16 12.5"><defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#FF9C6E"/><stop offset="1" stop-color="#F66135"/></linearGradient></defs><rect x="0" y="7.5" width="4" height="4.5" fill="url(#g)"/><rect x="4" y="1.25" width="4" height="6.25" fill="url(#g)"/><rect x="8" y="7.5" width="4" height="4.5" fill="url(#g)"/><rect x="12" y="0" width="4" height="7.5" fill="url(#g)"/></svg></template>
+
+<section class="scene dark" style="--t:0s; --len:3.5s; padding-top:70px">
   <div class="logo"><i></i><i></i><i></i><i></i></div>
   <div class="word">Growbytes</div>
   <div class="tag">Helping businesses grow online.</div>
 </section>
 
-<!-- 2 · Growth -->
-<section class="scene top" data-shift="11.5" style="animation:show 5s 2.5s both">
-  <span class="pill" style="animation:up .5s 2.6s both"><i></i>Here&rsquo;s how we help</span>
-  <h2 style="animation:up .6s 2.7s both">Get the right setup.<br><span>Watch it grow.</span></h2>
-  <div class="dash">
-    <div class="hd"><b>Revenue</b><small>Last 6 months</small></div>
-    <div class="rev"><div class="num"></div><span class="up">▲ growing</span></div>
-    <svg class="chart" viewBox="0 0 960 430" preserveAspectRatio="none">
-      <defs><linearGradient id="ar" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f66135" stop-opacity=".28"/><stop offset="1" stop-color="#f66135" stop-opacity="0"/></linearGradient></defs>
-      <g stroke="#eeebe4" stroke-width="2"><path d="M0 100H960M0 200H960M0 300H960M0 400H960"/></g>
-      <path class="area" d="M10 380 C120 370 170 340 250 330 S390 300 450 260 S590 220 650 180 S800 120 930 70 L930 430 L10 430Z" fill="url(#ar)"/>
-      <path class="line" d="M10 380 C120 370 170 340 250 330 S390 300 450 260 S590 220 650 180 S800 120 930 70" fill="none" stroke="#f66135" stroke-width="8" stroke-linecap="round"/>
-      <g class="dot"><circle cx="930" cy="70" r="20" fill="#f66135" opacity=".25"/><circle cx="930" cy="70" r="11" fill="#f66135" stroke="#fff" stroke-width="5"/></g>
-    </svg>
-    <div class="kpis">
-      <div><small>Visitors</small><b>24.1k</b><em>▲ more each month</em></div>
-      <div><small>Orders</small><b>1,284</b><em>▲ steady rise</em></div>
-      <div><small>Conversion</small><b>3.2%</b><em>▲ improving</em></div>
-    </div>
-  </div>
-</section>
-
-<!-- 3 · Websites & Shopify -->
-<section class="scene top" data-shift="12" style="animation:show 6s 7s both">
-  <span class="pill" style="animation:up .5s 7.1s both"><i></i>Websites &amp; Shopify</span>
-  <h2 style="animation:up .6s 7.2s both">Sites that look great<br><span>on every screen.</span></h2>
-  <div class="devices">
-    <div class="laptop">
-      <div class="lid"><div class="cam"></div><div class="screen">
-        <div class="site">
-          <div class="nav">STRIDE<span><em>Shop</em><em>New in</em><em>About</em><em>🛒 2</em></span></div>
-          <div class="hero"><div><h3>Made for every step you take.</h3><p>Canvas sneakers, built to last. Free returns.</p><span class="b">Shop the collection</span></div><img src="img/sneakers.jpg"></div>
-          <div class="prods">
-            <div><img src="img/sneakers.jpg" style="object-position:center 60%">Canvas Sneakers<span>$48.00</span></div>
-            <div><img src="img/white-sneakers.jpg">Leather Sneakers<span>$72.00</span></div>
-            <div><img src="img/hoodie.jpg">Cotton Hoodie<span>$58.00</span></div>
-            <div><img src="img/frontpack.jpg">Frontpack<span>$39.00</span></div>
-            <div><img src="img/puffer.jpg">Puffer Jacket<span>$96.00</span></div>
-            <div><img src="img/sneakers.jpg" style="transform:scaleX(-1)">Canvas Low<span>$44.00</span></div>
-          </div>
-          <div class="band">Free shipping on orders over $60<small>Easy 30-day returns · Secure checkout</small></div>
-        </div>
-      </div></div>
-      <div class="base"></div>
-    </div>
-    <div class="phone"><div class="pscr"><div class="island"></div>
-      <div class="msite">
-        <div class="nav">STRIDE<span>☰</span></div>
-        <div class="mh"><h3>Made for every step you take.</h3><img src="img/sneakers.jpg"><div class="b">Shop now</div></div>
-        <div class="mp"><div><img src="img/white-sneakers.jpg">Leather Sneakers</div><div><img src="img/hoodie.jpg">Cotton Hoodie</div><div><img src="img/frontpack.jpg">Frontpack</div><div><img src="img/puffer.jpg">Puffer Jacket</div></div>
-      </div>
-    </div></div>
-    
-  </div>
-  <div class="feats" style="--d:10.4s; margin-top:110px">
-    <div><i>⚡</i><b>Fast on mobile</b><small>Loads quickly on any phone</small></div>
-    <div><i>🛒</i><b>Built to convert</b><small>Clear steps to buy or book</small></div>
-    <div><i>✏️</i><b>Easy to update</b><small>Change content yourself</small></div>
-  </div>
-</section>
-
-<!-- 4 · CRM -->
-<section class="scene top" data-shift="29" style="animation:show 5.5s 12.5s both">
-  <span class="pill" style="animation:up .5s 12.6s both"><i></i>CRM &amp; integrations</span>
-  <h2 style="animation:up .6s 12.7s both">All your leads,<br><span>one simple board.</span></h2>
-  <div class="crm">
-    <div class="hd">Sales pipeline<small>This month</small></div>
-    <div class="cols">
-      <div class="col"><h4>New lead <span>3</span></h4>
-        <div class="deal" style="visibility:hidden"><b>.</b><small>.</small><div class="row"><span class="av"></span></div></div>
-        <div class="deal"><b>Northwind Bakery</b><small>Website redesign</small><div class="row"><span class="av" style="background:#5a8dee">NB</span><span class="amt">$3,800</span></div></div>
-        <div class="deal"><b>Pine &amp; Co</b><small>Shopify store</small><div class="row"><span class="av" style="background:#9b6bd8">PC</span><span class="amt">$5,200</span></div></div>
-      </div>
-      <div class="col"><h4>Proposal <span>2</span></h4>
-        <div class="deal"><b>Brightline Co</b><small>Client portal</small><div class="row"><span class="av" style="background:#e0a33a">BC</span><span class="amt">$9,600</span></div></div>
-        <div class="deal"><b>Oak Street Dental</b><small>Local SEO</small><div class="row"><span class="av" style="background:#3aa57a">OS</span><span class="amt">$1,400</span></div></div>
-      </div>
-      <div class="col"><h4>Won <span>4</span></h4>
-        <div class="deal" style="visibility:hidden"><b>.</b><small>.</small><div class="row"><span class="av"></span></div></div>
-        <div class="deal"><b>Harbor &amp; Finch</b><small>CRM setup</small><div class="row"><span class="av" style="background:#d65a5a">HF</span><span class="amt">$6,100</span></div></div>
-      </div>
-      <div class="deal mover"><b>Maple Studio</b><small>Booking website</small><div class="row"><span class="av" style="background:#f66135">MS</span><span class="amt">$4,200</span></div></div>
-    </div>
-    <div class="won">✓ Deal won · Maple Studio</div>
-  </div>
-</section>
-
-<!-- 5 · AI automation -->
-<section class="scene top" data-shift="19" style="animation:show 5.5s 17s both">
-  <span class="pill" style="animation:up .5s 17.1s both"><i></i>AI automation</span>
-  <h2 style="animation:up .6s 17.2s both">Let AI handle<br><span>the busywork.</span></h2>
-  <div class="flow">
-    <div class="box mail"><div class="from"><span class="av">J</span><div><b>Jamie Lee</b><small>New email · just now</small></div></div><p>Hi! Where is my order #1042? I need it by Friday.</p></div>
-    <div class="box ai"><div class="hd"><i>✦</i>AI drafted a reply</div>
-      <div class="typing"><span>Hi Jamie, good news! Order #1042</span><span>shipped yesterday and arrives</span><span>Thursday. Tracking link below.</span></div></div>
-    <div class="box tasks"><h4>Done automatically</h4><ul>
-      <li style="display:none"></li>
-      <li><i></i>Order status checked</li>
-      <li><i></i>Reply sent for your approval</li>
-      <li><i></i>Customer record updated in CRM</li>
-    </ul></div>
-  </div>
-</section>
-
-<!-- 2 · Problem -->
-<section class="scene top solid" style="animation:show 8s 3s both">
-  <span class="pill bad" style="animation:up .5s 3.1s both"><i></i>Sound familiar?</span>
-  <h2 style="animation:up .6s 3.25s both">Working hard, but<br><span class="red">not growing online?</span></h2>
+<section class="scene light m" style="--t:3.5s; --len:8s">
+  <h2>Working hard, but<br><span style="color:var(--red)">not growing online?</span></h2>
   <div class="pgrid">
-    <div class="pb" style="animation-delay:3.9s">
-      <div class="g g-site"><div class="bar3"><i></i><i></i><i></i><span>⚠ Not secure</span></div><div class="old"><b></b><b></b><b></b><em></em></div><div class="spin2"></div></div>
-      <p>Website looks outdated and slow</p></div>
-    <div class="pb" style="animation-delay:4.7s">
-      <div class="g g-ads"><div class="meter"><small>Ad spend</small><div class="m"><span></span></div><b class="spend"></b></div><div class="cust"><small>New customers</small><b>0</b></div><i class="coin c1">$</i><i class="coin c2">$</i><i class="coin c3">$</i></div>
-      <p>Ads cost money, bring few customers</p></div>
-    <div class="pb" style="animation-delay:5.5s">
-      <div class="g g-dm"><div class="bub b1">Hi, is this available?</div><div class="bub b2">What's the price?</div><div class="bub b3">Hello?? 👋</div><span class="unread">27 unread</span></div>
-      <p>Leads get lost in DMs and spreadsheets</p></div>
-    <div class="pb" style="animation-delay:6.3s">
-      <div class="g g-tools"><span class="t1">📊</span><span class="t2">📧</span><span class="t3">🤖</span><svg viewBox="0 0 300 150"><path d="M70 50 L150 100" class="dl"/><path d="M230 50 L150 100" class="dl"/></svg><b class="x1">✕</b><b class="x2">✕</b></div>
-      <p>Tools and AI don&rsquo;t talk to each other</p></div>
-    <div class="pb wide" style="animation-delay:7.1s">
-      <div class="g g-goog"><div class="sbar">🔍 <span>best salon near me</span></div><div class="res"><i></i><i></i><i></i></div><div class="you">Your business &rarr; <b>Page 5</b></div></div>
-      <p>Customers can&rsquo;t find you on Google</p></div>
+    <div class="pb" style="animation-delay:calc(var(--t) + .6s)">
+      <div class="gx site"><div class="bar3"><i></i><i></i><i></i><span>⚠ Not secure</span></div>
+        <div class="old"><div class="hd">Welcome to our website!!</div><div class="row"><img src="img/hoodie.jpg"><div class="tx"><i></i><i></i><i style="width:120px"></i><i></i></div></div><span class="blink">Click here for prices</span></div>
+        <div class="spin2"></div></div>
+      <p>Outdated <span>website</span></p></div>
+    <div class="pb" style="animation-delay:calc(var(--t) + 1.2s)">
+      <div class="gx ads"><small>Ad spend this month</small><div class="m"><span></span></div><b class="spend"></b><div class="cu"><b>0</b><small>new customers</small></div><i class="coin k1">$</i><i class="coin k2">$</i><i class="coin k3">$</i></div>
+      <p>Ads <span>wasting money</span></p></div>
+    <div class="pb" style="animation-delay:calc(var(--t) + 1.8s)">
+      <div class="gx dm"><div class="who"><i></i>Direct messages</div><div class="bub b1">Hi, is this available?</div><div class="bub b2">What's the price?</div><div class="bub b3">Hello?? 👋</div><span class="unread">27 unread</span></div>
+      <p>Leads <span>get lost</span></p></div>
+    <div class="pb" style="animation-delay:calc(var(--t) + 2.4s)">
+      <div class="gx goog"><div class="gl"><b>G</b><b>o</b><b>o</b><b>g</b><b>l</b><b>e</b></div><div class="sb">🔍 best salon near me</div><div class="rs"><i></i><i style="width:80%"></i><i style="width:90%"></i><i style="width:70%"></i></div><div class="pg">Page <span>1</span><span>2</span><span>3</span><span>4</span><span class="you">5 ← you</span></div></div>
+      <p>Invisible <span>on Google</span></p></div>
   </div>
 </section>
 
-<!-- 3 · Turn -->
-<section class="scene center s6" data-shift="3" style="animation:show 3s 8s both">
-  <div><div class="line" style="animation-delay:8.1s">It&rsquo;s not you.</div><div class="line" style="animation-delay:8.45s">It&rsquo;s your setup.</div><div class="line" style="animation-delay:9s;color:var(--orange)">We fix that.</div></div>
+<section class="scene orange m turn" style="--t:11.5s; --len:4.5s">
+  <div><div class="line" style="animation-delay:11.7s">It&rsquo;s not you.</div><div class="line" style="animation-delay:12.3s">It&rsquo;s your setup.</div><div class="line" style="animation-delay:13.2s">We fix that.</div></div>
 </section>
 
-<!-- SEO 25–30.5 -->
-<section class="scene top" style="animation:show 5.5s 25s both">
-  <span class="pill" style="animation:up .5s 25.1s both"><i></i>SEO</span>
-  <h2 style="animation:up .6s 25.2s both">Get found when<br><span>customers search.</span></h2>
-  <div class="serp">
-    <div class="gbar"><b>G</b><div class="q"><span>web design agency near me</span></div></div>
+<section class="scene dark m" style="--t:16s; --len:6s">
+  <h2>Get the right setup.<br><span>Watch it grow.</span></h2>
+  <div class="card dash">
+    <div class="hd">Revenue<small>Last 6 months</small></div>
+    <div class="rev"></div>
+    <svg class="chart" viewBox="0 0 960 460" preserveAspectRatio="none">
+      <defs><linearGradient id="ar" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f66135" stop-opacity=".28"/><stop offset="1" stop-color="#f66135" stop-opacity="0"/></linearGradient></defs>
+      <g stroke="#eeebe4" stroke-width="2"><path d="M0 110H960M0 220H960M0 330H960M0 440H960"/></g>
+      <path class="area" d="M10 420 C120 410 170 380 250 365 S390 330 450 290 S590 240 650 200 S800 130 930 70 L930 460 L10 460Z" fill="url(#ar)"/>
+      <path class="line" d="M10 420 C120 410 170 380 250 365 S390 330 450 290 S590 240 650 200 S800 130 930 70" fill="none" stroke="#f66135" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="chips">
+    <span class="chip c-o" style="left:60px; top:1560px; rotate:-4deg; animation-delay:calc(var(--t) + 2.4s), calc(var(--t) + 2.9s)">Visitors <b class="num" style="animation:cc1 2s calc(var(--t) + 2.4s) both; --suf:'k'"></b></span>
+    <span class="chip c-w" style="right:70px; top:1630px; rotate:3deg; animation-delay:calc(var(--t) + 2.8s), calc(var(--t) + 3.3s)">Orders <b class="num" style="animation:cc2 2s calc(var(--t) + 2.8s) both"></b></span>
+    <span class="chip c-w" style="left:200px; top:1750px; rotate:-2deg; animation-delay:calc(var(--t) + 3.2s), calc(var(--t) + 3.7s)">More repeat customers</span>
+  </div>
+</section>
+
+<section class="scene light m" style="--t:22s; --len:6.5s">
+  <h2>Sites that look great<br><span>on every screen.</span></h2>
+  <div class="devices">
+    <div class="laptop"><div class="lid"><div class="screen"><div class="site2">
+      <div class="nav">STRIDE<span><em>Shop</em><em>New in</em><em>About</em><em>🛒 2</em></span></div>
+      <div class="hero"><div><h3>Made for every step you take.</h3><p>Canvas sneakers, built to last. Free returns.</p><span class="b">Shop the collection</span></div><img src="img/sneakers.jpg"></div>
+      <div class="prods">
+        <div><img src="img/sneakers.jpg">Canvas Sneakers<span>$48.00</span></div><div><img src="img/white-sneakers.jpg">Leather Sneakers<span>$72.00</span></div><div><img src="img/hoodie.jpg">Cotton Hoodie<span>$58.00</span></div>
+        <div><img src="img/frontpack.jpg">Frontpack<span>$39.00</span></div><div><img src="img/puffer.jpg">Puffer Jacket<span>$96.00</span></div><div><img src="img/sneakers.jpg" style="transform:scaleX(-1)">Canvas Low<span>$44.00</span></div>
+      </div></div></div></div><div class="base"></div></div>
+    <div class="phone"><div class="pscr"><div class="island"></div><div class="msite">
+      <div class="nav">STRIDE<span>☰</span></div>
+      <div class="mh"><h3>Made for every step you take.</h3><img src="img/sneakers.jpg"><div class="b">Shop now</div></div>
+      <div class="mp"><div><img src="img/white-sneakers.jpg">Leather Sneakers</div><div><img src="img/hoodie.jpg">Cotton Hoodie</div><div><img src="img/frontpack.jpg">Frontpack</div><div><img src="img/puffer.jpg">Puffer Jacket</div></div>
+    </div></div></div>
+  </div>
+  <div class="chips">
+    <span class="chip c-d" style="right:60px; top:540px; rotate:3deg; animation-delay:calc(var(--t) + 2.2s), calc(var(--t) + 2.7s)">Fast on mobile</span>
+    <span class="chip c-o" style="left:330px; top:1580px; rotate:-3deg; animation-delay:calc(var(--t) + 2.8s), calc(var(--t) + 3.3s)">Built to convert</span>
+    <span class="chip c-w" style="right:50px; top:1720px; rotate:2deg; animation-delay:calc(var(--t) + 3.4s), calc(var(--t) + 3.9s)">Easy to update</span>
+    <span class="chip c-d" style="left:50px; top:1750px; rotate:-2deg; animation-delay:calc(var(--t) + 4s), calc(var(--t) + 4.5s)">SEO-ready</span>
+  </div>
+</section>
+
+<section class="scene orange m" style="--t:28.5s; --len:7.5s">
+  <h2>Get found when<br><span>customers search.</span></h2>
+  <div class="card serp">
+    <div class="gbar"><div class="gl"><b>G</b><b>o</b><b>o</b><b>g</b><b>l</b><b>e</b></div><div class="q"><span>web design agency near me</span></div></div>
     <div class="rlist">
       <div class="r"><small>competitor-one.com</small><b>Web Design Studio | Websites</b></div>
       <div class="r"><small>another-agency.com</small><b>Affordable Website Design</b></div>
@@ -447,87 +364,127 @@
       <div class="r me"><small>yourbusiness.com</small><b>Your Business &mdash; Websites That Grow</b><span class="rank">#1</span></div>
     </div>
   </div>
-  <div class="feats" style="--d:27.6s">
-    <div><i>📍</i><b>Local SEO</b><small>Show up in Maps</small></div>
-    <div><i>🔧</i><b>Technical fixes</b><small>Fast, clean pages</small></div>
-    <div><i>✍️</i><b>Helpful content</b><small>Answers buyers want</small></div>
+  <div class="card gsc">
+    <div class="hd">Search Console · Performance<small>Last 3 months</small></div>
+    <div class="tiles">
+      <div class="t1"><small>Total clicks</small><b class="num clk"></b></div>
+      <div class="t2"><small>Impressions</small><b class="num imp"></b></div>
+      <div class="t3"><small>Avg. CTR</small><b>2.6%</b></div>
+      <div class="t4"><small>Avg. position</small><b>4.8</b></div>
+    </div>
+    <svg class="gchart" viewBox="0 0 900 200" preserveAspectRatio="none">
+      <g stroke="#eee" stroke-width="2"><path d="M0 50H900M0 100H900M0 150H900"/></g>
+      <path class="ln" d="M0 185 C80 180 140 178 200 170 S320 160 380 140 S500 120 560 100 S700 60 760 50 S860 25 900 18" fill="none" stroke="#5e35b1" stroke-width="5"/>
+      <path class="ln" d="M0 192 C80 190 140 188 200 184 S320 176 380 166 S500 150 560 136 S700 104 760 92 S860 68 900 56" fill="none" stroke="#4285f4" stroke-width="5"/>
+    </svg>
   </div>
 </section>
 
-<!-- Marketing 30.5–36 -->
-<section class="scene top" style="animation:show 5.5s 30.5s both">
-  <span class="pill" style="animation:up .5s 30.6s both"><i></i>Social media &amp; ads</span>
-  <h2 style="animation:up .6s 30.7s both">Marketing that<br><span>brings customers.</span></h2>
+<section class="scene dark m" style="--t:36s; --len:6.5s">
+  <h2>Marketing that<br><span>brings customers.</span></h2>
   <div class="mk">
-    <div class="ig">
-      <div class="igh"><span class="av2"></span><b>yourbusiness</b><small>Sponsored</small></div>
-      <img src="img/sneakers.jpg">
-      <div class="igf">♥ <b class="likes"></b> likes &nbsp; 💬 86</div>
-    </div>
-    <div class="adcard">
-      <div class="hd"><b>Ads results</b><small>This week</small></div>
-      <div class="bars"><i style="--h:30%"></i><i style="--h:42%"></i><i style="--h:38%"></i><i style="--h:56%"></i><i style="--h:64%"></i><i style="--h:78%"></i><i style="--h:92%"></i></div>
-      <div class="kp"><div><small>Clicks</small><b>2,410</b></div><div><small>Leads</small><b class="g2">146</b></div></div>
-    </div>
-  </div>
-  <div class="feats" style="--d:33.2s">
-    <div><i>📱</i><b>Social media</b><small>Posts people stop for</small></div>
-    <div><i>🎯</i><b>Google &amp; Meta ads</b><small>Aimed at real buyers</small></div>
-    <div><i>📊</i><b>Clear reports</b><small>See what works</small></div>
+    <div class="mb"><div class="lab">Instagram post</div><div class="post"><div class="ph"><i></i>stride.store<small>Sponsored</small></div><img src="img/sneakers.jpg"><div class="pf">♥ <span class="likes"></span> likes</div></div></div>
+    <div class="mb"><div class="lab">Facebook ad</div><div class="post fbad"><div class="ph"><i style="background:#1877f2"></i>Stride<small>Sponsored</small></div><img src="img/puffer.jpg" style="height:200px"><div class="ft"><b>Winter sale is on</b>Free shipping this week</div><div class="cta2">Shop now</div></div></div>
+    <div class="mb"><div class="lab">Ads results</div><div class="bars"><i style="--h:32%"></i><i style="--h:44%"></i><i style="--h:40%"></i><i style="--h:60%"></i><i style="--h:74%"></i><i style="--h:94%"></i></div><div class="kp"><div><small>Clicks</small><b>2,410</b></div><div><small>Leads</small><b style="color:var(--green)">146</b></div></div></div>
+    <div class="mb"><div class="lab">Story</div><div class="story"><img src="img/hoodie.jpg"><div class="sbar"><span></span></div><div class="sw">Swipe up to shop</div></div></div>
   </div>
 </section>
 
-<!-- Email 47–52.5 -->
-<section class="scene top" style="animation:show 5.5s 47s both">
-  <span class="pill" style="animation:up .5s 47.1s both"><i></i>Email marketing</span>
-  <h2 style="animation:up .6s 47.2s both">Emails that bring<br><span>customers back.</span></h2>
-  <div class="em">
-    <div class="news">
-      <div class="nh"><b>STRIDE</b><small>To: 4,820 subscribers</small></div>
-      <img src="img/white-sneakers.jpg">
-      <b class="nt">New season, 15% off for you</b>
-      <span class="nb">Shop now</span>
+<section class="scene light m" style="--t:42.5s; --len:7s">
+  <h2>Let AI handle<br><span>the busywork.</span></h2>
+  <div class="card flow">
+    <div class="hd">Automation</div>
+    <div class="nodes">
+      <svg class="wires" viewBox="0 0 880 220" preserveAspectRatio="none"><path d="M200 100 H250"/><path d="M450 100 C560 100 560 40 680 40"/><path d="M450 100 C560 100 560 165 680 165"/>
+        <circle class="pulse" style="offset-path:path('M200 100 H250')"/><circle class="pulse" style="offset-path:path('M450 100 C560 100 560 40 680 40')"/><circle class="pulse" style="offset-path:path('M450 100 C560 100 560 165 680 165')"/></svg>
+      <div class="node nd1">New message<small>Website chat</small></div>
+      <div class="node nd2">AI agent<small>Understands &amp; replies</small></div>
+      <div class="node nd3">Update CRM<small>Lead saved</small></div>
+      <div class="node nd4">Book a call<small>Calendar invite</small></div>
     </div>
-    <div class="estats">
-      <div class="st"><small>Open rate</small><div class="m2"><span style="--w:48%"></span></div><b>48%</b></div>
-      <div class="st"><small>Clicks</small><div class="m2"><span style="--w:22%"></span></div><b>22%</b></div>
-      <div class="flowx"><span class="n n1">Welcome</span><em>→</em><span class="n n2">Offer</span><em>→</em><span class="n n3">Review</span></div>
-      <small class="auto">Sends automatically</small>
-    </div>
+    <div class="names"><small>Works with</small><span style="animation-delay:calc(var(--t) + 2s)">ChatGPT</span><span style="animation-delay:calc(var(--t) + 2.15s)">Claude</span><span style="animation-delay:calc(var(--t) + 2.3s)">Gemini</span><span style="animation-delay:calc(var(--t) + 2.45s)">Zapier</span><span style="animation-delay:calc(var(--t) + 2.6s)">Make</span></div>
   </div>
-  <div class="feats" style="--d:50.4s">
-    <div><i>📰</i><b>Newsletters</b><small>Designed in your brand</small></div>
-    <div><i>🔁</i><b>Automated flows</b><small>Welcome, follow-up, reviews</small></div>
-    <div><i>💌</i><b>Repeat sales</b><small>Bring past buyers back</small></div>
+  <div class="card chat">
+    <div class="ch"><i>✦</i>Stride assistant<small>● Online 24/7</small></div>
+    <div class="msgs">
+      <div class="msg u" style="animation-delay:calc(var(--t) + 3s)">Do you deliver on Saturday?</div>
+      <div class="msg a" style="animation-delay:calc(var(--t) + 4.1s)">Yes! Order before 2pm Friday and it arrives Saturday. Want me to check your size?</div>
+      <div class="msg u" style="animation-delay:calc(var(--t) + 5.2s)">Yes please, EU 42 🙌</div>
+    </div>
   </div>
 </section>
 
-<!-- 8 · Who we help -->
-<section class="scene top" data-shift="23.5" style="animation:show 4.5s 29s both">
-  <span class="pill" style="animation:up .5s 29.1s both"><i></i>Who we help</span>
-  <h2 style="animation:up .6s 29.2s both">For every business<br><span>ready to grow.</span></h2>
-  <div class="who">
-    <span>🛍️ Retail &amp; ecommerce</span><span>🍽️ Restaurants &amp; cafés</span><span>🦷 Clinics &amp; healthcare</span><span>💇 Salons &amp; beauty</span>
-    <span>🏠 Real estate</span><span>🧰 Trades &amp; services</span><span>🎓 Coaches &amp; education</span><span>🚀 Startups</span>
+<section class="scene orange m" style="--t:49.5s; --len:7s">
+  <h2>Every lead tracked.<br><span>Nothing forgotten.</span></h2>
+  <div class="card crm">
+    <div class="sb"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="main">
+      <div class="contact"><div class="av">MS</div><div><b>Maya Singh · Maple Studio</b><small>Booking website · $4,200 · Owner: You</small></div></div>
+      <div class="stages"><span>New lead</span><span>Contacted</span><span>Proposal</span><span>Won ✓</span></div>
+      <div class="info"><div><small>Source</small><b>Website form</b></div><div><small>Last contact</small><b>Today</b></div><div><small>Next step</small><b>Kick-off</b></div></div>
+    </div>
   </div>
-  <p class="whosub">Working hard but not growing online?<br>We can help.</p>
+  <div class="card auto">
+    <div class="hd">Automation · runs on its own</div>
+    <div class="steps">
+      <div class="step" style="animation-delay:calc(var(--t) + 1.4s)"><i style="animation-delay:calc(var(--t) + 1.8s)">✓</i>Form submitted<small>Lead created</small></div>
+      <div class="step" style="animation-delay:calc(var(--t) + 1.7s)"><i style="animation-delay:calc(var(--t) + 2.4s)">✓</i>Assigned to you<small>Instant alert</small></div>
+      <div class="step" style="animation-delay:calc(var(--t) + 2s)"><i style="animation-delay:calc(var(--t) + 3s)">✓</i>Welcome email sent<small>Personal reply</small></div>
+      <div class="step" style="animation-delay:calc(var(--t) + 2.3s)"><i style="animation-delay:calc(var(--t) + 3.6s)">✓</i>Follow-up booked<small>In 2 days</small></div>
+    </div>
+  </div>
+  <div class="tools"><small>Works with</small><span style="animation-delay:calc(var(--t) + 4s)">HubSpot</span><span style="animation-delay:calc(var(--t) + 4.15s)">Salesforce</span><span style="animation-delay:calc(var(--t) + 4.3s)">Zoho CRM</span><span style="animation-delay:calc(var(--t) + 4.45s)">Pipedrive</span></div>
 </section>
 
-<!-- 7 · CTA -->
-<section class="scene center s7" data-shift="33.5" style="animation:showlast 4s 23.5s both">
-  <div class="q">Ready to<br>grow <span>online?</span></div>
-  <div class="cta">Let&rsquo;s talk <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> growbytes.co</div>
+<section class="scene dark m" style="--t:56.5s; --len:6.5s">
+  <h2>Emails that bring<br><span>customers back.</span></h2>
+  <div class="mailwrap">
+    <div class="card client">
+      <div class="top"><b>Stride · New season, 15% off for you 👟</b>to: 4,820 subscribers</div>
+      <div class="nl">
+        <div class="brandh">STRIDE</div>
+        <div class="heroimg"><img src="img/white-sneakers.jpg"><span>15% OFF</span></div>
+        <h4>New season. New steps.</h4>
+        <p>Fresh styles, made to last. This week only.</p>
+        <div class="btn">Shop the drop</div>
+        <div class="three"><div><img src="img/sneakers.jpg">Canvas</div><div><img src="img/hoodie.jpg">Hoodie</div><div><img src="img/frontpack.jpg">Frontpack</div></div>
+        <div class="foot">You&rsquo;re receiving this because you shopped with Stride · Unsubscribe</div>
+      </div>
+    </div>
+    <div class="side">
+      <div class="card stat" style="animation-delay:calc(var(--t) + .7s)"><small>Open rate</small><b class="num opn"></b><div class="m2"><span style="--w:48%"></span></div></div>
+      <div class="card stat" style="animation-delay:calc(var(--t) + .9s)"><small>Click rate</small><b class="num clc"></b><div class="m2"><span style="--w:22%"></span></div></div>
+      <div class="card seq"><small>Automated flow</small><div><span style="animation-delay:calc(var(--t) + 2.6s)">1 · Welcome</span><span style="animation-delay:calc(var(--t) + 3.2s)">2 · Offer</span><span style="animation-delay:calc(var(--t) + 3.8s)">3 · Review</span></div></div>
+    </div>
+  </div>
+  <div class="tools"><small>Works with</small><span style="animation-delay:calc(var(--t) + 4.2s)">Mailchimp</span><span style="animation-delay:calc(var(--t) + 4.35s)">Klaviyo</span><span style="animation-delay:calc(var(--t) + 4.5s)">Shopify Email</span></div>
+</section>
+
+<section class="scene light m" style="--t:63s; --len:5s">
+  <h2>For every business<br><span>ready to grow.</span></h2>
+  <div class="ind">
+    <div class="it" style="background:#ffd9c9; animation-delay:calc(var(--t) + .5s)"><i>🛍️</i><div><b>Retail &amp; ecommerce</b><small>Stores that sell 24/7</small></div></div>
+    <div class="it" style="background:#d6e4ff; animation-delay:calc(var(--t) + .65s)"><i>🍽️</i><div><b>Restaurants &amp; cafés</b><small>Orders and bookings</small></div></div>
+    <div class="it" style="background:#cdeedd; animation-delay:calc(var(--t) + .8s)"><i>🦷</i><div><b>Clinics &amp; health</b><small>Patients book online</small></div></div>
+    <div class="it" style="background:#fff1b8; animation-delay:calc(var(--t) + .95s)"><i>💇</i><div><b>Salons &amp; beauty</b><small>Full calendars</small></div></div>
+    <div class="it" style="background:#e9dcff; animation-delay:calc(var(--t) + 1.1s)"><i>🏠</i><div><b>Real estate</b><small>More enquiries</small></div></div>
+    <div class="it" style="background:#ffe0ec; animation-delay:calc(var(--t) + 1.25s)"><i>🧰</i><div><b>Trades &amp; services</b><small>Found by locals</small></div></div>
+    <div class="it" style="background:#d9f1f6; animation-delay:calc(var(--t) + 1.4s)"><i>🎓</i><div><b>Coaches &amp; education</b><small>Courses that sell</small></div></div>
+    <div class="it" style="background:#ffe7c2; animation-delay:calc(var(--t) + 1.55s)"><i>🚀</i><div><b>Startups</b><small>Launch faster</small></div></div>
+  </div>
+  <p class="whosub">Working hard but not growing online?<br><span>We can help.</span></p>
+</section>
+
+<section class="scene orange m" style="--t:68s; --len:3s; animation-name:showlast">
+  <div class="qq">Ready to<br>grow <span>online?</span></div>
+  <div class="cta">Let&rsquo;s talk <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> growbytes.co</div>
   <div class="mini"><svg width="64" height="50" viewBox="0 0 16 12.5"><rect x="0" y="7.5" width="4" height="4.5"/><rect x="4" y="1.25" width="4" height="6.25"/><rect x="8" y="7.5" width="4" height="4.5"/><rect x="12" y="0" width="4" height="7.5"/></svg>Growbytes</div>
 </section>
+
 <script>
-  window.seek = (ms) => {
-    for (const a of document.getAnimations()) {
-      const el = a.effect && a.effect.target;
-      const s = el && el.closest ? el.closest("[data-shift]") : null;
-      a.pause();
-      a.currentTime = ms - (s ? parseFloat(s.dataset.shift) * 1000 : 0);
-    }
-  };
+  const mark = document.getElementById("mark").innerHTML;
+  document.querySelectorAll(".scene.m").forEach((s) => s.insertAdjacentHTML("afterbegin", mark));
+  window.seek = (ms) => { for (const a of document.getAnimations()) { a.pause(); a.currentTime = ms; } };
 </script>
 </body>
 </html>
