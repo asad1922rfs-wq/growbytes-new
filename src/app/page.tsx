@@ -493,7 +493,7 @@ export default function HomePage() {
             ))}
           </ul>
 
-          <div className="-mt-20 rounded-2xl bg-[#efe9df] px-5 pt-32 pb-12 sm:px-10 lg:-mt-28 lg:px-16 lg:pt-44 lg:pb-16">
+          <div className="-mt-20 rounded-2xl bg-[#e9ecf0] px-5 pt-32 pb-12 sm:px-10 lg:-mt-28 lg:px-16 lg:pt-44 lg:pb-16">
             <h3 className="mx-auto max-w-[36rem] text-center text-[1.75rem] leading-tight font-extrabold tracking-tight text-balance lg:text-[2.25rem]">
               How every engagement starts.
             </h3>

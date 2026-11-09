@@ -38,7 +38,7 @@ export const DEPTS: Record<Department, { name: string; agent: string; role: stri
 };
 
 export function Card({ className = "", children }: { className?: string; children: React.ReactNode }) {
-  return <div className={`rounded-[1.25rem] border border-[var(--hq-line)] bg-[var(--hq-panel)] ${className}`}>{children}</div>;
+  return <div className={`rounded-[0.875rem] border border-[var(--hq-line)] bg-[var(--hq-panel)] ${className}`}>{children}</div>;
 }
 
 export function Pill({ children, tone = "muted" }: { children: React.ReactNode; tone?: "muted" | "orange" | "green" | "red" | "amber" }) {

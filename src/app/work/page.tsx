@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
 
 // Panel colour behind each showcase, matched to the product
 const panel: Record<string, string> = {
-  blinq: "bg-[#efe9df]",
+  blinq: "bg-[#e9ecf0]",
   "advocate-epaper": "bg-[#e3ebf3]",
   "rfs-hcm": "bg-[#2b2c2a]",
 };

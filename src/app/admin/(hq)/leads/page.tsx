@@ -62,7 +62,7 @@ export default async function LeadsPage({ searchParams }: Props) {
         </Card>
 
         {!lead && (
-          <div className="hidden place-items-center rounded-[1.5rem] border border-dashed border-[var(--hq-line)] p-10 text-center text-[var(--hq-muted)] lg:grid">
+          <div className="hidden place-items-center rounded-[1rem] border border-dashed border-[var(--hq-line)] p-10 text-center text-[var(--hq-muted)] lg:grid">
             Pick a lead on the left to see the brief, their message and the reply draft.
           </div>
         )}

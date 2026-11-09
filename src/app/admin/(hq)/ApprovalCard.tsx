@@ -14,7 +14,7 @@ export function ApprovalCard({ action }: { action: AgentAction }) {
   const p = action.payload as Record<string, string>;
   const pending = action.status === "pending";
   return (
-    <form action={approveAction} className="relative overflow-hidden rounded-[1.25rem] border border-[var(--hq-line)] bg-[var(--hq-panel)] p-5 sm:p-6">
+    <form action={approveAction} className="relative overflow-hidden rounded-[0.875rem] border border-[var(--hq-line)] bg-[var(--hq-panel)] p-5 sm:p-6">
       <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1" style={{ background: dept.hue }} />
       <input type="hidden" name="id" value={action.id} />
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.8125rem] text-[var(--hq-muted)]">

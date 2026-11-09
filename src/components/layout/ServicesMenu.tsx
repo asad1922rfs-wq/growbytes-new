@@ -167,7 +167,7 @@ export function ServicesMenu() {
               onClick={() => setOpen(false)}
               className="group hidden overflow-hidden rounded-lg border border-line bg-white transition-colors hover:border-ink/25 xl:block"
             >
-              <div aria-hidden="true" className="relative aspect-[16/9] overflow-hidden bg-[#efe9df]">
+              <div aria-hidden="true" className="relative aspect-[16/9] overflow-hidden bg-[#e9ecf0]">
                 <Image
                   src="/images/work/blinq-flosser.jpg"
                   alt=""

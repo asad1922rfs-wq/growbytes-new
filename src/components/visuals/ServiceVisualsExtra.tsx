@@ -116,7 +116,7 @@ export function CrmVisual() {
 
 /** Mobile apps: two phone screens, home and booking, with a push notification. */
 export function MobileVisual() {
-  const phone = "w-[42%] rounded-[1.1rem] bg-ink p-1 shadow-float";
+  const phone = "w-[42%] rounded-[0.75rem] bg-ink p-1 shadow-float";
   return (
     <div className="relative flex items-end justify-center gap-4 pt-4">
       <div className={`${phone} -rotate-3`}>

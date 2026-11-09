@@ -41,7 +41,7 @@ export function OrderChat({ openCount, openOrders }: { openCount: number; openOr
     };
   }, [menu]);
 
-  const popup = "hq-glass absolute bottom-[calc(100%+0.75rem)] z-30 rounded-[1.25rem] p-2";
+  const popup = "hq-glass absolute bottom-[calc(100%+0.75rem)] z-30 rounded-[0.875rem] p-2";
   const closeBtn = (
     <button type="button" onClick={() => setMenu(null)} aria-label="Close" className="grid size-8 place-items-center rounded-full text-[var(--hq-muted)] hover:bg-white/10 hover:text-white">
       <svg viewBox="0 0 24 24" className="size-4 fill-none stroke-current" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
@@ -82,7 +82,7 @@ export function OrderChat({ openCount, openOrders }: { openCount: number; openOr
         </div>
       )}
 
-      <form ref={form} action={send} className="hq-glass flex items-end gap-2 rounded-[1.75rem] p-2 pl-2.5 focus-within:brightness-110">
+      <form ref={form} action={send} className="hq-glass flex items-end gap-2 rounded-[1.125rem] p-2 pl-2.5 focus-within:brightness-110">
         <input type="hidden" name="department" value={dept.value} />
         <button
           type="button"

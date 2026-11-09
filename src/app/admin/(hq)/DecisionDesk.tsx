@@ -12,8 +12,8 @@ export function DecisionDesk({ children }: { children: React.ReactNode }) {
     <div>
       <div className="relative">
         {/* The rest of the pile, peeking out behind the current decision */}
-        {items.length > 1 && <div aria-hidden="true" className="absolute inset-x-4 -bottom-2 h-full rounded-[1.25rem] border border-[var(--hq-line)] bg-[var(--hq-panel)]/60" />}
-        {items.length > 2 && <div aria-hidden="true" className="absolute inset-x-8 -bottom-4 h-full rounded-[1.25rem] border border-[var(--hq-line)] bg-[var(--hq-panel)]/30" />}
+        {items.length > 1 && <div aria-hidden="true" className="absolute inset-x-4 -bottom-2 h-full rounded-[0.875rem] border border-[var(--hq-line)] bg-[var(--hq-panel)]/60" />}
+        {items.length > 2 && <div aria-hidden="true" className="absolute inset-x-8 -bottom-4 h-full rounded-[0.875rem] border border-[var(--hq-line)] bg-[var(--hq-panel)]/30" />}
         <div className="relative">{items[at]}</div>
       </div>
       {items.length > 1 && (

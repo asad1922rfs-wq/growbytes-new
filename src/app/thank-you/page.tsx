@@ -74,7 +74,7 @@ export default function ThankYouPage() {
               ))}
             </ol>
 
-            <div className="mx-auto mt-14 max-w-5xl rounded-[2rem] bg-ink p-8 text-white sm:p-10">
+            <div className="mx-auto mt-14 max-w-5xl rounded-[1.25rem] bg-ink p-8 text-white sm:p-10">
               <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                 <h2 className="text-h3 font-extrabold text-white">While you wait</h2>
                 <ButtonLink href="/" variant="brand" arrow>

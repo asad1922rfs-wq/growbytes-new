@@ -17,7 +17,7 @@ export function Header() {
         Skip to main content
       </a>
       <div className="relative">
-        <div className="mx-auto flex h-[var(--header-h)] max-w-site items-center justify-between gap-6 px-[var(--spacing-gutter)]">
+        <div className="flex h-[var(--header-h)] w-full items-center justify-between gap-6 px-[var(--spacing-gutter)] lg:px-10">
           <Logo />
           <nav aria-label="Main" className="hidden lg:block">
             <ul className="flex items-center gap-1">
@@ -37,7 +37,7 @@ export function Header() {
           <div className="flex items-center gap-3">
             {/* Visibility lives on the wrapper: buttonStyles sets display itself. */}
             <span className="hidden sm:block">
-              <Link href={projectCta.href} className={buttonStyles("brand", "min-h-12 px-6")}>
+              <Link href={projectCta.href} className={buttonStyles("primary", "min-h-12 px-6")}>
                 {projectCta.label}
               </Link>
             </span>

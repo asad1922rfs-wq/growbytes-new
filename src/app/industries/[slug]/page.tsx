@@ -100,7 +100,7 @@ export default async function IndustryPage({ params }: Props) {
       {/* Challenges: orange story panel beside numbered rows */}
       <Section tone="white">
         <Container>
-          <div className="grid overflow-hidden rounded-[2rem] border border-line lg:grid-cols-[0.9fr_1.2fr]">
+          <div className="grid overflow-hidden rounded-[1.25rem] border border-line lg:grid-cols-[0.9fr_1.2fr]">
             <div className="relative overflow-hidden bg-accent p-8 text-white sm:p-12">
               <IndustryIcon path={ind.icon} className="pointer-events-none absolute -right-10 -bottom-10 size-72 text-white/15" />
               <p className="relative text-[0.75rem] font-bold tracking-[0.14em] text-white/80 uppercase">The challenges</p>
@@ -168,7 +168,7 @@ export default async function IndustryPage({ params }: Props) {
             {featured[0] && (
               <Link
                 href={`/services/${featured[0].slug}/`}
-                className="group on-dark relative flex flex-col overflow-hidden rounded-[2rem] bg-ink text-white"
+                className="group on-dark relative flex flex-col overflow-hidden rounded-[1.25rem] bg-ink text-white"
               >
                 <span aria-hidden="true" className="absolute -top-16 -right-16 size-64 rounded-full bg-accent/25 blur-3xl" />
                 <span aria-hidden="true" className="relative block p-6 sm:p-8">
@@ -193,7 +193,7 @@ export default async function IndustryPage({ params }: Props) {
                 <li key={s.slug}>
                   <Link
                     href={`/services/${s.slug}/`}
-                    className="group flex h-full items-center gap-5 rounded-[2rem] border border-line bg-white p-6 transition-colors duration-300 hover:border-ink sm:p-7"
+                    className="group flex h-full items-center gap-5 rounded-[1.25rem] border border-line bg-white p-6 transition-colors duration-300 hover:border-ink sm:p-7"
                   >
                     <span className="grid size-16 shrink-0 place-items-center rounded-2xl bg-paper text-ink ring-1 ring-line transition-colors duration-300 group-hover:bg-accent group-hover:text-white group-hover:ring-accent">
                       <GbIcon name={s.slug} className="size-8" />

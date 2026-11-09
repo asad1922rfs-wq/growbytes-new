@@ -103,10 +103,10 @@ export function HeroBuildArt() {
 
         {/* Mobile app */}
         <div
-          className="ai-float absolute bottom-[1%] left-[-6%] z-10 w-[30%] rounded-[1.4rem] bg-ink p-1.5 shadow-[0_18px_40px_-20px_rgb(23_25_24/0.5)]"
+          className="ai-float absolute bottom-[1%] left-[-6%] z-10 w-[30%] rounded-[0.9rem] bg-ink p-1.5 shadow-[0_18px_40px_-20px_rgb(23_25_24/0.5)]"
           style={delay(2.4)}
         >
-          <div className="overflow-hidden rounded-[1.1rem] bg-white">
+          <div className="overflow-hidden rounded-[0.75rem] bg-white">
             <div className="flex justify-center pt-1.5">
               <span className="h-1.5 w-10 rounded-full bg-ink" />
             </div>

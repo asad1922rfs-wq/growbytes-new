@@ -63,7 +63,7 @@ function BrowserBar({ domain }: { domain: string }) {
 export function ClientProjectCompact({ project }: { project: ClientProjectData }) {
   return (
     <article className="group relative flex flex-col">
-      <div className={`relative aspect-[16/11] overflow-hidden rounded-xl ${project.dark ? "bg-[#2b2c2a]" : "bg-[#efe9df]"}`}>
+      <div className={`relative aspect-[16/11] overflow-hidden rounded-xl ${project.dark ? "bg-[#2b2c2a]" : "bg-[#e9ecf0]"}`}>
         <div className="absolute inset-x-6 top-7 overflow-hidden rounded-lg bg-white shadow-[0_20px_50px_-24px_rgb(23_25_24/0.35)] ring-1 ring-line transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:-translate-y-1.5 sm:inset-x-10 sm:top-10">
           <BrowserBar domain={project.domain} />
           <Screenshot project={project} />
@@ -83,7 +83,7 @@ export function ClientProjectCompact({ project }: { project: ClientProjectData }
 /** Client project card (shown with the client's permission). */
 export function ClientProject({ project }: { project: ClientProjectData }) {
   return (
-    <article className="group relative grid overflow-hidden rounded-xl bg-[#efe9df] lg:grid-cols-[1.55fr_1fr]">
+    <article className="group relative grid overflow-hidden rounded-xl bg-[#e9ecf0] lg:grid-cols-[1.55fr_1fr]">
       <div className="px-5 pt-6 sm:px-10 sm:pt-12 lg:pr-0">
         <div className="translate-y-2 overflow-hidden rounded-t-lg bg-white shadow-[0_20px_50px_-24px_rgb(23_25_24/0.35)] ring-1 ring-line transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:translate-y-0">
           <BrowserBar domain={project.domain} />

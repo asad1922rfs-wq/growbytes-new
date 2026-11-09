@@ -111,7 +111,7 @@ function Node({ d, s, className = "", style }: { d: Department; s: Overview["byD
   return (
     <Link
       href={d === "sales" ? "/admin/leads/" : "/admin/agents/"}
-      className={`group block overflow-hidden rounded-[1.5rem] p-5 transition-[filter] duration-300 hover:brightness-125 ${className.includes("absolute") ? "" : "relative"} ${
+      className={`group block overflow-hidden rounded-[1rem] p-5 transition-[filter] duration-300 hover:brightness-125 ${className.includes("absolute") ? "" : "relative"} ${
         live ? "hq-glass" : "hq-glass hq-glass-dim"
       } ${className}`}
       style={style}

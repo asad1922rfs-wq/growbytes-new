@@ -14,7 +14,7 @@ export function IndustryTabs({ items, service }: { items: Item[]; service: strin
   const item = items[active];
 
   return (
-    <div className="grid overflow-hidden rounded-[2rem] border border-line bg-white lg:grid-cols-[0.8fr_1.6fr]">
+    <div className="grid overflow-hidden rounded-[1.25rem] border border-line bg-white lg:grid-cols-[0.8fr_1.6fr]">
       <div role="tablist" aria-orientation="vertical" aria-label="Industries" className="flex overflow-x-auto border-b border-line lg:flex-col lg:border-r lg:border-b-0">
         {items.map((it, i) => {
           const on = i === active;

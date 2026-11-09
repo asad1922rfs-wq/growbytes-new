@@ -7,7 +7,7 @@ import { ArticleIllustration } from "@/components/visuals/ArticleIllustration";
 import { ProjectVisual } from "@/components/visuals/ProjectVisuals";
 
 const toneBg: Record<Project["tone"], string> = {
-  warm: "bg-[#ece4d8]",
+  warm: "bg-[#e6e9ed]",
   light: "bg-surface",
   dark: "bg-ink-soft",
 };
@@ -67,7 +67,7 @@ export function ArticleCard({ article, headingLevel = "h3" }: { article: Article
 /** Homepage portfolio: the featured concept, mockup large on the left, details beside it. */
 export function FeaturedProject({ project }: { project: Project }) {
   return (
-    <article className="group relative grid overflow-hidden rounded-xl bg-[#ece4d8] lg:grid-cols-[1.55fr_1fr]">
+    <article className="group relative grid overflow-hidden rounded-xl bg-[#e6e9ed] lg:grid-cols-[1.55fr_1fr]">
       <div className="px-5 pt-6 sm:px-10 sm:pt-12 lg:pr-0 lg:pb-0">
         {/* Bottom-cropped so the storefront reads as a large, continuous screen. */}
         <div className="translate-y-2 transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:translate-y-0">

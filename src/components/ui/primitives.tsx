@@ -97,7 +97,7 @@ const buttonClass: Record<ButtonVariant, string> = {
 
 export function buttonStyles(variant: ButtonVariant = "primary", className?: string) {
   return cn(
-    "inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-5 py-3 text-[0.9375rem] font-bold leading-tight",
+    "inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-5 py-3 text-[1.0625rem] font-bold leading-tight",
     "transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out-soft)]",
     buttonClass[variant],
     className,

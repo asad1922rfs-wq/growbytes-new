@@ -27,11 +27,11 @@ export default async function ApprovalsPage() {
               ))}
             </DecisionDesk>
           ) : (
-            <div className="hq-glass rounded-[1.5rem] p-6 text-[var(--hq-muted)]">All caught up. New drafts from your agents appear here.</div>
+            <div className="hq-glass rounded-[1rem] p-6 text-[var(--hq-muted)]">All caught up. New drafts from your agents appear here.</div>
           )}
         </section>
 
-        <section aria-labelledby="decided" className="hq-glass hq-glass-dim flex flex-col rounded-[1.5rem] md:min-h-0">
+        <section aria-labelledby="decided" className="hq-glass hq-glass-dim flex flex-col rounded-[1rem] md:min-h-0">
           <h2 id="decided" className="font-display px-6 pt-5 pb-3 text-2xl">
             Recently decided
           </h2>
