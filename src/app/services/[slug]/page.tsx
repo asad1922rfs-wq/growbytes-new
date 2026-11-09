@@ -1,3 +1,5 @@
+import { ArticleIllustration } from "@/components/visuals/ArticleIllustration";
+import type { Article } from "@/content/types";
 import type { Metadata } from "next";
 import type React from "react";
 import Link from "next/link";
@@ -51,6 +53,12 @@ export default async function ServicePage({ params }: Props) {
   const reading = [...relatedArticles, ...articles.filter((a) => !relatedArticles.includes(a))].slice(0, 3);
   const faqs = serviceFaqs(service);
   const specialist = subServicesFor(service.slug);
+  // One illustration per card, never the same twice within a service.
+  const arts = specialist.reduce<Article["illustration"][]>((used, x) => {
+    const pool: Article["illustration"][] = ["storefront", "workflow", "marketing", "funnel", "brief", "buildbuy", "speed", "redesign", "maintenance", "migration"];
+    const want = artFor(x.slug);
+    return [...used, used.includes(want) ? pool.find((k) => !used.includes(k))! : want];
+  }, []);
   const contactHref = `/contact/?service=${service.slug}`;
 
   return (
@@ -93,69 +101,81 @@ export default async function ServicePage({ params }: Props) {
       </section>
 
       {/* Problems: dark unless the hero is already dark */}
-      <section className={cn("relative isolate overflow-hidden", dark ? "border-t border-line bg-paper" : "on-dark bg-ink text-paper")}>
-        {!dark && <span aria-hidden="true" className="absolute -top-40 -right-40 -z-10 size-[30rem] rounded-full bg-accent/15 blur-3xl" />}
+      <section className={cn("relative", dark ? "border-t border-line bg-paper" : "on-dark bg-ink text-paper")}>
         <Container className="py-20 lg:py-28">
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-20">
-            <div>
-              <p className={cn("text-eyebrow font-extrabold uppercase", dark ? "text-[#4a525a]" : "text-accent")}>Sound familiar?</p>
-              <h2 className={cn("mt-4 text-h2 font-extrabold", !dark && "text-white")}>{service.problemsHeading}</h2>
-            </div>
-            <div className={cn("rounded-3xl p-6", dark ? "bg-white ring-1 ring-line" : "bg-white/[0.05] ring-1 ring-white/10")}>
-              <p className={cn("text-[0.75rem] font-bold tracking-[0.14em] uppercase", dark ? "text-muted" : "text-white/55")}>Is this you?</p>
-              <ul className="mt-4 space-y-2.5">
-                {service.audience.map((a) => (
-                  <li key={a} className={cn("flex gap-3 text-[0.9375rem]", dark ? "text-ink" : "text-white/85")}>
-                    <span aria-hidden="true" className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-accent text-white">
-                      <svg viewBox="0 0 12 12" className="size-3 fill-none stroke-current" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="m2.5 6.2 2.2 2.2 4.8-5" />
-                      </svg>
-                    </span>
-                    {a}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="max-w-3xl">
+            <h2 className={cn("text-h2 font-extrabold", !dark && "text-white")}>{service.problemsHeading}</h2>
+            <p className={cn("mt-5 text-lead", dark ? "text-muted" : "text-white/65")}>
+              Most businesses we talk to recognise at least two of these.
+            </p>
           </div>
 
-          <ol className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {service.problems.map((p, i) => (
-              <li
-                key={p.title}
-                className={cn(
-                  "group relative flex flex-col overflow-hidden rounded-3xl p-7 transition-colors duration-300",
-                  dark ? "bg-white ring-1 ring-line hover:ring-accent/40" : "bg-white/[0.04] ring-1 ring-white/10 hover:bg-white/[0.07] hover:ring-accent/40",
-                )}
-              >
-                <div className="flex items-start justify-between">
-                  <span
-                    aria-hidden="true"
-                    className={cn(
-                      "text-[3.25rem] leading-none font-extrabold tracking-tighter text-transparent transition-colors duration-300 group-hover:text-accent",
-                      dark ? "[-webkit-text-stroke:1.5px_var(--color-ink)]" : "[-webkit-text-stroke:1.5px_rgb(255_255_255/0.5)]",
-                      "group-hover:[-webkit-text-stroke-color:var(--color-accent)]",
-                    )}
-                  >
-                    0{i + 1}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-2.5 py-1 text-[0.6875rem] font-bold text-accent">
-                    <svg aria-hidden="true" viewBox="0 0 20 20" className="size-3.5 fill-none stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M10 3 2.5 16.5h15Z" />
-                      <path d="M10 8.5v3.5M10 14.4v.1" />
-                    </svg>
-                    Problem
-                  </span>
-                </div>
-                <h3 className={cn("mt-8 text-[1.25rem] leading-snug font-extrabold", !dark && "text-white")}>{p.title}</h3>
-                <p className={cn("mt-2 text-[0.9375rem]", dark ? "text-muted" : "text-white/60")}>{p.body}</p>
-                <span aria-hidden="true" className={cn("mt-8 block h-1 rounded-full", dark ? "bg-line" : "bg-white/10")}>
-                  <span className="block h-full w-1/4 rounded-full bg-accent transition-[width] duration-500 group-hover:w-full" />
+          <ul className="mt-14 grid gap-x-16 gap-y-12 md:grid-cols-2">
+            {service.problems.map((p) => (
+              <li key={p.title} className="flex gap-5">
+                <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-accent/15 text-accent">
+                  <svg viewBox="0 0 20 20" className="size-4 fill-none stroke-current" strokeWidth="2.4" strokeLinecap="round">
+                    <path d="m5 5 10 10M15 5 5 15" />
+                  </svg>
                 </span>
+                <div>
+                  <h3 className={cn("text-[1.375rem] leading-snug font-extrabold", !dark && "text-white")}>{p.title}</h3>
+                  <p className={cn("mt-2 text-base leading-relaxed", dark ? "text-muted" : "text-white/60")}>{p.body}</p>
+                </div>
               </li>
             ))}
-          </ol>
+          </ul>
+
+          <div className={cn("mt-16 flex flex-col gap-5 rounded-3xl p-7 sm:flex-row sm:items-center sm:justify-between sm:p-9", dark ? "bg-ink text-white" : "bg-accent text-white")}>
+            <div className="flex items-center gap-4">
+              <span aria-hidden="true" className={cn("grid size-11 shrink-0 place-items-center rounded-full", dark ? "bg-accent" : "bg-white text-accent")}>
+                <svg viewBox="0 0 20 20" className="size-5 fill-none stroke-current" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m4 10.5 4 4 8-9" />
+                </svg>
+              </span>
+              <p className="text-[1.25rem] leading-snug font-extrabold">Every one of these has a clear fix, and we handle all of it.</p>
+            </div>
+            <a href="#included" className={cn("shrink-0 rounded-xl px-6 py-3.5 font-bold", dark ? "bg-accent text-white" : "bg-ink text-white")}>
+              See how we fix it
+            </a>
+          </div>
         </Container>
       </section>
+
+      {/* Specialist services: the main way into this service */}
+      {specialist.length > 0 && (
+        <Section tone="white">
+          <Container>
+            <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+              <div className="max-w-2xl">
+                <h2 className="text-h2 font-extrabold">Our {service.shortName} services</h2>
+                <p className="mt-4 text-lead text-muted">Pick the one that fits where you are right now. Each has its own page with the full scope, process and FAQs.</p>
+              </div>
+              <ArrowLink href={contactHref}>Not sure which? Ask us</ArrowLink>
+            </div>
+            <ul className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {specialist.map((x, i) => (
+                <li key={x.slug}>
+                  <Link
+                    href={`/services/${service.slug}/${x.slug}/`}
+                    className={cn(
+                      "group flex h-full flex-col overflow-hidden rounded-3xl p-6 pb-8 transition-all duration-300 hover:-translate-y-1",
+                      i === 0 ? "on-dark bg-ink text-white" : "border border-line bg-paper hover:border-ink",
+                    )}
+                  >
+                    <ArticleIllustration kind={arts[i]} className="-mx-3 -mt-3 rounded-2xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    <h3 className="mt-7 text-[1.5rem] leading-tight font-extrabold">{x.name}</h3>
+                    <p className={cn("mt-3 flex-1 leading-relaxed", i === 0 ? "text-white/70" : "text-muted")}>{x.metaDescription}</p>
+                    <span className={cn("mt-8 inline-flex items-center gap-2 font-bold", i === 0 ? "text-white" : "text-ink group-hover:text-accent-strong")}>
+                      Explore {x.name} <ArrowIcon className="transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </Section>
+      )}
 
       {/* What's included */}
       <Section id="included" className="scroll-mt-24">
@@ -167,24 +187,6 @@ export default async function ServicePage({ params }: Props) {
           <div className="mt-12">
             <ServiceTabs items={service.deliverables} />
           </div>
-          {specialist.length > 0 && (
-            <div className="mt-14">
-              <h3 className="text-[1.5rem] font-extrabold tracking-tight">Specialist {service.shortName} services</h3>
-              <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {specialist.map((x) => (
-                  <li key={x.slug}>
-                    <Link
-                      href={`/services/${service.slug}/${x.slug}/`}
-                      className="group flex h-full items-center justify-between gap-4 rounded-2xl border border-line bg-white px-6 py-5 font-bold transition-colors hover:border-ink"
-                    >
-                      <span className="group-hover:text-accent-strong">{x.name}</span>
-                      <ArrowIcon className="transition-transform group-hover:translate-x-1" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </Container>
       </Section>
 
@@ -197,12 +199,14 @@ export default async function ServicePage({ params }: Props) {
           </div>
           <div className="mt-12">
             <IndustryTabs
+              service={service.shortName}
               items={industries.map((i) => ({
                 slug: i.slug,
                 name: i.name,
                 icon: i.icon,
                 intro: i.intro,
                 bullets: i.solutions[service.group],
+                challenges: i.challenges.slice(0, 3),
               }))}
             />
           </div>
@@ -393,4 +397,21 @@ export default async function ServicePage({ params }: Props) {
       <CtaBand heading={service.cta.heading} body={service.cta.body} href={contactHref} />
     </>
   );
+}
+
+/** Picks the closest illustration for a sub-service card from its slug. */
+function artFor(slug: string): Article["illustration"] {
+  const map: [RegExp, Article["illustration"]][] = [
+    [/migrat/, "migration"],
+    [/speed|performance/, "speed"],
+    [/redesign/, "redesign"],
+    [/mainten|support/, "maintenance"],
+    [/conversion|cro|landing|funnel|audit/, "funnel"],
+    [/(^|-)ai(-|$)|automat|workflow|crm|hubspot|salesforce|chatbot|zapier/, "workflow"],
+    [/ads|ppc|seo|email|klaviyo|social|marketing/, "marketing"],
+    [/software|saas|app|mvp|api|portal/, "buildbuy"],
+    [/ux|ui|design|brand|logo|identity/, "brief"],
+    [/shopify|store|ecommerce/, "storefront"],
+  ];
+  return map.find(([re]) => re.test(slug))?.[1] ?? "storefront";
 }

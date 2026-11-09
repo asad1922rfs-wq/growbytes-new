@@ -5,10 +5,10 @@ import { useId, useState } from "react";
 import { IndustryIcon } from "@/components/icons/IndustryIcon";
 import { ArrowIcon, cn } from "@/components/ui/primitives";
 
-type Item = { slug: string; name: string; icon: string; intro: string; bullets: string[] };
+type Item = { slug: string; name: string; icon: string; intro: string; bullets: string[]; challenges: { title: string; body: string }[] };
 
 /** Industry list beside a detail panel: what this service builds for the chosen industry. */
-export function IndustryTabs({ items }: { items: Item[] }) {
+export function IndustryTabs({ items, service }: { items: Item[]; service: string }) {
   const [active, setActive] = useState(0);
   const id = useId();
   const item = items[active];
@@ -52,12 +52,29 @@ export function IndustryTabs({ items }: { items: Item[] }) {
       <div id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-tab-${active}`} className="flex flex-col">
         <div key={`h-${active}`} className="on-dark relative overflow-hidden bg-ink p-8 text-white motion-safe:animate-[fadeIn_350ms_ease-out] sm:p-10">
           <IndustryIcon path={item.icon} className="pointer-events-none absolute -right-6 -bottom-8 size-48 text-white/[0.06]" />
-          <h3 className="relative text-[1.75rem] font-extrabold">{item.name}</h3>
+          <p className="relative text-[0.875rem] font-bold text-accent">{item.name}</p>
+          <h3 className="relative mt-1 text-[1.75rem] leading-tight font-extrabold">
+            {service} for {item.name.toLowerCase()}
+          </h3>
           <p className="relative mt-3 max-w-[36rem] text-white/70">{item.intro}</p>
         </div>
         <div key={`b-${active}`} className="flex flex-1 flex-col p-8 motion-safe:animate-[fadeIn_350ms_ease-out] sm:p-10">
-          <p className="text-[0.75rem] font-bold tracking-[0.14em] text-muted uppercase">What we build for you</p>
-          <ul className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+          <h4 className="font-extrabold">Problems we fix for {item.name.toLowerCase()} businesses</h4>
+          <dl className="mt-4 grid gap-4 sm:grid-cols-3">
+            {item.challenges.map((c, i) => (
+              <div key={c.title} className="flex flex-col rounded-2xl border border-line bg-white p-5 transition-colors hover:border-ink">
+                <span aria-hidden="true" className="grid size-10 place-items-center rounded-xl bg-accent/10 text-accent">
+                  <svg viewBox="0 0 24 24" className="size-5 fill-none stroke-current" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={PROBLEM_ICONS[i % PROBLEM_ICONS.length]} />
+                  </svg>
+                </span>
+                <dt className="mt-4 font-bold leading-snug">{c.title}</dt>
+                <dd className="mt-2 text-[0.9375rem] text-muted">{c.body}</dd>
+              </div>
+            ))}
+          </dl>
+          <h4 className="mt-8 font-extrabold">What we build for you</h4>
+          <ul className="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
             {item.bullets.map((b) => (
               <li key={b} className="flex gap-2.5">
                 <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" />
@@ -66,10 +83,17 @@ export function IndustryTabs({ items }: { items: Item[] }) {
             ))}
           </ul>
           <Link href={`/industries/${item.slug}/`} className="mt-auto inline-flex items-center gap-2 self-start pt-8 font-bold hover:text-accent-strong">
-            Explore {item.name.toLowerCase()} <ArrowIcon />
+            See how we help {item.name.toLowerCase()} businesses <ArrowIcon />
           </Link>
         </div>
       </div>
     </div>
   );
 }
+
+/** Simple line icons for the problem cards: a drop, rising cost, slow speed. */
+const PROBLEM_ICONS = [
+  "M3 7l6 6 4-4 8 8M14 17h7v-7",
+  "M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+  "M12 8v4l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z",
+];
