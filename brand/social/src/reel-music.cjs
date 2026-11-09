@@ -44,13 +44,13 @@ for (let b = 0; b * BEAT < DUR; b++) {
   if (t0 >= 16 && beatInBar !== 3) piano(t0, chords[c][[3, 2, 1][beatInBar]] + 12, 0.035, 0.3);
   if (t0 >= 3) { // soft kick on every beat
     const s0 = Math.floor(t0 * SR);
-    for (let k = 0; k < SR * 0.3; k++) { const t = k / SR, f = 48 + 80 * Math.exp(-t * 35); add(s0 + k, (lifted ? 0.3 : 0.18) * Math.sin(2 * Math.PI * f * t) * Math.exp(-t * 10)); }
+    for (let k = 0; k < SR * 0.3; k++) { const t = k / SR, f = 48 + 80 * Math.exp(-t * 35); add(s0 + k, (lifted ? 0.16 : 0.1) * Math.sin(2 * Math.PI * f * t) * Math.exp(-t * 10)); }
     const fq = midi(roots[c]); // eighth-note bass
     for (let e = 0; e < 2; e++) { const se = Math.floor((t0 + e * BEAT / 2) * SR); for (let k = 0; k < SR * BEAT * 0.45; k++) { const t = k / SR; add(se + k, (lifted ? 0.1 : 0.06) * (Math.sin(2 * Math.PI * fq * t) + 0.3 * Math.sin(4 * Math.PI * fq * t)) * Math.min(1, t / 0.005) * Math.exp(-t * 5)); } }
   }
   if (lifted) {
-    if (beatInBar === 1 || beatInBar === 3) { noiseHit(t0, 0.18, 0.12, 22, 0.2); noiseHit(t0 + 0.012, 0.15, 0.08, 26, 0.2, 0.2); } // clap
-    for (let s = 0; s < 4; s++) noiseHit(t0 + s * BEAT / 4, 0.04, s % 2 ? 0.035 : 0.02, 110, 0.98, s % 2 ? 0.4 : -0.4); // shaker
+    // claps removed: cleaner mix
+    // shaker removed: cleaner mix
   }
 }
 // Soft pad underneath for warmth.
