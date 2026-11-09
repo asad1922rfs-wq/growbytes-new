@@ -44,7 +44,9 @@ export function ApprovalCard({ action }: { action: AgentAction }) {
         </div>
       ) : action.kind === "social_post" ? (
         <div className="mt-5 grid gap-4 sm:grid-cols-[minmax(0,14rem)_1fr]">
-          {Array.isArray(p.images) && p.images.length > 1 ? (
+          {p.video ? (
+            <video src={p.video} controls muted playsInline className="aspect-[9/16] w-full rounded-xl border border-[var(--hq-line)] bg-black object-cover" />
+          ) : Array.isArray(p.images) && p.images.length > 1 ? (
             <div className="flex snap-x gap-2 overflow-x-auto pb-1" aria-label={`Carousel, ${p.images.length} slides`}>
               {(p.images as string[]).map((src, i) => (
                 // eslint-disable-next-line @next/next/no-img-element

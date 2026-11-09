@@ -103,7 +103,7 @@ const commands = {
     const lead = isId(flags.lead) ? flags.lead : null;
     const [action] = await sql`
       insert into actions (department, kind, title, payload, lead_id)
-      values (${a1}, ${a2}, ${flags.title}, ${JSON.stringify({ text, ...(flags.image ? { image: flags.image.replace(/^.*?\/social\//, "/social/") } : {}), ...(flags.images ? { images: flags.images.split(",").map((s) => s.replace(/^.*?\/social\//, "/social/")) } : {}), ...(flags.when ? { when: flags.when } : {}) })}::jsonb, ${lead})
+      values (${a1}, ${a2}, ${flags.title}, ${JSON.stringify({ text, ...(flags.image ? { image: flags.image.replace(/^.*?\/social\//, "/social/") } : {}), ...(flags.video ? { video: flags.video.replace(/^.*?\/social\//, "/social/") } : {}), ...(flags.images ? { images: flags.images.split(",").map((s) => s.replace(/^.*?\/social\//, "/social/")) } : {}), ...(flags.when ? { when: flags.when } : {}) })}::jsonb, ${lead})
       returning id`;
     await sql`insert into activity (department, message, lead_id) values (${a1}, ${`Proposed: ${flags.title}`}, ${lead})`;
     out({ ok: true, action: action.id });
@@ -133,11 +133,12 @@ const commands = {
     if (!a) fail("No approved social post with that id.");
     const full = (u) => (u.startsWith("http") ? u : `https://www.growbytes.co${u}`);
     const many = Array.isArray(a.payload.images) && a.payload.images.length > 1;
-    const img = many ? a.payload.images.map(full).join(",") : full(a.payload.image || a.payload.images?.[0] || "");
+    const video = a.payload.video ? full(a.payload.video) : null;
+    const img = video || (many ? a.payload.images.map(full).join(",") : full(a.payload.image || a.payload.images?.[0] || ""));
     const { execFileSync } = await import("node:child_process");
     const run = (...args) => execFileSync(process.execPath, ["--env-file-if-exists=.env.local", "scripts/meta.mjs", ...args], { encoding: "utf8" }).trim();
     const results = [];
-    for (const target of many ? ["fb-carousel", "ig-carousel"] : ["fb-image", "ig"]) {
+    for (const target of video ? ["fb-video", "ig-reel"] : many ? ["fb-carousel", "ig-carousel"] : ["fb-image", "ig"]) {
       try {
         results.push(run(target, img, a.payload.text || ""));
       } catch (e) {

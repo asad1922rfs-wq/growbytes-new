@@ -14,6 +14,9 @@ const alt: Record<Article["illustration"], string> = {
   storecost: "Illustration: a shopping bag next to a receipt listing monthly and one-time costs.",
   migration: "Illustration: pages moving from an old site to a new store, each link redirected with a 301.",
   agency: "Illustration: a magnifying glass over three agency cards, one of them checked.",
+  speed: "Illustration: a speedometer with its needle pointing toward the fast end, next to a loading bar.",
+  funnel: "Illustration: a funnel narrowing from many visitors down to completed orders.",
+  maintenance: "Illustration: a wrench crossing a shield in front of a website window.",
 };
 
 /** Each topic gets its own ground color so cards are distinguishable at a glance. */
@@ -30,6 +33,9 @@ const ground: Record<Article["illustration"], string> = {
   storecost: "bg-[#1f3438]",
   migration: "bg-[#382a1a]",
   agency: "bg-[#222a2f]",
+  speed: "bg-[#1a2e2a]",
+  funnel: "bg-[#33203a]",
+  maintenance: "bg-[#2e2a1c]",
 };
 
 /** Branded article art: geometric shapes with the accent color. */
@@ -55,6 +61,9 @@ export function ArticleIllustration({ kind, className }: { kind: Article["illust
         {kind === "storecost" && <StoreCost />}
         {kind === "migration" && <Migration />}
         {kind === "agency" && <Agency />}
+        {kind === "speed" && <Speed />}
+        {kind === "funnel" && <Funnel />}
+        {kind === "maintenance" && <Maintenance />}
       </svg>
     </div>
   );
@@ -326,6 +335,73 @@ function Agency() {
       <path d="M152 136l6 6 12-12" stroke={K} strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
       <circle cx="226" cy="74" r="30" fill="none" stroke={A} strokeWidth="4" />
       <path d="M248 96l22 22" stroke={A} strokeWidth="7" strokeLinecap="round" />
+    </g>
+  );
+}
+
+function Speed() {
+  // Gauge arc from 180deg (left) to 0deg (right), centered at (130,140), radius 70.
+  const ticks = [0, 1, 2, 3, 4, 5, 6];
+  return (
+    <g>
+      <path d="M60 140a70 70 0 01140 0" stroke="#5D645F" strokeWidth="10" fill="none" strokeLinecap="round" />
+      <path d="M165 79.4a70 70 0 0135 60.6" stroke={A} strokeWidth="10" fill="none" strokeLinecap="round" />
+      {ticks.map((i) => {
+        const a = Math.PI - (i * Math.PI) / 6;
+        return (
+          <path
+            key={i}
+            d={`M${130 + 52 * Math.cos(a)} ${140 - 52 * Math.sin(a)}L${130 + 44 * Math.cos(a)} ${140 - 44 * Math.sin(a)}`}
+            stroke={G}
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        );
+      })}
+      <path d="M130 140L176 104" stroke={L} strokeWidth="4" strokeLinecap="round" />
+      <circle cx="130" cy="140" r="8" fill={A} />
+      <rect x="222" y="70" width="64" height="76" rx="7" fill={L} />
+      <rect x="232" y="82" width="34" height="7" rx="2" fill={K} />
+      <rect x="232" y="96" width="44" height="5" rx="2" fill={G} />
+      <rect x="232" y="128" width="44" height="8" rx="4" fill={D} />
+      <rect x="232" y="128" width="38" height="8" rx="4" fill={A} />
+    </g>
+  );
+}
+
+function Funnel() {
+  return (
+    <g>
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <circle key={i} cx={78 + i * 33} cy="38" r="6" fill={G} />
+      ))}
+      <path d="M60 56h200l-70 64v34l-60 18v-52z" fill={L} />
+      <path d="M78 74h164M98 92h124M118 110h84" stroke={D} strokeWidth="2" />
+      <rect x="148" y="176" width="24" height="14" rx="3" fill={A} />
+      <path d="M160 156v14" stroke={A} strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M270 70l12 0M270 100l8 0M270 130l4 0" stroke={A} strokeWidth="3" strokeLinecap="round" />
+    </g>
+  );
+}
+
+function Maintenance() {
+  return (
+    <g>
+      <rect x="40" y="40" width="170" height="120" rx="8" fill={L} />
+      <path d="M40 60h170" stroke={D} />
+      {[0, 1, 2].map((i) => <circle key={i} cx={52 + i * 9} cy="50" r="2.5" fill={G} />)}
+      <rect x="54" y="74" width="80" height="9" rx="2" fill={K} />
+      <rect x="54" y="90" width="110" height="5" rx="2" fill={G} />
+      <rect x="54" y="100" width="90" height="5" rx="2" fill={G} />
+      <rect x="54" y="118" width="64" height="26" rx="3" fill={D} />
+      {/* Shield */}
+      <path d="M232 52l40 14v34c0 28-18 44-40 54-22-10-40-26-40-54V66z" fill={A} />
+      <path d="M216 102l11 11 22-24" stroke={K} strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Wrench */}
+      <g transform="rotate(-45 170 150)">
+        <rect x="120" y="144" width="78" height="12" rx="6" fill={G} />
+        <path d="M198 136a14 14 0 1 0 0 28l0-8 8 0 0-12-8 0z" fill={G} />
+      </g>
     </g>
   );
 }

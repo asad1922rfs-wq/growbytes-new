@@ -96,5 +96,6 @@ export type Article = {
   services: ServiceSlug[];
   illustration:
     | "redesign" | "storefront" | "workflow" | "brief" | "marketing"
-    | "buildbuy" | "versus" | "softwarecost" | "sitecost" | "storecost" | "migration" | "agency";
+    | "buildbuy" | "versus" | "softwarecost" | "sitecost" | "storecost" | "migration" | "agency"
+    | "speed" | "funnel" | "maintenance";
 };

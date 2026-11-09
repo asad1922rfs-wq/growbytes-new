@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" font-family="Manrope, Segoe UI, Arial, sans-serif">
+  <rect width="1200" height="560" rx="28" fill="#F4F1EA"/>
+  <text x="60" y="80" font-size="34" font-weight="800" fill="#171918">What website maintenance covers</text>
+  <text x="60" y="118" font-size="20" fill="#5B5F63">Four areas to budget for after launch</text>
+  <g font-size="20" fill="#171918">
+    <rect x="60" y="170" width="520" height="150" rx="16" fill="#fff" stroke="#E3DED3"/>
+    <text x="84" y="212" font-weight="700" fill="#D2461F">Hosting and domain</text>
+    <text x="84" y="252">Hosting fee, domain renewal,</text><text x="84" y="284">business email</text>
+    <rect x="620" y="170" width="520" height="150" rx="16" fill="#fff" stroke="#E3DED3"/>
+    <text x="644" y="212" font-weight="700" fill="#D2461F">Updates</text>
+    <text x="644" y="252">Platform, theme, plugins</text><text x="644" y="284">and app licenses</text>
+    <rect x="60" y="340" width="520" height="150" rx="16" fill="#fff" stroke="#E3DED3"/>
+    <text x="84" y="382" font-weight="700" fill="#D2461F">Security and backups</text>
+    <text x="84" y="422">Strong logins, HTTPS, off-site</text><text x="84" y="454">backups, monitoring</text>
+    <rect x="620" y="340" width="520" height="150" rx="16" fill="#fff" stroke="#E3DED3"/>
+    <text x="644" y="382" font-weight="700" fill="#D2461F">Content and fixes</text>
+    <text x="644" y="422">Text and price changes,</text><text x="644" y="454">broken links, form checks</text>
+  </g>
+</svg>

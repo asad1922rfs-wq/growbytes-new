@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* 15s Reel, 1080x1920. Every animation is timed from t=0 so frames can be scrubbed. */
+  :root { --night:#0d0f0e; --ink:#f4f1ea; --muted:#a3a8a4; --orange:#f66135; --peach:#ffb38f; --cream:#f4f1ea; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:hidden; }
+  ::-webkit-scrollbar { display:none; }
+  body { font-family:Manrope, sans-serif; background:var(--night); color:var(--ink); position:relative; }
+  .grid { position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size:60px 60px; }
+  .glow { position:absolute; width:1300px; height:1300px; border-radius:50%; left:50%; top:50%; margin:-650px; background:radial-gradient(circle, rgba(246,97,53,.28), rgba(246,97,53,0) 62%); animation:glow 15s linear both; }
+  @keyframes glow { 0%{transform:translate(-200px,-500px) scale(.7)} 50%{transform:translate(250px,100px) scale(1)} 100%{transform:translate(-100px,400px) scale(.9)} }
+
+  .scene { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 90px; opacity:0; }
+
+  /* Scene 1: logo build 0–2.5s */
+  .s1 { animation:show 2.5s 0s both; }
+  .logo { display:flex; align-items:flex-end; gap:0; height:250px; }
+  .logo i { width:80px; display:block; background:linear-gradient(#ff9c6e,#f66135); transform-origin:bottom; animation:rise .6s cubic-bezier(.2,.9,.3,1.3) both; }
+  .logo i:nth-child(1){height:90px; animation-delay:.15s}
+  .logo i:nth-child(2){height:125px; margin-bottom:90px; animation-delay:.3s}
+  .logo i:nth-child(3){height:90px; animation-delay:.45s}
+  .logo i:nth-child(4){height:150px; margin-bottom:90px; animation-delay:.6s}
+  @keyframes rise { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+  .word { margin-top:56px; font-size:110px; font-weight:800; letter-spacing:-4px; animation:up .7s 1s both; }
+
+  /* Scene 2: headline 2.5–5s */
+  .s2 { animation:show 2.5s 2.5s both; }
+  .big { font-size:118px; line-height:1.0; font-weight:800; letter-spacing:-5px; }
+  .big span { display:block; animation:up .6s both; }
+  .big span:nth-child(1){animation-delay:2.6s}
+  .big span:nth-child(2){animation-delay:2.8s}
+  .big span:nth-child(3){animation-delay:3.0s; color:var(--orange)}
+  .sub { margin-top:50px; font-size:40px; color:var(--muted); animation:up .6s 3.4s both; }
+
+  /* Scene 3: services 5–10s */
+  .s3 { animation:show 5s 5s both; justify-content:flex-start; padding-top:230px; }
+  .s3 h2 { font-size:84px; font-weight:800; letter-spacing:-3px; line-height:1.02; animation:up .6s 5.1s both; }
+  .s3 h2 span { color:var(--orange); }
+  .cards { margin-top:80px; width:100%; display:grid; gap:28px; }
+  .card { display:flex; align-items:center; gap:34px; text-align:left; background:#fff; color:#171918; border-radius:36px; padding:34px 40px; box-shadow:0 30px 70px rgba(0,0,0,.45); animation:slide .7s cubic-bezier(.2,.9,.3,1.1) both; }
+  .card:nth-child(1){animation-delay:5.5s}
+  .card:nth-child(2){animation-delay:6.4s}
+  .card:nth-child(3){animation-delay:7.3s}
+  .card:nth-child(4){animation-delay:8.2s}
+  .card .ic { width:150px; height:150px; border-radius:28px; flex-shrink:0; display:grid; place-items:center; overflow:hidden; }
+  .card b { display:block; font-size:50px; letter-spacing:-1.5px; }
+  .card p { font-size:30px; color:#5d645f; margin-top:6px; line-height:1.3; }
+  @keyframes slide { from{opacity:0; transform:translateX(220px)} to{opacity:1; transform:none} }
+
+  /* Scene 4: values 10–12.5s (light) */
+  .s4 { animation:show 2.5s 10s both; background:var(--cream); color:#171918; }
+  .s4 .line { font-size:120px; font-weight:800; letter-spacing:-5px; line-height:1.05; animation:up .55s both; }
+  .s4 .line:nth-child(1){animation-delay:10.1s}
+  .s4 .line:nth-child(2){animation-delay:10.5s}
+  .s4 .line:nth-child(3){animation-delay:10.9s; color:var(--orange)}
+
+  /* Scene 5: CTA 12.5–15s (orange) */
+  .s5 { animation:showlast 2.5s 12.5s both; background:var(--orange); color:#fff; }
+  .s5 .q { font-size:110px; font-weight:800; letter-spacing:-4.5px; line-height:1.0; animation:up .6s 12.6s both; }
+  .s5 .q span { color:#171918; }
+  .cta { margin-top:80px; display:inline-flex; align-items:center; gap:22px; font-size:52px; font-weight:800; background:#171918; color:#fff; padding:40px 64px; border-radius:999px; animation:pop .6s 13.2s cubic-bezier(.2,.9,.3,1.4) both; }
+  .mini { margin-top:110px; display:flex; align-items:center; gap:18px; font-size:44px; font-weight:800; animation:up .6s 13.6s both; }
+  .mini svg rect { fill:#fff; }
+  @keyframes pop { from{opacity:0; transform:scale(.6)} to{opacity:1; transform:none} }
+
+  @keyframes show { 0%{opacity:0} 6%{opacity:1} 92%{opacity:1} 100%{opacity:0} }
+  @keyframes showlast { 0%{opacity:0} 8%{opacity:1} 100%{opacity:1} }
+  @keyframes up { from{opacity:0; transform:translateY(60px)} to{opacity:1; transform:none} }
+</style>
+</head>
+<body>
+<div class="grid"></div><div class="glow"></div>
+
+<section class="scene s1">
+  <div class="logo"><i></i><i></i><i></i><i></i></div>
+  <div class="word">Growbytes</div>
+</section>
+
+<section class="scene s2">
+  <div class="big"><span>Websites, stores</span><span>and software</span><span>that help you grow.</span></div>
+  <p class="sub">For small and growing businesses.</p>
+</section>
+
+<section class="scene s3">
+  <h2>Everything you need<br>to <span>grow online.</span></h2>
+  <div class="cards">
+    <div class="card"><div class="ic" style="background:#fde3d8"><svg width="84" height="84" viewBox="0 0 24 24" fill="none" stroke="#f66135" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></div><div><b>Websites</b><p>Fast, clear sites that turn visitors into enquiries</p></div></div>
+    <div class="card"><div class="ic" style="background:#f4f4f4"><img src="img/sneakers.jpg" style="width:100%;height:100%;object-fit:cover;transform:scale(1.25)"></div><div><b>Shopify stores</b><p>Stores that load fast and make buying easy</p></div></div>
+    <div class="card"><div class="ic" style="background:#171918"><svg width="84" height="84" viewBox="0 0 24 24" fill="none" stroke="#ffb38f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></div><div><b>Custom software</b><p>Tools built around how your team works</p></div></div>
+    <div class="card"><div class="ic" style="background:#e3f3e8"><svg width="84" height="84" viewBox="0 0 24 24" fill="none" stroke="#17803d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div><b>SEO &amp; growth</b><p>Get found by customers already searching</p></div></div>
+  </div>
+</section>
+
+<section class="scene s4">
+  <div><div class="line">Plain advice.</div><div class="line">Clear plans.</div><div class="line">Work you own.</div></div>
+</section>
+
+<section class="scene s5">
+  <div class="q">Ready to<br>grow <span>online?</span></div>
+  <div class="cta">Let&rsquo;s talk <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> growbytes.co</div>
+  <div class="mini"><svg width="64" height="50" viewBox="0 0 16 12.5"><rect x="0" y="7.5" width="4" height="4.5"/><rect x="4" y="1.25" width="4" height="6.25"/><rect x="8" y="7.5" width="4" height="4.5"/><rect x="12" y="0" width="4" height="7.5"/></svg>Growbytes</div>
+</section>
+</body>
+</html>

@@ -1,6 +1,7 @@
 import { industries } from "@/content/industries";
 import { articles } from "@/content/insights";
 import { services } from "@/content/services";
+import { subServices } from "@/content/subservices";
 import { projects } from "@/content/work";
 import { NON_INDEXABLE_PATHS } from "@/lib/seo";
 
@@ -10,6 +11,7 @@ export function publicRoutes(): { path: string; lastModified?: string }[] {
     { path: "/" },
     { path: "/services/" },
     ...services.map((s) => ({ path: `/services/${s.slug}/` })),
+    ...subServices.map((s) => ({ path: `/services/${s.parent}/${s.slug}/` })),
     { path: "/industries/" },
     ...industries.map((i) => ({ path: `/industries/${i.slug}/` })),
     { path: "/work/" },

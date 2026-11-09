@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { articles } from "@/content/insights";
 import { services } from "@/content/services";
+import { subServices } from "@/content/subservices";
 import { projects } from "@/content/work";
 import { publicRoutes } from "@/lib/routes";
 
@@ -43,7 +44,7 @@ describe("sitemap", () => {
 
   it("includes every service, industry, project, and article exactly once", () => {
     // home, services, industries, work, about, insights, contact, and four policies (business formation is noindex)
-    expect(paths.length).toBe(11 + services.length + industries.length + projects.length + articles.length);
+    expect(paths.length).toBe(11 + services.length + subServices.length + industries.length + projects.length + articles.length);
     expect(new Set(paths).size).toBe(paths.length);
   });
 
@@ -61,6 +62,20 @@ describe("content integrity", () => {
       expect(s.metaDescription.length).toBeLessThanOrEqual(170);
       expect(s.faqs.length).toBeGreaterThanOrEqual(4);
       expect(s.deliverables.length).toBeGreaterThanOrEqual(4);
+    }
+  });
+
+  it("has sub-service pages with sensible meta and real links", () => {
+    const articleSlugs = new Set(articles.map((a) => a.slug));
+    const parents = new Set<string>(services.map((s) => s.slug));
+    expect(new Set(subServices.map((s) => s.metaTitle)).size).toBe(subServices.length);
+    for (const s of subServices) {
+      expect(parents.has(s.parent), s.slug).toBe(true);
+      expect(s.metaTitle.length, s.slug).toBeLessThanOrEqual(48);
+      expect(s.metaDescription.length, s.slug).toBeGreaterThanOrEqual(110);
+      expect(s.metaDescription.length, s.slug).toBeLessThanOrEqual(160);
+      expect(s.faqs.length).toBeGreaterThanOrEqual(4);
+      s.articles.forEach((a) => expect(articleSlugs.has(a), `${s.slug} → ${a}`).toBe(true));
     }
   });
 

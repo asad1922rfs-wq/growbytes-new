@@ -18,6 +18,7 @@ import { ServiceHeroArt } from "@/components/visuals/ServiceHeroArt";
 import { engagementModels } from "@/content/home";
 import { articles, getArticle } from "@/content/insights";
 import { getService, serviceFaqs, serviceGroups, serviceNoun, services } from "@/content/services";
+import { subServicesFor } from "@/content/subservices";
 import { pageMetadata } from "@/lib/seo";
 import { faqSchema, JsonLd, serviceSchema } from "@/lib/structured-data";
 
@@ -49,6 +50,7 @@ export default async function ServicePage({ params }: Props) {
   // Always show three guides: the service's own picks first, then others
   const reading = [...relatedArticles, ...articles.filter((a) => !relatedArticles.includes(a))].slice(0, 3);
   const faqs = serviceFaqs(service);
+  const specialist = subServicesFor(service.slug);
   const contactHref = `/contact/?service=${service.slug}`;
 
   return (
@@ -165,6 +167,24 @@ export default async function ServicePage({ params }: Props) {
           <div className="mt-12">
             <ServiceTabs items={service.deliverables} />
           </div>
+          {specialist.length > 0 && (
+            <div className="mt-14">
+              <h3 className="text-[1.5rem] font-extrabold tracking-tight">Specialist {service.shortName} services</h3>
+              <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {specialist.map((x) => (
+                  <li key={x.slug}>
+                    <Link
+                      href={`/services/${service.slug}/${x.slug}/`}
+                      className="group flex h-full items-center justify-between gap-4 rounded-2xl border border-line bg-white px-6 py-5 font-bold transition-colors hover:border-ink"
+                    >
+                      <span className="group-hover:text-accent-strong">{x.name}</span>
+                      <ArrowIcon className="transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </Container>
       </Section>
 

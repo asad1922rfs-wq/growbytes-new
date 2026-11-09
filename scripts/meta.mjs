@@ -9,6 +9,8 @@
  *   npm run meta -- ig <image-url> "caption"      image post on Instagram (JPEG at a public URL)
  *   npm run meta -- fb-carousel <url,url,...> "text"     multi-photo post on the Facebook Page
  *   npm run meta -- ig-carousel <url,url,...> "caption"  carousel post on Instagram (2-10 JPEGs)
+ *   npm run meta -- fb-video <mp4-url> "text"            video post on the Facebook Page
+ *   npm run meta -- ig-reel <mp4-url> "caption"          Reel on Instagram (MP4 at a public URL)
  * Add --dry to print what would be sent without posting.
  *
  * .env.local:
@@ -164,6 +166,32 @@ async function igCarousel(list, caption = "") {
   console.log(`Posted on Instagram: ${media.permalink}`);
 }
 
+async function fbVideo(videoUrl, description = "") {
+  if (!videoUrl) fail('Usage: npm run meta -- fb-video <mp4-url> "text"');
+  const { id, token } = pageAuth();
+  if (DRY) return console.log("Would post video to Facebook:", { videoUrl, description });
+  const r = await graph("POST", `${id}/videos`, { file_url: videoUrl, description, access_token: token });
+  console.log(`Posted on Facebook: https://www.facebook.com/${id}/videos/${r.id}`);
+}
+
+async function igReel(videoUrl, caption = "") {
+  if (!videoUrl) fail('Usage: npm run meta -- ig-reel <mp4-url> "caption"');
+  const { token } = pageAuth();
+  const ig = env.META_IG_ID || fail("No Instagram account linked. Link it to the Page, then run connect again.");
+  if (DRY) return console.log("Would post Reel to Instagram:", { videoUrl, caption });
+  const c = await graph("POST", `${ig}/media`, { media_type: "REELS", video_url: videoUrl, caption, share_to_feed: "true", access_token: token });
+  // Video processing takes longer than images.
+  for (let i = 0; i < 60; i++) {
+    const s = await graph("GET", c.id, { fields: "status_code", access_token: token });
+    if (s.status_code === "FINISHED") break;
+    if (s.status_code === "ERROR") fail("Instagram could not process the video (use a public MP4, H.264, under 90 seconds).");
+    await new Promise((r) => setTimeout(r, 5000));
+  }
+  const r = await graph("POST", `${ig}/media_publish`, { creation_id: c.id, access_token: token });
+  const media = await graph("GET", r.id, { fields: "permalink", access_token: token });
+  console.log(`Posted on Instagram: ${media.permalink}`);
+}
+
 const [cmd, a1, a2] = process.argv.slice(2).filter((x) => x !== "--dry");
 const commands = {
   connect: () => connect(),
@@ -173,6 +201,8 @@ const commands = {
   ig: () => igPost(a1, a2),
   "fb-carousel": () => fbCarousel(a1, a2),
   "ig-carousel": () => igCarousel(a1, a2),
+  "fb-video": () => fbVideo(a1, a2),
+  "ig-reel": () => igReel(a1, a2),
 };
-if (!commands[cmd]) fail("Commands: connect | whoami | fb | fb-image | ig | fb-carousel | ig-carousel   (see the top of scripts/meta.mjs)");
+if (!commands[cmd]) fail("Commands: connect | whoami | fb | fb-image | ig | fb-carousel | ig-carousel | fb-video | ig-reel   (see the top of scripts/meta.mjs)");
 await commands[cmd]();

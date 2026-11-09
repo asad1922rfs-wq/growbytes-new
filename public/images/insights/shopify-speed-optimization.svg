@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" font-family="Manrope, Segoe UI, Arial, sans-serif">
+  <rect width="1200" height="560" rx="28" fill="#F4F1EA"/>
+  <text x="60" y="80" font-size="34" font-weight="800" fill="#171918">How to speed up a Shopify store</text>
+  <text x="60" y="118" font-size="20" fill="#5B5F63">Measure, remove, optimize, then measure again</text>
+  <g font-size="20" fill="#171918">
+    <rect x="60" y="170" width="250" height="320" rx="16" fill="#fff" stroke="#E3DED3"/>
+    <text x="84" y="212" font-weight="700" fill="#D2461F">1. Measure</text>
+    <text x="84" y="256">PageSpeed Insights</text><text x="84" y="290">Web performance</text><text x="84" y="324">report in admin</text><text x="84" y="358">Mobile first</text>
+    <rect x="330" y="170" width="250" height="320" rx="16" fill="#fff" stroke="#E3DED3"/>
+    <text x="354" y="212" font-weight="700" fill="#D2461F">2. Remove</text>
+    <text x="354" y="256">Unused apps</text><text x="354" y="290">Leftover app code</text><text x="354" y="324">Old tracking scripts</text><text x="354" y="358">Unused sections</text>
+    <rect x="600" y="170" width="250" height="320" rx="16" fill="#fff" stroke="#E3DED3"/>
+    <text x="624" y="212" font-weight="700" fill="#D2461F">3. Optimize</text>
+    <text x="624" y="256">Image size</text><text x="624" y="290">Fonts</text><text x="624" y="324">Video</text><text x="624" y="358">Script loading</text>
+    <rect x="870" y="170" width="270" height="320" rx="16" fill="#171918"/>
+    <text x="894" y="212" font-weight="700" fill="#F66135">4. Measure again</text>
+    <text x="894" y="256" fill="#F7F7F2">Same pages</text><text x="894" y="290" fill="#F7F7F2">Same device</text><text x="894" y="324" fill="#F7F7F2">Note what changed</text><text x="894" y="358" fill="#F7F7F2">Repeat every</text><text x="894" y="392" fill="#F7F7F2">few months</text>
+  </g>
+</svg>

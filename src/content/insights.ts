@@ -5,6 +5,42 @@ export const ARTICLE_AUTHOR = "Growbytes editorial team";
 
 export const articles: Article[] = [
   {
+    slug: "shopify-speed-optimization",
+    seoTitle: "Shopify Speed Optimization: A Practical Guide",
+    title: "Shopify speed optimization: how to speed up your store",
+    description:
+      "Shopify speed optimization made simple: how to measure Core Web Vitals, then fix apps, images, theme code, fonts and scripts, with a checklist.",
+    category: "Ecommerce",
+    published: "2026-11-09",
+    readingMinutes: 7,
+    services: ["shopify-development", "conversion-optimization", "seo"],
+    illustration: "speed",
+  },
+  {
+    slug: "increase-shopify-conversion-rate",
+    seoTitle: "Shopify Conversion Rate: How to Increase It",
+    title: "How to increase your Shopify conversion rate",
+    description:
+      "How to increase your Shopify conversion rate: find where shoppers drop off, then improve product pages, trust, shipping, checkout and mobile.",
+    category: "Ecommerce",
+    published: "2026-11-09",
+    readingMinutes: 7,
+    services: ["conversion-optimization", "shopify-development"],
+    illustration: "funnel",
+  },
+  {
+    slug: "website-maintenance-cost",
+    seoTitle: "Website Maintenance Cost: What You Pay For",
+    title: "Website maintenance cost: what you pay for and why",
+    description:
+      "Website maintenance cost explained: what maintenance includes, what drives the price, DIY vs a retainer, security, and a checklist to keep it simple.",
+    category: "Websites",
+    published: "2026-11-09",
+    readingMinutes: 7,
+    services: ["web-design-development", "seo"],
+    illustration: "maintenance",
+  },
+  {
     slug: "custom-software-vs-off-the-shelf",
     seoTitle: "Custom Software vs Off-the-Shelf: How to Choose",
     title: "Custom software vs off-the-shelf tools: how to choose",
