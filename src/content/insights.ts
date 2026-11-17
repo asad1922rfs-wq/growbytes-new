@@ -5,6 +5,18 @@ export const ARTICLE_AUTHOR = "Growbytes editorial team";
 
 export const articles: Article[] = [
   {
+    slug: "set-up-your-business-before-the-website",
+    seoTitle: "Set Up Your Business Before the Website",
+    title: "Starting a business: what to set up before the website",
+    description:
+      "Starting a business online? Set up the company, registered agent, domain, bank, payments and email first, then build the website. A simple checklist.",
+    category: "Websites",
+    published: "2026-11-17",
+    readingMinutes: 6,
+    services: ["web-design-development", "shopify-development"],
+    illustration: "brief",
+  },
+  {
     slug: "shopify-speed-optimization",
     seoTitle: "Shopify Speed Optimization: A Practical Guide",
     title: "Shopify speed optimization: how to speed up your store",

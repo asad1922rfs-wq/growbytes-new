@@ -6,7 +6,12 @@ const components: MDXComponents = {
     href.startsWith("/") ? (
       <Link href={href}>{children}</Link>
     ) : (
-      <a href={href} rel="noopener noreferrer" target="_blank">
+      <a
+        href={href}
+        // Affiliate links must be marked sponsored for search engines.
+        rel={/tidd\.ly|awin1\.com/.test(href) ? "sponsored nofollow noopener noreferrer" : "noopener noreferrer"}
+        target="_blank"
+      >
         {children}
       </a>
     ),
